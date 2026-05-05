@@ -1,0 +1,45 @@
+# Lean waste template includes app:* in the body but cannot set dynamic labels; add routing label.
+name: Route lean issue to app label
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'lean issue')
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || "";
+            const apps = [
+              "app:core-saas",
+              "app:dentist-instance",
+              "app:plumber-instance",
+              "app:mission-control-instance",
+            ];
+            const found = apps.find((a) => body.includes(a));
+            if (!found) {
+              core.notice(
+                "Lean issue has no app:* line from the template dropdown. Edit the issue and pick App / project bucket again, or add an app:* label manually.",
+              );
+              return;
+            }
+            const names = (issue.labels || []).map((l) => l.name);
+            if (names.includes(found)) {
+              core.info(`Label ${found} already present.`);
+              return;
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: [found],
+            });
+            core.info(`Added routing label ${found}`);

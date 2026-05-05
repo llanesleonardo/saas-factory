@@ -1,0 +1,80 @@
+# Deploy each static placeholder app as its own Vercel project (parallel jobs).
+# Repo secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_CORE_SAAS,
+# VERCEL_PROJECT_ID_DENTIST, VERCEL_PROJECT_ID_PLUMBER, VERCEL_PROJECT_ID_MISSION_CONTROL
+# Create one Vercel project per apps/* instance folder, link locally once, then copy ids into secrets.
+# For HTTP-integrated instances: set per-project env (e.g. core SaaS API base URL) in Vercel — see
+# organizational_memory/ARCHITECTURE.md § "Integration with shared SaaS vs standalone".
+name: Vercel (per app)
+
+on:
+  workflow_dispatch:
+    inputs:
+      production:
+        description: "Deploy to production (true) or preview (false)"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+jobs:
+  deploy-core-saas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Deploy core-saas
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_CORE_SAAS }}
+          PROD_FLAG: ${{ github.event.inputs.production == 'true' && '--prod' || '' }}
+        run: npx vercel deploy $PROD_FLAG --yes --token "${{ secrets.VERCEL_TOKEN }}"
+        working-directory: apps/core-saas
+
+  deploy-dentist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Deploy dentist-instance
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_DENTIST }}
+          PROD_FLAG: ${{ github.event.inputs.production == 'true' && '--prod' || '' }}
+        run: npx vercel deploy $PROD_FLAG --yes --token "${{ secrets.VERCEL_TOKEN }}"
+        working-directory: apps/dentist-instance
+
+  deploy-plumber:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Deploy plumber-instance
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PLUMBER }}
+          PROD_FLAG: ${{ github.event.inputs.production == 'true' && '--prod' || '' }}
+        run: npx vercel deploy $PROD_FLAG --yes --token "${{ secrets.VERCEL_TOKEN }}"
+        working-directory: apps/plumber-instance
+
+  deploy-mission-control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Deploy mission-control-instance
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MISSION_CONTROL }}
+          PROD_FLAG: ${{ github.event.inputs.production == 'true' && '--prod' || '' }}
+        run: npx vercel deploy $PROD_FLAG --yes --token "${{ secrets.VERCEL_TOKEN }}"
+        working-directory: apps/mission-control-instance

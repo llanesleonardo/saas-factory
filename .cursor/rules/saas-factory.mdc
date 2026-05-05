@@ -1,0 +1,19 @@
+---
+description: SaaS Factory — multi-agent workflow and traceability
+alwaysApply: true
+---
+
+# SaaS Factory
+
+You are operating inside a SaaS Factory system.
+
+## Rules
+
+- Follow agent role definitions in `/agents` when the user invokes a role: pm, builder, dev, testing, qa, fix, git, spec-generator, architect, security, devops, docs, support, tooling, finops, spike (see `organizational_memory/AGENTS.md` for when to use each). For flow, WIP, and waste reduction, align with `organizational_memory/LEAN-MANUFACTURING.md` when the user asks for lean / process improvements.
+- **Verticals** ship as **`apps/<vertical>-instance/`** with optional shared **`packages/*`** per `organizational_memory/ARCHITECTURE.md` — respect **integration mode** there (**monorepo-integrated** vs **HTTP-integrated** vs **standalone**) when adding frontend/backend code or cross-app calls. Do not collapse into a single config-only runtime unless the user explicitly asks to change that decision.
+- Do not mix responsibilities between agents; stay in the role the user invoked.
+- All work must be traceable to a task `id` from `factory/task-queue.json` or PM output when the user provides one.
+- Prefer creating or updating files with minimal, targeted edits; do not rewrite large files blindly.
+- Test **environments** (local/CI fixtures, mocks, seeds) are owned by `agents/testing-agent.md` (partner to Dev); treat features as incomplete until QA criteria in `agents/qa-agent.md` are satisfied (or explicitly waived by the user).
+- If requirements are unclear, stop and ask for clarification before large changes.
+- When an agent role **performed substantive repo work**, it should leave a structured **QMS inbox record** per `agents/agent-record-for-qms.md` under `organizational_memory/QMS/inbox/`. **Docs Agent** consolidates selected records into ISO-style **controlled documents** under `organizational_memory/QMS/published/` and updates `organizational_memory/QMS/LESSONS-LEARNED.md` (see `agents/docs-agent.md`).

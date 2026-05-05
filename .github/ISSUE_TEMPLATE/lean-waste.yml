@@ -1,0 +1,85 @@
+name: Lean waste
+description: Track a lean / TIMWOOD waste item for the factory (agents + humans).
+title: "[Lean] "
+labels:
+  - "lean issue"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to **pull waste into the open** so it can be prioritized and removed.
+        See **organizational_memory/LEAN-MANUFACTURING.md** in the repo for how this maps to agents and humans.
+
+  - type: dropdown
+    id: primary_app
+    attributes:
+      label: App / project bucket
+      description: >
+        Pick the app board for this item. The literal `app:…` value is written into the issue so automation can add the
+        matching label and **GitHub Project** (see organizational_memory/GITHUB-PROJECTS-SETUP.md).
+      options:
+        - app:core-saas
+        - app:dentist-instance
+        - app:plumber-instance
+        - app:mission-control-instance
+    validations:
+      required: true
+
+  - type: dropdown
+    id: waste_category
+    attributes:
+      label: Waste category (TIMWOOD)
+      description: Pick the closest type. “Skills” = undertraining / single point of knowledge.
+      options:
+        - Transport (handoffs without context)
+        - Inventory (WIP, long-lived branches, stale work)
+        - Motion (context switching, tool friction)
+        - Waiting (reviews, approvals, blocked envs)
+        - Overproduction (features not tied to spec/value)
+        - Over-processing (gold-plating, extra process)
+        - Defects (bugs, rework, escaped failures)
+        - Skills (tribal knowledge, missing docs/runbooks)
+    validations:
+      required: true
+
+  - type: textarea
+    id: observation
+    attributes:
+      label: What do you see?
+      description: Current state in one place — enough that someone else could reproduce the pain.
+      placeholder: "Example: Three PRs open >2 weeks; CI red on main; no owner on …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Who waits, how long, what value is delayed?
+    validations:
+      required: false
+
+  - type: textarea
+    id: countermeasure
+    attributes:
+      label: Proposed countermeasure (optional)
+      description: One small next step — can be “needs spike” or “hand to Tooling/PM agent”.
+    validations:
+      required: false
+
+  - type: input
+    id: task_id
+    attributes:
+      label: Related task id (optional)
+      description: From factory/task-queue.json, if any.
+      placeholder: e.g. PLU-012
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: search
+    attributes:
+      label: Duplicate check
+      options:
+        - label: I searched open issues for a similar lean item
+          required: true

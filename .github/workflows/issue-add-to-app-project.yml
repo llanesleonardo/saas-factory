@@ -1,0 +1,48 @@
+# Add issues to the GitHub Project for the app that matches label app:core-saas | app:dentist-instance | app:plumber-instance | app:mission-control-instance.
+# Requires repository Variables (PROJECT_URL_*) and secret ADD_TO_PROJECT_PAT — see organizational_memory/GITHUB-PROJECTS-SETUP.md
+name: Add issue to app project
+
+on:
+  issues:
+    types: [opened, labeled, reopened]
+
+jobs:
+  add-core-saas:
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'app:core-saas') && vars.PROJECT_URL_APP_CORE_SAAS != ''
+    steps:
+      - uses: actions/add-to-project@v2
+        with:
+          project-url: ${{ vars.PROJECT_URL_APP_CORE_SAAS }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          labeled: app:core-saas
+
+  add-dentist:
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'app:dentist-instance') && vars.PROJECT_URL_APP_DENTIST != ''
+    steps:
+      - uses: actions/add-to-project@v2
+        with:
+          project-url: ${{ vars.PROJECT_URL_APP_DENTIST }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          labeled: app:dentist-instance
+
+  add-plumber:
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'app:plumber-instance') && vars.PROJECT_URL_APP_PLUMBER != ''
+    steps:
+      - uses: actions/add-to-project@v2
+        with:
+          project-url: ${{ vars.PROJECT_URL_APP_PLUMBER }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          labeled: app:plumber-instance
+
+  add-mission-control:
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'app:mission-control-instance') && vars.PROJECT_URL_APP_MISSION_CONTROL != ''
+    steps:
+      - uses: actions/add-to-project@v2
+        with:
+          project-url: ${{ vars.PROJECT_URL_APP_MISSION_CONTROL }}
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          labeled: app:mission-control-instance

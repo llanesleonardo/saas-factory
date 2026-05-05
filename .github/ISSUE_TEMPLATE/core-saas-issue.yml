@@ -1,0 +1,36 @@
+name: Core SaaS — issue
+description: Bug, task, or question for the shared core SaaS app (apps/core-saas).
+title: "[core-saas] "
+labels:
+  - "app:core-saas"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue is **routed to the Core SaaS GitHub Project** when `PROJECT_URL_APP_CORE_SAAS` and `ADD_TO_PROJECT_PAT` are configured — see **organizational_memory/GITHUB-PROJECTS-SETUP.md** in this repo.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - Bug
+        - Task
+        - Question
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should happen vs what happens?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction / steps (optional)
+    validations:
+      required: false

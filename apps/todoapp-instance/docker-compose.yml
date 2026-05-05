@@ -1,0 +1,5 @@
+# Docker infra is generated at repo root: docker/compose.generated.yaml
+# (from configs/app.blueprint.json when you run npm run app:scaffold)
+# From repo root:
+#   docker compose -f docker/compose.yaml --profile infra up -d
+services: {}

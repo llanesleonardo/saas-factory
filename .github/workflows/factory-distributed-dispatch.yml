@@ -1,0 +1,61 @@
+# "Cloud factory" entry: run spec generation remotely (manual or call via GitHub API).
+# Extend resolve-verticals / matrix when new configs/<vertical>.json + generate-spec targets exist
+# (see organizational_memory/ARCHITECTURE.md § CI and workflows).
+name: Factory distributed dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      vertical:
+        description: "Which vertical(s) to regenerate prompts for"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - dentist
+          - plumber
+  repository_dispatch:
+    types: [factory-run]
+
+jobs:
+  resolve-verticals:
+    runs-on: ubuntu-latest
+    outputs:
+      verticals: ${{ steps.pick.outputs.verticals }}
+    steps:
+      - id: pick
+        env:
+          INPUT_V: ${{ github.event.inputs.vertical || '' }}
+          PAYLOAD_V: ${{ github.event.client_payload != null && github.event.client_payload.vertical || '' }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            V="${INPUT_V}"
+          else
+            V="${PAYLOAD_V:-all}"
+          fi
+          case "$V" in
+            all) echo 'verticals=["dentist","plumber"]' >> "$GITHUB_OUTPUT" ;;
+            dentist|plumber) printf 'verticals=["%s"]\n' "$V" >> "$GITHUB_OUTPUT" ;;
+            *) echo "Invalid vertical: $V"; exit 1 ;;
+          esac
+
+  distributed-specs:
+    needs: resolve-verticals
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        vertical: ${{ fromJSON(needs.resolve-verticals.outputs.verticals) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run generate-spec -- ${{ matrix.vertical }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributed-spec-${{ matrix.vertical }}
+          path: specs/_generated/${{ matrix.vertical }}-SPEC-PROMPT.md

@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and caches
+*.log
+npm-debug.log*
+.npm
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / tooling
+.idea/
+*.swp
+*.swo
+
+# Test / coverage
+coverage/

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "PLU-001",
+    "title": "Scaffold route",
+    "status": "done"
+  },
+  {
+    "id": "PLU-002",
+    "title": "Add job list UI",
+    "depends_on": ["PLU-001"],
+    "status": "in_progress",
+    "owner": "dev1"
+  },
+  {
+    "id": "PLU-003",
+    "title": "Wire API client",
+    "depends_on": ["PLU-001"],
+    "priority": 5
+  },
+  {
+    "id": "PLU-004",
+    "title": "E2E checklist",
+    "depends_on": ["PLU-002", "PLU-003"]
+  }
+]

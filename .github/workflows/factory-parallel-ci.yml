@@ -1,0 +1,72 @@
+# Parallel "agent gates" on GitHub: typecheck, orchestrator, spec prompts, wave plan — no inter-job deps.
+# When apps/* gain their own package.json + test/build scripts, add matrix jobs (or a workspace runner) per
+# organizational_memory/ARCHITECTURE.md § "CI and workflows (implications)".
+name: Factory CI (parallel)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+
+  orchestrator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run factory
+
+  spec-generation:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        vertical: [dentist, plumber]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run generate-spec -- ${{ matrix.vertical }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spec-prompt-${{ matrix.vertical }}
+          path: specs/_generated/${{ matrix.vertical }}-SPEC-PROMPT.md
+
+  parallel-waves:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Emit parallel wave plan (JSON for downstream / observability)
+        run: npm run parallel-plan -- --json | tee parallel-plan.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parallel-plan
+          path: parallel-plan.json

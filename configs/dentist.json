@@ -1,0 +1,13 @@
+{
+  "vertical": "dentist",
+  "displayName": "Dental practice",
+  "summary": "Operations and patient engagement SaaS for independent dental practices.",
+  "positioning": "HIPAA-aware practice hub: scheduling, treatment plans, reminders, and payments on shared core-saas.",
+  "primaryUser": "Practice office manager",
+  "secondaryUsers": ["Dentist", "Hygienist", "Front-desk staff"],
+  "regions": ["US"],
+  "compliance": ["HIPAA", "State dental board recordkeeping (verify)"],
+  "billingModel": "Per-location subscription + optional per-provider seats; Stripe Customer Portal for upgrades.",
+  "integrationsWishlist": ["Stripe", "Twilio or email provider", "Google Calendar / Outlook", "Insurance clearinghouse (Phase 2)"],
+  "mvpScopeHint": "MVP: org + roles, patient directory (PHI-aware), appointments, basic charting notes, reminders, Stripe for one plan, audit log on PHI access."
+}

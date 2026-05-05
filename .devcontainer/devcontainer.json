@@ -1,0 +1,18 @@
+{
+  "name": "SaaS Factory (Node)",
+  "dockerComposeFile": "../docker/compose.yaml",
+  "service": "node",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [4000, 5173, 6379],
+  "portsAttributes": {
+    "4000": { "label": "API" },
+    "5173": { "label": "Vite" },
+    "6379": { "label": "Redis (start with profile infra)" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    }
+  }
+}

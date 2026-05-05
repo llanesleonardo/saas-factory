@@ -1,0 +1,40 @@
+{
+  "name": "saas-factory",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "factory": "npx tsx factory/orchestrator.ts",
+    "factory:run": "npx tsx factory/run-task.ts",
+    "generate-spec": "npx tsx factory/generate-spec.ts",
+    "parallel-plan": "npx tsx factory/parallel-plan.ts",
+    "factory:next": "npx tsx factory/plan-next.ts",
+    "app:configure": "npx tsx factory/host-or-docker.ts app-blueprint-config.ts",
+    "app:configure:local": "npx tsx factory/app-blueprint-config.ts",
+    "app:scaffold": "npx tsx factory/host-or-docker.ts app-scaffold.ts",
+    "app:scaffold:local": "npx tsx factory/app-scaffold.ts",
+    "saas:configure": "npx tsx factory/host-or-docker.ts app-blueprint-config.ts",
+    "docker:build": "docker compose -f docker/compose.yaml build node",
+    "docker:sh": "docker compose -f docker/compose.yaml run --rm node bash",
+    "docker:node": "docker compose -f docker/compose.yaml run --rm --service-ports node",
+    "docker:infra": "docker compose -f docker/compose.yaml --profile infra up -d",
+    "docker:infra:down": "docker compose -f docker/compose.yaml --profile infra down",
+    "docker:go": "docker compose -f docker/compose.yaml --profile toolchains run --rm go",
+    "docker:dotnet": "docker compose -f docker/compose.yaml --profile toolchains run --rm dotnet",
+    "docker:python": "docker compose -f docker/compose.yaml --profile toolchains run --rm python"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.4.2",
+    "boxen": "^8.0.1",
+    "picocolors": "^1.1.1"
+  },
+  "workspaces": [
+    "apps/todoapp-api",
+    "apps/todoapp-instance"
+  ]
+}
