@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saasfactory.local/schemas/quality-output.schema.json",
+  "title": "Quality gate structured output",
+  "type": "object",
+  "required": ["task_id", "status", "errors"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "task_id": { "type": "string" },
+    "scope": { "type": "string", "enum": ["gates", "harness", "harness_and_gates"] },
+    "status": { "type": "string", "enum": ["pass", "fail"] },
+    "summary": { "type": "string" },
+    "checks_executed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Commands or suites run (e.g. npm run check)"
+    },
+    "acceptance_criteria_verified": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "commands_run": { "type": "array", "items": { "type": "string" } },
+    "test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "suite": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "screenshots": { "type": "array", "items": { "type": "string" } },
+    "coverage_summary": { "type": "string" },
+    "final_verdict": { "type": "string" },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue"],
+        "properties": {
+          "layer": {
+            "type": "string",
+            "enum": ["api", "ui", "db", "auth", "integration", "harness", "flake_suspected"]
+          },
+          "file": { "type": "string" },
+          "issue": { "type": "string" },
+          "evidence": { "type": "string" },
+          "how_to_repro": { "type": "string" },
+          "acceptance_criterion": { "type": "string" }
+        }
+      }
+    },
+    "issues_found": {
+      "type": "array",
+      "description": "Alias path for legacy consumers; prefer errors[]",
+      "items": { "type": "object" }
+    },
+    "handoff_to": {
+      "type": "string",
+      "enum": ["fix", "git", "dev", "tooling", "pm"]
+    },
+    "known_issues_documented": { "type": "array", "items": { "type": "string" } }
+  }
+}

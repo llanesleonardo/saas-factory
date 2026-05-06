@@ -1,0 +1,11 @@
+{
+  "agent": "architect",
+  "category": "advisory",
+  "recommended_paths": [
+    "agents/architect-agent.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "specs/<vertical>-spec.md",
+    "apps/",
+    "packages/"
+  ]
+}

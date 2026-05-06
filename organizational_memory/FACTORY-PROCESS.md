@@ -4,7 +4,7 @@ This document is the **single walkthrough** from "idea for a vertical" to "deplo
 
 **Architecture:** this factory uses **separate `apps/<vertical>-instance/` deployables** plus shared **`packages/*`** — not "one app, vertical = only JSON." See **`ARCHITECTURE.md`**.
 
-> **Remember:** Scripts (`npm run …`) assemble files and CI; **they do not run Cursor agents** by default. You `@` agent markdown in chat when a human decision or code change is needed. See **`AGENTS.md`** for the router and copy-paste phrases. **`npm run factory:next`** suggests the next **Dev** task from the queue and prints optional **Testing** + **Dev** paste lines (deterministic planner); future **Phase B/C** (mission control UI + SDK runner) is described in **`MRP-PHASE-B-AND-C.md`**.
+> **Remember:** Scripts (`npm run …`) assemble files and CI; **they do not run Cursor agents** by default. You `@` agent markdown in chat when a human decision or code change is needed. See **`AGENTS.md`** for the router and copy-paste phrases. **`npm run factory:next`** suggests the next **Dev** task from the queue and prints optional **Quality** + **Dev** paste lines (deterministic planner); future **Phase B/C** (mission control UI + SDK runner) is described in **`MRP-PHASE-B-AND-C.md`**.
 
 ---
 
@@ -22,10 +22,9 @@ Every file under **`agents/*-agent.md`** is a **role** you invoke with `@agents/
 | **`pm-agent.md`** | **Task JSON** from spec (`id`, `title`, `depends_on`) — no code | **2** (primary) |
 | **`builder-agent.md`** | **New** `apps/<vertical>-instance/` skeleton + wiring checklist (no auto clone pipeline yet) | **2**–**3** (bootstrap); then **Dev** |
 | **`dev-agent.md`** | **Implements one task**; branch `feature/<task-id>` | **3** (primary) |
-| **`testing-agent.md`** | **Test environments** (local/CI), fixtures, mocks, seeds — **partner to Dev** | **3**–**4** (when env or harness changes) |
+| **`quality-agent.md`** | **Harness** (local/CI env, fixtures, mocks, seeds) **+ gates** (build, tests, acceptance) — **partner to Dev** | **3**–**4** (primary for verification) |
 | **`tooling-agent.md`** | **Factory DX**: scripts, templates, `.cursor` rules, `factory/*` | **1–6** (whenever friction appears) |
-| **`qa-agent.md`** | **Verify**: build, tests, acceptance / manual checklists | **4** (primary) |
-| **`fix-agent.md`** | **Fix only** reported failures; no scope creep | **4** (loop with QA) |
+| **`fix-agent.md`** | **Fix only** reported failures; no scope creep | **4** (loop with Quality) |
 | **`git-agent.md`** | **Commits, branches, PR** text and hygiene | **4** → **5** |
 | **`devops-agent.md`** | **Deploy, CI, Vercel**, rollback runbooks | **5** (primary) |
 | **`docs-agent.md`** | **Operator / dev docs**, README, onboarding | **1**, **3**, **6** |
@@ -54,13 +53,11 @@ flowchart TB
       BL --> DV
     end
     subgraph P4["Phase 4 — Ship quality"]
-      TE[Testing]
-      QA[QA]
+      QU[Quality]
       FX[Fix]
       GT[Git]
-      TE --> QA
     end
-    DV -.->|test env + harness| TE
+    DV -.->|harness + gates| QU
     subgraph P5["Phase 5 — Deploy"]
       DO[DevOps]
     end
@@ -134,7 +131,7 @@ flowchart TB
     C0["@ builder-agent when NEW vertical shell"]
     C0a["Optional: npm run factory:next"]
     C1["@ dev-agent per task — feature/<task-id>"]
-    C1b["@ testing-agent — local/CI test env, fixtures, mocks, seeds"]
+    C1b["@ quality-agent — harness when needed"]
     C2["Optional: @ security / finops / architect / docs / spike / tooling"]
     C3["Set task status done in task-queue.json when finished"]
     C0 --> C1
@@ -143,7 +140,7 @@ flowchart TB
   end
 
   subgraph D["4. Ship quality"]
-    D1["@ qa-agent (runs against env/harness from testing-agent)"]
+    D1["@ quality-agent — gates + harness"]
     D2{"Pass?"}
     D3["@ fix-agent"]
     D4["@ git-agent"]
@@ -203,7 +200,7 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 | **spec-generator** | Always for first full spec and later **spec markdown** changes. |
 | **spike** | Unknown library, integration, or feasibility — **time-box** before writing lots of spec or code. |
 | **architect** | Split **core-saas vs instance vs packages**; ADRs before the spec freezes the wrong shape. |
-| **security** | HIPAA/PHI, auth flows, data classification — **early** so QA/security later align. |
+| **security** | HIPAA/PHI, auth flows, data classification — **early** so Quality/security later align. |
 | **finops** | Billing model, Stripe shape, plans vs MVP in the spec. |
 | **docs** | Seed **README / operator** notes as soon as the vertical name and run commands stabilize. |
 | **tooling** | If spec/config generation or **issue templates** should change for this vertical. |
@@ -218,7 +215,7 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 | 2.1 | **`@agents/pm-agent.md`** + **`@specs/plumber-spec.md`**. |
 | 2.2 | Ask for **JSON only**: `id`, `title`, `depends_on` (atomic tasks, ~≤2h). Optionally add **`status`**, **`priority`**, **`owner`**, **`app`**, **`blocked_reason`** when you want the planner and waves to reflect real WIP (see **Task queue & MRP-style planner** below). |
 | 2.3 | Paste into **`factory/task-queue.json`**. |
-| 2.4 | Run **`npm run factory:next`** (or **`--json`**) to see the **next suggested Dev task** and paste-ready lines for **`@agents/dev-agent.md`** and **`@agents/testing-agent.md`**; use **`--wip`** or **`FACTORY_WIP_CAP`** to cap concurrent **`in_progress`** suggestions. |
+| 2.4 | Run **`npm run factory:next`** (or **`--json`**) to see the **next suggested Dev task** and paste-ready lines for **`@agents/dev-agent.md`** and **`@agents/quality-agent.md`**; use **`--wip`** or **`FACTORY_WIP_CAP`** to cap concurrent **`in_progress`** suggestions. |
 
 ### Agents in phase 2
 
@@ -231,7 +228,7 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 | **docs** | Document how to **paste / merge** `task-queue.json` for new contributors. |
 | **lean-manufacturing** | Right-size batches and WIP before dumping a huge task list. |
 
-**CLI:** **`npm run parallel-plan`** (and **`--json`**) — dependency **waves** for parallelizable work (human or CI), not an LLM; tasks marked **`done`** are omitted from waves. **`npm run factory:next`** — **MRP-style** next task: honors **`status`**, **`depends_on`**, **`priority`**, and a **WIP cap** (`--wip` / `FACTORY_WIP_CAP`); prints suggested **`@agents/dev-agent.md`** and **`@agents/testing-agent.md`** lines (or **`--json`** with `devAgentInvocation` / `testingAgentInvocation`). Sample queues: **`factory/examples/`**.
+**CLI:** **`npm run parallel-plan`** (and **`--json`**) — dependency **waves** for parallelizable work (human or CI), not an LLM; tasks marked **`done`** are omitted from waves. **`npm run factory:next`** — **MRP-style** next task: honors **`status`**, **`depends_on`**, **`priority`**, and a **WIP cap** (`--wip` / `FACTORY_WIP_CAP`); prints suggested **`@agents/dev-agent.md`** and **`@agents/quality-agent.md`** lines (or **`--json`** with `devAgentInvocation` / `qualityAgentInvocation`). Sample queues: **`factory/examples/`**.
 
 ---
 
@@ -266,7 +263,7 @@ Phases **B** and **C** are optional; **A** already gives you a literal planner b
 |-------|----------------|
 | **builder** | **New** vertical: scaffold **`apps/<vertical>-instance/`**, configs, GitHub/Vercel wiring checklist — **before** PM tasks if folder does not exist; there is **no** automated clone/apply script yet (**`ARCHITECTURE.md`**). |
 | **dev** | **Primary:** **one task id**, branch **`feature/<task-id>`**, minimal blast radius. |
-| **testing** | **Partner to Dev:** local/CI **test environment**, fixtures, mocks, seeds, workflow test jobs — **before** or **with** QA when harness changes. |
+| **quality** | **Harness + gates:** local/CI **test environment**, fixtures, mocks, workflow jobs **and** build/tests / acceptance — **partner to Dev**. |
 | **architect** | When implementation discovers **boundary** or tech-debt decisions. |
 | **security** | Before merging sensitive paths (PHI, secrets, authz). |
 | **finops** | While wiring **`packages/billing`** or plan changes. |
@@ -280,21 +277,20 @@ Phases **B** and **C** are optional; **A** already gives you a literal planner b
 
 | Step | What you do |
 |------|-------------|
-| 4.1 | **`@agents/qa-agent.md`** — `npm run build` / `npm test` when present; else checklist from agent. If failures are **missing services, bad env, or flaky fixtures**, loop **`@agents/testing-agent.md`** first, then QA again. |
+| 4.1 | **`@agents/quality-agent.md`** — align harness when needed; `npm run build` / `npm test` when present; else checklist from agent. If failures are **missing services, bad env, or flaky fixtures**, iterate **Quality** on harness before assuming code defect. |
 | 4.2 | **Pass?** → **`@agents/git-agent.md`**: commit, branch, PR (include **task id**). |
-| 4.3 | **Fail?** → **`@agents/fix-agent.md`** with logs; **no new features**; loop to QA. |
+| 4.3 | **Fail?** → **`@agents/fix-agent.md`** with logs; **no new features**; loop to **Quality**. |
 
 ### Agents in phase 4
 
 | Agent | When to `@` |
 |-------|----------------|
-| **qa** | **Primary:** verification gate. |
-| **testing** | **Test environments** and harness so QA commands are **reproducible**; owns `.env.test`, compose test profiles, CI test matrix, mocks. |
-| **fix** | **Only** on red tests / CI / concrete defects. |
-| **git** | After green QA: **commit message, PR body**, branch naming. |
+| **quality** | **Primary:** harness + verification gate (build, tests, acceptance). |
+| **fix** | **Only** on red tests / CI / concrete defects (after distinguishing harness vs code). |
+| **git** | After green **Quality**: **commit message, PR body**, branch naming. |
 | **security** | Quick **review** pass on PR diff for secrets / PII / authz regressions. |
 | **docs** | Update **CHANGELOG**-style or operator notes for behavior that shipped. |
-| **architect** | If QA finds **systemic** coupling issues (optional follow-up tasks for PM). |
+| **architect** | If **Quality** finds **systemic** coupling issues (optional follow-up tasks for PM). |
 
 **Rule of thumb:** do not merge to **`main`** if CI is red (**stop the line**).
 
@@ -369,6 +365,7 @@ Phases **B** and **C** are optional; **A** already gives you a literal planner b
 | 2026-05-04 | **Mermaid refresh:** phase diagram adds **Phase A** queue / **`factory:next`** / **`parallel-plan`** / **`factory`** runbook, **QMS** path, **lean-manufacturing** stub + org **`LEAN-MANUFACTURING.md`**, **mission-control** + **`MRP-PHASE-B-AND-C.md`**; core flow adds full planner CLI chain, **`task-queue.json`** **done** step, **`factory-parallel-ci`**, QMS subgraph (**agent-record-for-qms** → inbox → **docs-agent** templates), optional **Phase B/C** roadmap subgraph. |
 | 2026-05-04 | Renamed **`agents/AGENT-RECORD-FOR-QMS.md`** → **`agents/agent-record-for-qms.md`** and **`agents/LEAN-MANUFACTURING.md`** → **`agents/lean-manufacturing.md`**; links and diagrams updated. |
 | 2026-05-04 | Added **`agents/testing-agent.md`** — **partner to Dev**, owns **test environments** (local/CI, fixtures, mocks); **AGENTS** chain Dev→Testing→QA; **FACTORY-PROCESS** tables + Mermaid + phase **3/4** steps; factory runbook + **`factory:next`** JSON hint. |
+| 2026-05-05 | Merged **Testing** + **QA** into **`agents/quality-agent.md`**; **`testing-agent.md`** / **`qa-agent.md`** are redirects; **`factory:next`** JSON uses **`qualityAgentInvocation`**; runbook **Dev → Quality → Fix → Git**. |
 | 2026-05-04 | **`ARCHITECTURE.md`**: **frontend vs backend** placement, **integration modes** (monorepo-integrated / HTTP-integrated / standalone), **CI & workflow** implications; **Related** row updated; **Architect**, **Builder**, **Dev**, **DevOps**, **Tooling** agents + workflow YAML comments aligned. |
 
 When the process changes (new scripts, new agents, new CI), **update this table and the sections above** in the same PR.

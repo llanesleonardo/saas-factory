@@ -14,7 +14,7 @@ export {
 } from "./task-graph.js";
 
 /**
- * Cursor-native factory: Dev / Testing / QA / Fix / Git agents run in **chat + terminal**, not as
+ * Cursor-native factory: Dev / Quality / Fix / Git agents run in **chat + terminal**, not as
  * in-process AI. This prints the runbook for each task so you can execute steps
  * in Cursor (or later wire @cursor/sdk / CI here).
  */
@@ -34,11 +34,12 @@ export async function runOrchestrator(): Promise<void> {
     }
     console.log("1. Dev Agent (@agents/dev-agent.md): branch feature/" + task.id + ", implement only this task.");
     console.log(
-      "2. Testing Agent (@agents/testing-agent.md): align local/CI test env, fixtures, mocks, seeds for this task.",
+      "2. Quality Agent (@agents/quality-agent.md): align local/CI harness when needed; npm run build && npm test (add scripts when apps exist); output pass/fail JSON.",
     );
-    console.log("3. QA Agent (@agents/qa-agent.md): npm run build && npm test (add scripts when apps exist).");
-    console.log("4. On fail — if env/harness: Testing again; else Fix Agent (@agents/fix-agent.md); then re-run QA.");
-    console.log("5. Git Agent (@agents/git-agent.md): commit, push, open PR with task id in title/body.");
+    console.log(
+      "3. On fail — if env/harness/fixtures: Quality Agent again (harness focus); else Fix Agent (@agents/fix-agent.md); then Quality Agent again.",
+    );
+    console.log("4. Git Agent (@agents/git-agent.md): commit, push, open PR with task id in title/body.");
   }
 
   console.log("\n---\nDone printing plan. Orchestrator does not invoke Cursor agents automatically.");

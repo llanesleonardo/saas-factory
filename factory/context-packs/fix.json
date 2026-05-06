@@ -1,0 +1,9 @@
+{
+  "agent": "fix",
+  "category": "execution",
+  "recommended_paths": [
+    "agents/fix-agent.md",
+    "factory/schemas/quality-output.schema.json",
+    "ci_logs_or_quality_json_attachment"
+  ]
+}

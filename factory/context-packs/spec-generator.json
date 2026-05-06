@@ -1,0 +1,11 @@
+{
+  "agent": "spec-generator",
+  "category": "execution",
+  "recommended_paths": [
+    "agents/spec-generator-agent.md",
+    "configs/<vertical>.json",
+    "templates/vertical-saas-spec.template.md",
+    "specs/_generated/",
+    "organizational_memory/ARCHITECTURE.md"
+  ]
+}

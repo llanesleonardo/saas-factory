@@ -1,0 +1,10 @@
+{
+  "agent": "security",
+  "category": "advisory",
+  "recommended_paths": [
+    "agents/security-agent.md",
+    "specs/<vertical>-spec.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "organizational_memory/QMS/"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "agent": "tooling",
+  "category": "execution",
+  "recommended_paths": [
+    "agents/tooling-agent.md",
+    "factory/",
+    ".cursor/",
+    "templates/",
+    "package.json"
+  ]
+}

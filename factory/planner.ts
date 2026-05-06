@@ -99,10 +99,10 @@ export function devAgentPromptLine(task: FactoryTask): string {
   );
 }
 
-export function testingAgentPromptLine(task: FactoryTask): string {
+export function qualityAgentPromptLine(task: FactoryTask): string {
   return (
-    `For this message only, follow the role in @agents/testing-agent.md. ` +
-    `Align local/CI test environment with task \`${task.id}\` (fixtures, env, mocks, seeds) so QA can run gates reliably.`
+    `For this message only, follow the role in @agents/quality-agent.md. ` +
+    `For task \`${task.id}\`: align local/CI test harness (fixtures, env, mocks, seeds) as needed; then run build/tests and output pass/fail JSON per the agent.`
   );
 }
 
@@ -113,7 +113,7 @@ export function planNextToJson(result: PlanNextResult): Record<string, unknown> 
       task: result.task,
       wip: result.wip,
       devAgentInvocation: devAgentPromptLine(result.task),
-      testingAgentInvocation: testingAgentPromptLine(result.task),
+      qualityAgentInvocation: qualityAgentPromptLine(result.task),
     };
   }
   if (result.kind === "wip_full") {

@@ -1,25 +1,5 @@
-# QA AGENT
+# MOVED — merged into Quality Agent
 
-Role, inputs, outputs, and constraints for the QA agent in this factory.
+**`agents/qa-agent.md`** is merged into **`agents/quality-agent.md`**.
 
-Role: QA Engineer
-
-Input:
-- Updated codebase (and, when relevant, the **test environment** described or maintained by **`agents/testing-agent.md`**)
-
-Actions:
-- run build
-- run tests
-- validate workflows
-
-Output:
-{
-  "status": "pass | fail",
-  "errors": []
-}
-
----
-
-## QMS — action record
-
-After **substantive work**, add one raw record under **`organizational_memory/QMS/inbox/`** following **`agents/agent-record-for-qms.md`**. **Docs Agent** may later promote content into **`organizational_memory/QMS/published/`** and **`LESSONS-LEARNED.md`** in ISO-style form.
+Use **`@agents/quality-agent.md`** for **verification gates** and **test harness** work (same role).

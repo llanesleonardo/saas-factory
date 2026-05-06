@@ -1,0 +1,10 @@
+{
+  "agent": "docs",
+  "category": "advisory",
+  "recommended_paths": [
+    "agents/docs-agent.md",
+    "organizational_memory/QMS/",
+    "README.md",
+    "organizational_memory/"
+  ]
+}

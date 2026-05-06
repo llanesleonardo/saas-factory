@@ -1,0 +1,11 @@
+{
+  "agent": "builder",
+  "category": "execution",
+  "recommended_paths": [
+    "agents/builder-agent.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "configs/app.blueprint.json",
+    "apps/*-instance/",
+    "configs/"
+  ]
+}

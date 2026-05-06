@@ -15,5 +15,10 @@ Role **definitions** (`*-agent.md`) stay under **`agents/`** so `@agents/<name>-
 | **[AGENT-RUN-LOG.md](AGENT-RUN-LOG.md)** | Append-only template for logging Cursor agent sessions |
 | **[MRP-PHASE-B-AND-C.md](MRP-PHASE-B-AND-C.md)** | After Phase A planner: **Mission control UI** (Phase B) + **SDK agent runner** (Phase C), with jidoka and trust ladder |
 | **[QMS/README.md](QMS/README.md)** | QMS-inspired **records** (`inbox/`), **controlled docs** (`published/`), **lessons learned**, ISO-theme alignment; agents log → **Docs Agent** curates |
+| **[AGENT-FILE-STANDARD.md](AGENT-FILE-STANDARD.md)** | Required headings (`Purpose` … `Output Format`) for every **`agents/*-agent.md`** |
+| **[SAAS-FACTORY-EVOLUTION.md](SAAS-FACTORY-EVOLUTION.md)** | Phased roadmap — registry, schemas, workflow machine, mission control, metrics |
+| **[agent-diagrams/README.md](agent-diagrams/README.md)** | **Mermaid** process diagram per agent + **[factory-spine.md](agent-diagrams/factory-spine.md)** overview |
 
 Project overview and scripts: root **`README.md`**.
+
+Registry/schemas/context packs live under **`factory/`** (`agent-registry.json`, `schemas/`, `context-packs/`, `workflow-state-machine.json`).

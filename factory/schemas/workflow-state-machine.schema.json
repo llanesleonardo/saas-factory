@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saasfactory.local/schemas/workflow-state-machine.schema.json",
+  "title": "workflow-state-machine",
+  "type": "object",
+  "required": ["machine_version", "states", "transitions"],
+  "properties": {
+    "machine_version": { "type": "integer" },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "task_queue_status": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "agents_allowed": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

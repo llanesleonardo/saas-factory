@@ -1,0 +1,11 @@
+{
+  "agent": "quality",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/task-queue.json",
+    "agents/quality-agent.md",
+    "factory/schemas/quality-output.schema.json",
+    "package.json",
+    ".github/workflows/"
+  ]
+}

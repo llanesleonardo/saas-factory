@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saasfactory.local/schemas/dev-output.schema.json",
+  "title": "Dev agent structured handoff",
+  "type": "object",
+  "required": ["task_id", "files_changed", "summary", "handoff_to"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "task_id": { "type": "string" },
+    "branch": { "type": "string" },
+    "files_changed": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "summary": { "type": "string", "minLength": 10 },
+    "tests_added": { "type": "array", "items": { "type": "string" } },
+    "commands_run": { "type": "array", "items": { "type": "string" } },
+    "handoff_to": {
+      "type": "string",
+      "enum": ["quality", "tooling", "pm", "architect"]
+    },
+    "known_issues": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,6 +1,50 @@
 # BUILDER AGENT
 
-Role: **Vertical instance bootstrap** — stand up a **new** `apps/<vertical>-instance/` (or bring an empty shell to first useful commit) by **following** `apps/core-saas/`, an existing instance (e.g. `plumber-instance`), and **`organizational_memory/ARCHITECTURE.md`** — **not** inventing a new architecture.
+## Purpose
+
+Bootstrap **`apps/<vertical>-instance/`** (and wiring) using existing patterns — **no novel architecture**.
+
+## When To Use
+
+- New vertical shell before heavy **Dev**/**PM** queues.
+
+## Inputs Required
+
+- Vertical id; reference **`apps/*-instance`**; **`organizational_memory/ARCHITECTURE.md`** alignment.
+
+## Outputs Required
+
+- Checklist + minimal diff + integration mode declaration.
+
+## Allowed Actions
+
+- Scaffold/copy/edit wiring files per Architect-approved layout.
+
+## Forbidden Actions
+
+- Replacing factory architecture silently; business logic heavy lifts (**Dev** tasks).
+
+## Required Context
+
+- **`factory/context-packs/builder.json`** · **`factory/agent-registry.json`** (`builder`)
+
+## Handoff Rules
+
+- → **PM** tasks · **Dev** feature work · **DevOps** hosting setup.
+
+## Success Criteria
+
+- Instance builds locally per checklist.
+
+## Required Evidence
+
+- QMS inbox when substantive.
+
+## Output Format
+
+- Markdown checklist + paths touched.
+
+---
 
 ## Reality in this repo (important)
 
@@ -23,13 +67,23 @@ Role: **Vertical instance bootstrap** — stand up a **new** `apps/<vertical>-in
 
 - Follow **`organizational_memory/ARCHITECTURE.md`**: separate instance app + shared **`packages/*`**; extend packages instead of duplicating across verticals when possible. For **where** UI vs server code goes and **how** the vertical ties to core SaaS, follow the same doc (**Frontend and backend** + **Integration** sections) and align with **Architect** before large scaffolds.
 - **Do not** replace the whole monorepo with a single config-driven app — that is an explicit architecture change.
-- After skeleton exists, **Dev agent** implements features; **QA** verifies; **Git** opens PR.
+- After skeleton exists, **Dev agent** implements features; **Quality** verifies; **Git** opens PR.
 - Coordinate **DevOps** / **docs** for Vercel project + `PROJECT_URL_*` + secrets when the instance is new.
 
 ## Anti-patterns
 
 - “Magic” full app generation with no review.
 - Copy-pasting business logic between instances instead of lifting to **`packages/*`**.
+
+## Toolkit — modern stack
+
+| Layer | Tools |
+|-------|--------|
+| **Scaffold** | **`npm run app:configure`** → **`npm run app:scaffold`** (`factory/app-scaffold.ts`, **`docker/compose.generated.yaml`**) for blueprint-driven FE/API shells |
+| **Copy patterns** | **`degit`**-style subtree copy or scripted **`rsync`** / Node rename — prefer short **`factory/`** script PR over manual drift |
+| **Monorepo orchestration** | **Turborepo** or **Nx** when workspaces multiply (**`tooling-agent`** wires) |
+| **Templates** | **`templates/`**, **`configs/`** stubs; align **`organizational_memory/ARCHITECTURE.md`** integration mode before paste |
+| **Preview hosting** | **Vercel** per **`apps/<vertical>-instance`** — coordinate **DevOps** for project + env vars |
 
 ---
 

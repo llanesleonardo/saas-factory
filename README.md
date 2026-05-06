@@ -8,7 +8,7 @@ Monorepo for a base SaaS engine, generated vertical instances, shared packages, 
 
 - **apps/** — `core-saas` (shared engine), vertical instances (dentist, plumber), and **`mission-control-instance`** (same static placeholder pattern — future VSM UI shell).
 - **packages/** — shared UI, database, auth, and billing.
-- **agents/** — prompt roles (PM, **builder**, dev, **testing**, QA, fix, git, spec generator, architect, security, DevOps, docs, support, tooling, finOps, spike). See **`organizational_memory/AGENTS.md`** for how to `@` each. After substantive work, each role logs a **QMS inbox** record per **`agents/agent-record-for-qms.md`**.
+- **agents/** — prompt roles (PM, **builder**, dev, **quality**, fix, git, spec generator, architect, security, DevOps, docs, support, tooling, finOps, spike). See **`organizational_memory/AGENTS.md`** for how to `@` each. After substantive work, each role logs a **QMS inbox** record per **`agents/agent-record-for-qms.md`**.
 - **organizational_memory/** — **single documentation home** (FACTORY-PROCESS, MISSION-CONTROL, ARCHITECTURE, GITHUB-PROJECTS-SETUP, LEAN-MANUFACTURING, AGENTS, AGENT-RUN-LOG, **`QMS/`** for lessons + controlled procedures).
 - **factory/** — task orchestration (`orchestrator.ts`, `run-task.ts`, `task-queue.json`).
 - **configs/** — per-vertical configuration JSON.

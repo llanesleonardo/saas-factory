@@ -1,0 +1,106 @@
+{
+  "$schema": "./schemas/workflow-state-machine.schema.json",
+  "machine_version": 1,
+  "description": "Conceptual workflow states for factory tasks. Maps to factory/task-queue.json statuses where noted; extend task objects with optional workflow_state when enforcing full pipeline.",
+  "states": [
+    { "id": "idea", "description": "Intent captured; no spec yet." },
+    { "id": "spec", "description": "Vertical spec drafted or in progress." },
+    { "id": "tasks", "description": "PM backlog exists / task-queue populated." },
+    { "id": "ready", "task_queue_status": "ready", "description": "Eligible to pull for Dev." },
+    { "id": "in_progress", "task_queue_status": "in_progress", "description": "Dev actively implementing." },
+    { "id": "review", "description": "Implementation complete; awaiting Quality gate." },
+    { "id": "qa_failed", "description": "Quality gate failed; Fix loop." },
+    { "id": "fix", "description": "Fix agent addressing defects." },
+    { "id": "qa_passed", "description": "Quality gate passed." },
+    { "id": "pr_ready", "description": "Git/PR hygiene; merge pending." },
+    { "id": "deployed", "description": "DevOps promoted to target environment." },
+    { "id": "blocked", "task_queue_status": "blocked", "description": "Explicit blocker." },
+    { "id": "done", "task_queue_status": "done", "description": "Closed." }
+  ],
+  "transitions": [
+    {
+      "from": "idea",
+      "to": "spec",
+      "agents_allowed": ["spec-generator", "pm"],
+      "notes": "Human approves scope direction."
+    },
+    {
+      "from": "spec",
+      "to": "tasks",
+      "agents_allowed": ["pm"],
+      "notes": "Paste/update factory/task-queue.json"
+    },
+    {
+      "from": "tasks",
+      "to": "ready",
+      "agents_allowed": ["pm", "human"],
+      "notes": "Mark task ready or planner pulls from backlog."
+    },
+    {
+      "from": "ready",
+      "to": "in_progress",
+      "agents_allowed": ["dev"],
+      "notes": "Dev implements single task id."
+    },
+    {
+      "from": "in_progress",
+      "to": "review",
+      "agents_allowed": ["dev"],
+      "notes": "Hand off to Quality."
+    },
+    {
+      "from": "review",
+      "to": "qa_passed",
+      "agents_allowed": ["quality"],
+      "notes": "status pass in quality-output JSON."
+    },
+    {
+      "from": "review",
+      "to": "qa_failed",
+      "agents_allowed": ["quality"],
+      "notes": "status fail → triggers fix loop."
+    },
+    {
+      "from": "qa_failed",
+      "to": "fix",
+      "agents_allowed": ["fix"],
+      "notes": "Minimal remediation."
+    },
+    {
+      "from": "fix",
+      "to": "review",
+      "agents_allowed": ["quality"],
+      "notes": "Re-run gates (implicit transition via Quality)."
+    },
+    {
+      "from": "qa_passed",
+      "to": "pr_ready",
+      "agents_allowed": ["git"],
+      "notes": "PR opened/updated with evidence."
+    },
+    {
+      "from": "pr_ready",
+      "to": "deployed",
+      "agents_allowed": ["devops"],
+      "notes": "After merge + deploy pipeline."
+    },
+    {
+      "from": "deployed",
+      "to": "done",
+      "agents_allowed": ["human", "pm"],
+      "notes": "Mark task done in task-queue when appropriate."
+    }
+  ],
+  "forbidden": [
+    "deployed without qa_passed equivalent",
+    "skip_quality_gate_for_production",
+    "merge_critical_security_unresolved_without_explicit_waiver"
+  ],
+  "task_queue_mapping": {
+    "backlog": ["idea", "spec", "tasks"],
+    "ready": ["ready"],
+    "in_progress": ["in_progress", "review", "fix"],
+    "blocked": ["blocked"],
+    "done": ["done", "deployed"]
+  }
+}

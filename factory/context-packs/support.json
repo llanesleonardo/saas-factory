@@ -1,0 +1,9 @@
+{
+  "agent": "support",
+  "category": "advisory",
+  "recommended_paths": [
+    "agents/support-agent.md",
+    "specs/<vertical>-spec.md",
+    "organizational_memory/AGENTS.md"
+  ]
+}

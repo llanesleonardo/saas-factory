@@ -40,7 +40,7 @@ Lean is about **flowing value with less waste**. Here is how to practice it **in
 
 ## 4. Quality at the source (jidoka)
 
-- **Definition of Done** lives with **QA Agent** (tests + acceptance).
+- **Definition of Done** lives with **Quality Agent** (tests + acceptance).
 - **Security Agent** early on risky flows (auth, PHI, payments), not only after breach.
 - **Fix Agent** only on **signals** (failing test, CI red)—fix root cause, not symptoms only.
 

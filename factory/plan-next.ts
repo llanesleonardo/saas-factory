@@ -2,7 +2,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { loadTaskQueue } from "./task-graph.js";
-import { devAgentPromptLine, planNext, planNextToJson, testingAgentPromptLine } from "./planner.js";
+import { devAgentPromptLine, planNext, planNextToJson, qualityAgentPromptLine } from "./planner.js";
 
 function parseWipCap(argv: string[]): number {
   const fromEnv = Number.parseInt(process.env.FACTORY_WIP_CAP ?? "", 10);
@@ -90,9 +90,9 @@ async function main(): Promise<void> {
   console.log("");
   console.log(devAgentPromptLine(t));
   console.log("");
-  console.log("Testing agent line (after Dev when env/tests change):");
+  console.log("Quality agent line (after Dev — harness + gates):");
   console.log("");
-  console.log(testingAgentPromptLine(t));
+  console.log(qualityAgentPromptLine(t));
 }
 
 const isMain =
