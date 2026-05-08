@@ -92,7 +92,7 @@ stateDiagram-v2
 ### Storage rules (MVP)
 
 - Define a single storage key name (e.g. `todo.todos.v1`) so upgrades can version later.
-- Serialization format: JSON array of `Todo`.
+- Serialization format: a versioned JSON payload: `{ schemaVersion, todos }` where `todos` is an array of `Todo`.
 - Corrupt/missing data: fall back to empty list (do not crash).
 
 ## Non-functional requirements (MVP)
@@ -285,4 +285,41 @@ Goal: improve maintainability and UX polish **without changing the integration m
 - Empty state is present and accessible when there are zero todos.
 - Inline edit works with Enter/Escape behavior, trims input, and persists changes.
 - If undo delete is implemented, it works without backend and has automated coverage.
+
+---
+
+## Phase 5 (next loop): Hardening — forward schema guardrails + planning consistency
+
+Goal: close the last “future-proofing” gaps while keeping the app **local-only** (no API, no auth). This phase focuses on making our storage migration story explicit for future schema changes, and keeping the factory planning metadata consistent.
+
+### Scope
+
+#### 1) Forward schema guardrail (`schemaVersion > current`)
+
+- Persisted storage uses a versioned payload `{ schemaVersion, todos }`.
+- On load:
+  - Missing/corrupt data → empty list (no crash)
+  - Older schema → migrate to current in-memory shape and persist back (already supported)
+  - **Future schema** (`schemaVersion > current`) → **do not crash**, and do not accidentally overwrite unknown data with an empty save. Choose a deterministic safe fallback (e.g. return `[]` and treat data as unreadable).
+
+#### 2) Phase field convention in the factory queue
+
+- Task queue `phase` values must be **numeric strings** (e.g. `"3"`, `"4"`, `"5"`), not mixed formats like `"Phase 3"`.
+- Add/strengthen validation so invalid `phase` values are caught early during checks.
+
+### Non-goals (Phase 5)
+
+- Backend/API/database
+- Auth, multi-user, multi-tenant
+- New todo domain features (tags, due dates, priorities)
+
+### Verification approach (Phase 5)
+
+- Add automated tests for the forward-schema guardrail behavior in storage.
+- Gates remain the same: `npm run lint`, `npm run build`, `npm run test` are green.
+
+### Acceptance criteria (Phase 5)
+
+- Forward schema guardrail behavior is explicit and covered by automated tests.
+- Factory validation catches non-numeric `phase` values with clear error output.
 

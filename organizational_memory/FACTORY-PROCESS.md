@@ -236,7 +236,7 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 
 | Piece | What it is |
 |-------|------------|
-| **`factory/task-queue.json`** | Canonical list of tasks: **`id`**, **`title`**, optional **`depends_on`**, optional **`status`** (`backlog` · `ready` · `in_progress` · `blocked` · `done`), **`priority`**, **`blocked_reason`**, **`owner`**, **`app`**, optional **`phase`** (e.g. `"3"` / `"Phase 3"` for reporting). |
+| **`factory/task-queue.json`** | Canonical list of tasks: **`id`**, **`title`**, optional **`depends_on`**, optional **`status`** (`backlog` · `ready` · `in_progress` · `blocked` · `done`), **`priority`**, **`blocked_reason`**, **`owner`**, **`app`**, optional **`phase`** (recommended **numeric strings** like `"3"`, `"4"`, `"5"`; validate with `npm run validate-task-queue`). |
 | **`npm run factory:next`** | Deterministic **“what should Dev pull next?”** — respects finished deps, WIP cap, and priority; does **not** invoke the model. |
 | **`npm run parallel-plan`** | Structural **waves** among **non-done** tasks — same graph logic as the planner’s dependency world. |
 | **`npm run factory`** | Runbook printout for remaining (non-done) tasks; still Cursor-native execution. |

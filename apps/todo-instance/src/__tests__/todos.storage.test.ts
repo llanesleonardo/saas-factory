@@ -61,3 +61,22 @@ test("loadTodos can read legacy array format and persists back to versioned payl
   });
 });
 
+test("loadTodos returns [] for forward schemaVersion payload and does not overwrite it", () => {
+  window.localStorage.setItem(
+    TODOS_STORAGE_KEY,
+    JSON.stringify({
+      schemaVersion: TODOS_SCHEMA_VERSION + 1,
+      todos: [{ id: "1", title: "future", done: false }],
+    })
+  );
+
+  expect(loadTodos()).toEqual([]);
+
+  const raw = window.localStorage.getItem(TODOS_STORAGE_KEY);
+  expect(raw).not.toBeNull();
+  expect(JSON.parse(raw!)).toEqual({
+    schemaVersion: TODOS_SCHEMA_VERSION + 1,
+    todos: [{ id: "1", title: "future", done: false }],
+  });
+});
+
