@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5174,
   },
   test: {
-    environment: "jsdom",
+    environment: "happy-dom",
     setupFiles: "./src/setupTests.ts",
     globals: true,
   },
