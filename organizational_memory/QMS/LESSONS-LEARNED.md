@@ -17,7 +17,7 @@ Do not delete historical bullets without archiving; prefer **strike-through** an
 - *(none yet)*
 
 ### Quality & verification
-- *(none yet)*
+- **Factory planner status enum is strict**: `factory:next` rejects unknown statuses (allowed: `backlog | ready | in_progress | blocked | done`). Keep `factory/task-queue.json` aligned to avoid stopping the line.
 
 ### Security & compliance
 - *(none yet)*
@@ -26,7 +26,8 @@ Do not delete historical bullets without archiving; prefer **strike-through** an
 - *(none yet)*
 
 ### Tooling & developer experience
-- *(none yet)*
+- **`tsx` may require IPC permissions**: if `npm run factory:next` fails with `EPERM` on a temp pipe, rerun outside a restricted sandbox or with elevated permissions so `tsx` can create its IPC server.
+- **Pin Node version to avoid fresh-clone drift**: prefer `.nvmrc` / `.node-version` plus `package.json` `engines.node` (min `>=20.19.0`, Node 22 LTS recommended) so installs/tests don’t fail due to dependency engine constraints.
 
 ### Product & scope
 - *(none yet)*

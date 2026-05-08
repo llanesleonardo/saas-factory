@@ -68,6 +68,7 @@
     "title": "Phase 3: Define storage schema versioning + migration strategy",
     "app": "apps/todo-instance",
     "priority": 9,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_008_quality_phase2_gates"],
     "acceptance_criteria": [
@@ -81,6 +82,7 @@
     "title": "Phase 3: Add filter state + UI (All / Active / Completed)",
     "app": "apps/todo-instance",
     "priority": 10,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_009_phase3_storage_schema_and_migration_plan"],
     "acceptance_criteria": [
@@ -94,6 +96,7 @@
     "title": "Phase 3: Add items-left count (and optional total count)",
     "app": "apps/todo-instance",
     "priority": 11,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_010_phase3_filter_state_ui"],
     "acceptance_criteria": [
@@ -106,6 +109,7 @@
     "title": "Phase 3: Implement 'Clear completed' bulk action (persisted)",
     "app": "apps/todo-instance",
     "priority": 12,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_010_phase3_filter_state_ui"],
     "acceptance_criteria": [
@@ -119,6 +123,7 @@
     "title": "Phase 3: Implement 'Toggle all' bulk action (persisted)",
     "app": "apps/todo-instance",
     "priority": 13,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_010_phase3_filter_state_ui"],
     "acceptance_criteria": [
@@ -132,6 +137,7 @@
     "title": "Phase 3: Add automated tests for storage migration + corrupt/missing behavior",
     "app": "apps/todo-instance",
     "priority": 14,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_009_phase3_storage_schema_and_migration_plan"],
     "acceptance_criteria": [
@@ -145,6 +151,7 @@
     "title": "Phase 3: Add automated UI tests for filters + bulk actions",
     "app": "apps/todo-instance",
     "priority": 15,
+    "phase": "3",
     "status": "done",
     "depends_on": [
       "TODO_012_phase3_bulk_clear_completed",
@@ -162,6 +169,7 @@
     "title": "Phase 3: Quality gates + evidence (lint/build/test all green)",
     "app": "apps/todo-instance",
     "priority": 16,
+    "phase": "3",
     "status": "done",
     "depends_on": ["TODO_014_phase3_storage_migration_tests", "TODO_015_phase3_ui_filters_and_bulk_actions_tests"],
     "acceptance_criteria": [

@@ -12,6 +12,11 @@ export type FactoryTask = {
   status?: TaskStatus;
   /** Higher runs first when multiple tasks are startable. */
   priority?: number;
+  /**
+   * Optional product phase marker (e.g. "1", "2", "3" or "Phase 3").
+   * Used for planning/reporting only; does not affect dependency logic.
+   */
+  phase?: string;
   blocked_reason?: string;
   owner?: string;
   /** e.g. GitHub app label bucket — for display / future routing only. */
