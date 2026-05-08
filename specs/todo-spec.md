@@ -162,3 +162,69 @@ Goal: reduce regression risk by making key behaviors **automatically verifiable*
 - Do we want undo for delete?
 - When adding an API, does `todo-instance` become HTTP-integrated to a `todo-api`, or remain standalone?
 
+---
+
+## Phase 3 (next loop): Persistence UX + filtering + bulk actions (still local-only)
+
+Goal: make the todo app feel “real” for daily use while **keeping the architecture local-only** (no backend, no auth). This phase focuses on user experience and predictable state, with automated verification for the new behaviors.
+
+### Scope
+
+#### 1) Persistence and data migration (localStorage)
+
+- Keep using a **versioned storage key** (e.g. `todo.todos.v1`).
+- Introduce a **forward-compatible storage shape** (e.g. include a `schemaVersion` field in the persisted payload or a clear v2 key when/if we add new fields).
+- On load:
+  - Missing/corrupt data → empty list (no crash)
+  - Older schema → migrate to current in-memory shape and persist back
+
+#### 2) Filtering and counts
+
+- Provide a deterministic filter UI with three states:
+  - **All**
+  - **Active**
+  - **Completed**
+- Show summary counts:
+  - **items left** (active count)
+  - optional: total count
+
+#### 3) Bulk actions
+
+- **Clear completed** (remove all completed todos)
+- **Toggle all** (mark all active → completed, and if all are completed then mark all → active)
+
+#### 4) UX & accessibility hardening
+
+- Keep keyboard-first flows working:
+  - Add todo without mouse
+  - Toggle and delete reachable via keyboard
+  - Bulk actions reachable via keyboard
+- Ensure labels/roles are accessible (e.g. filter controls and bulk action buttons have clear accessible names).
+
+### Non-goals (Phase 3)
+
+- Backend/API/database
+- Auth, multi-user, multi-tenant
+- Tags, priorities, due dates, reminders
+- Drag-and-drop reordering
+
+### Verification approach (Phase 3)
+
+Add automated coverage for the new behaviors:
+
+- **Storage**: migration behavior (missing/corrupt/old schema → current)
+- **UI**:
+  - filter toggles (All/Active/Completed) correctly change visible items
+  - clear completed removes only completed items
+  - toggle all toggles expected state and persists
+- **Gates**: `npm run lint`, `npm run build`, `npm run test` remain green
+
+### Acceptance criteria (Phase 3)
+
+- Filtering works deterministically (All/Active/Completed) and remains correct after refresh.
+- Bulk actions work and persist:
+  - clear completed
+  - toggle all
+- Migration behavior exists (even if it’s “v1 only today”), and corrupt/missing data never crashes the app.
+- Automated tests cover the new behaviors sufficiently for Quality to gate without manual-only verification.
+
