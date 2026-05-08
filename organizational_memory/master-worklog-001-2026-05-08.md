@@ -195,6 +195,54 @@ Repo typecheck:
 npm run check
 ```
 
+## 6.1) Factory process diagram (agents + tools)
+
+```mermaid
+flowchart TB
+  %% Artifacts
+  SPEC[specs/todo-spec.md]
+  TQ[factory/task-queue.json]
+  QMS[organizational_memory/QMS/inbox/*.md]
+  PR[Pull request]
+  MAIN[main branch]
+
+  %% Agents (roles)
+  SG[Spec Generator]
+  PM[PM]
+  DEV[Dev]
+  QUAL[Quality]
+  FIX[Fix]
+  GIT[Git]
+  DOCS[Docs]
+  ARCH[Architect]
+
+  %% Tools / commands
+  GENSPEC[npm run generate-spec]
+  NEXT[npm run factory:next]
+  GATES["npm run lint/build/test -w apps/todo-instance\nnpm run check\nnpm run validate-task-queue"]
+
+  %% Flow
+  ARCH -->|recommendations| SPEC
+  GENSPEC --> SPEC
+  SG -->|update spec| SPEC
+  SPEC --> PM
+  PM -->|tasks + acceptance criteria| TQ
+  NEXT -->|select next ready task| TQ
+  TQ --> DEV
+  DEV -->|code + tests| QUAL
+  QUAL -->|run gates| GATES
+  GATES -->|pass| GIT
+  GATES -->|fail| FIX
+  FIX -->|minimal patch| QUAL
+  GIT -->|branch/commit/push| PR
+  PR -->|merge| MAIN
+  MAIN -->|closure: mark done| TQ
+  DEV -->|evidence| QMS
+  QUAL -->|evidence| QMS
+  FIX -->|evidence (when used)| QMS
+  DOCS -->|curate worklog + lessons| QMS
+```
+
 ## 7) PR / merge checkpoints (what landed on `main`)
 
 Recent merge commits (chronological order in `git log --merges`):
