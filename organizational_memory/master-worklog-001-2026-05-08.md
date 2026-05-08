@@ -32,6 +32,12 @@ This document is a **human-friendly master summary** of the work completed in th
 - Optional undo delete with UI coverage.
 - Quality gates passed (lint/build/test).
 
+### Phase 5 — Hardening (forward schema guardrails + planning consistency)
+- Spec aligned to storage payload `{ schemaVersion, todos }` and Phase 5 documented.
+- Storage forward-version guardrail: explicit behavior for `schemaVersion > current` without overwrite-on-load.
+- Tooling validation added to enforce numeric-string `phase` convention in `factory/task-queue.json`.
+- Quality gates passed (lint/build/test/check + validate-task-queue).
+
 ## 4) Task ledger (from `factory/task-queue.json`)
 
 ### Phase 2 (TODO_001–TODO_008)
@@ -42,6 +48,9 @@ This document is a **human-friendly master summary** of the work completed in th
 
 ### Phase 4 (TODO_017–TODO_022, phase: "4")
 - **Done:** TODO_017 … TODO_022
+
+### Phase 5 (TODO_023–TODO_027, phase: "5")
+- **Done:** TODO_023 … TODO_027
 
 ### Task definition (how tasks are defined in JSON)
 
