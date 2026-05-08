@@ -62,5 +62,113 @@
     "priority": 8,
     "status": "done",
     "depends_on": ["TODO_006_storage_adapter_tests", "TODO_007_ui_add_rejects_empty_test"]
+  },
+  {
+    "id": "TODO_009_phase3_storage_schema_and_migration_plan",
+    "title": "Phase 3: Define storage schema versioning + migration strategy",
+    "app": "apps/todo-instance",
+    "priority": 9,
+    "status": "done",
+    "depends_on": ["TODO_008_quality_phase2_gates"],
+    "acceptance_criteria": [
+      "Storage format is explicitly versioned (either payload schemaVersion or new key) and documented in code/readme comment-free (types/consts are fine).",
+      "Load path handles missing/corrupt data by returning an empty list (no throw).",
+      "If an older schema is detected, data is migrated to the current in-memory shape and persisted back on next save (or immediately on load if chosen)."
+    ]
+  },
+  {
+    "id": "TODO_010_phase3_filter_state_ui",
+    "title": "Phase 3: Add filter state + UI (All / Active / Completed)",
+    "app": "apps/todo-instance",
+    "priority": 10,
+    "status": "done",
+    "depends_on": ["TODO_009_phase3_storage_schema_and_migration_plan"],
+    "acceptance_criteria": [
+      "UI provides three deterministic filter states: All, Active, Completed.",
+      "Filter selection updates visible list correctly without mutating underlying data.",
+      "Filter control is keyboard accessible and has clear accessible names/labels."
+    ]
+  },
+  {
+    "id": "TODO_011_phase3_counts_summary",
+    "title": "Phase 3: Add items-left count (and optional total count)",
+    "app": "apps/todo-instance",
+    "priority": 11,
+    "status": "done",
+    "depends_on": ["TODO_010_phase3_filter_state_ui"],
+    "acceptance_criteria": [
+      "UI displays active-count (items left) that updates as todos are added/toggled/deleted/cleared.",
+      "Count remains correct after refresh (load from storage)."
+    ]
+  },
+  {
+    "id": "TODO_012_phase3_bulk_clear_completed",
+    "title": "Phase 3: Implement 'Clear completed' bulk action (persisted)",
+    "app": "apps/todo-instance",
+    "priority": 12,
+    "status": "done",
+    "depends_on": ["TODO_010_phase3_filter_state_ui"],
+    "acceptance_criteria": [
+      "Clear completed removes only completed todos.",
+      "Result is persisted to local storage.",
+      "Control is keyboard accessible and has an accessible name."
+    ]
+  },
+  {
+    "id": "TODO_013_phase3_bulk_toggle_all",
+    "title": "Phase 3: Implement 'Toggle all' bulk action (persisted)",
+    "app": "apps/todo-instance",
+    "priority": 13,
+    "status": "done",
+    "depends_on": ["TODO_010_phase3_filter_state_ui"],
+    "acceptance_criteria": [
+      "Toggle all marks all active → completed; if all are completed, toggles all → active.",
+      "Result is persisted to local storage.",
+      "Control is keyboard accessible and has an accessible name."
+    ]
+  },
+  {
+    "id": "TODO_014_phase3_storage_migration_tests",
+    "title": "Phase 3: Add automated tests for storage migration + corrupt/missing behavior",
+    "app": "apps/todo-instance",
+    "priority": 14,
+    "status": "done",
+    "depends_on": ["TODO_009_phase3_storage_schema_and_migration_plan"],
+    "acceptance_criteria": [
+      "Tests cover: missing storage → empty list; corrupt JSON → empty list (no crash).",
+      "Tests cover: older schema input → migrated current shape and persisted behavior (as designed).",
+      "Tests are runnable via `npm run test -w apps/todo-instance`."
+    ]
+  },
+  {
+    "id": "TODO_015_phase3_ui_filters_and_bulk_actions_tests",
+    "title": "Phase 3: Add automated UI tests for filters + bulk actions",
+    "app": "apps/todo-instance",
+    "priority": 15,
+    "status": "done",
+    "depends_on": [
+      "TODO_012_phase3_bulk_clear_completed",
+      "TODO_013_phase3_bulk_toggle_all",
+      "TODO_011_phase3_counts_summary"
+    ],
+    "acceptance_criteria": [
+      "UI tests verify filter behavior (All/Active/Completed) changes visible items correctly.",
+      "UI tests verify: clear completed removes only completed items.",
+      "UI tests verify: toggle all toggles expected state (including the 'all completed' toggle-back case)."
+    ]
+  },
+  {
+    "id": "TODO_016_phase3_quality_gates",
+    "title": "Phase 3: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 16,
+    "status": "done",
+    "depends_on": ["TODO_014_phase3_storage_migration_tests", "TODO_015_phase3_ui_filters_and_bulk_actions_tests"],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality can report `{ status, errors }` with commands_run and empty errors on pass"
+    ]
   }
 ]

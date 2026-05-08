@@ -5,9 +5,12 @@ function newId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+type Filter = "all" | "active" | "completed";
+
 export default function App() {
   const [title, setTitle] = useState("");
   const titleInputRef = useRef<HTMLInputElement | null>(null);
+  const [filter, setFilter] = useState<Filter>("all");
   const [todos, setTodos] = useState<Todo[]>(() => {
     const existing = loadTodos();
     if (existing.length > 0) return existing;
@@ -23,6 +26,12 @@ export default function App() {
   }, [todos]);
 
   const remaining = useMemo(() => todos.filter((t) => !t.done).length, [todos]);
+  const total = todos.length;
+  const visibleTodos = useMemo(() => {
+    if (filter === "active") return todos.filter((t) => !t.done);
+    if (filter === "completed") return todos.filter((t) => t.done);
+    return todos;
+  }, [filter, todos]);
 
   function add(e: React.FormEvent) {
     e.preventDefault();
@@ -39,6 +48,18 @@ export default function App() {
 
   function remove(id: string) {
     setTodos((prev) => prev.filter((t) => t.id !== id));
+  }
+
+  function clearCompleted() {
+    setTodos((prev) => prev.filter((t) => !t.done));
+  }
+
+  function toggleAll() {
+    setTodos((prev) => {
+      const hasActive = prev.some((t) => !t.done);
+      const nextDone = hasActive;
+      return prev.map((t) => ({ ...t, done: nextDone }));
+    });
   }
 
   return (
@@ -64,11 +85,31 @@ export default function App() {
       </form>
 
       <div style={{ marginTop: "1rem", color: "#666" }} aria-live="polite">
-        {remaining} remaining
+        {remaining} remaining ({total} total)
+      </div>
+
+      <div style={{ marginTop: "0.75rem", display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <div role="group" aria-label="Filter todos" style={{ display: "flex", gap: 8 }}>
+          <button type="button" onClick={() => setFilter("all")} aria-pressed={filter === "all"}>
+            All
+          </button>
+          <button type="button" onClick={() => setFilter("active")} aria-pressed={filter === "active"}>
+            Active
+          </button>
+          <button type="button" onClick={() => setFilter("completed")} aria-pressed={filter === "completed"}>
+            Completed
+          </button>
+        </div>
+        <button type="button" onClick={toggleAll} aria-label="Toggle all todos">
+          Toggle all
+        </button>
+        <button type="button" onClick={clearCompleted} aria-label="Clear completed todos">
+          Clear completed
+        </button>
       </div>
 
       <ul style={{ marginTop: "1rem", lineHeight: 1.9, paddingLeft: 18 }}>
-        {todos.map((t) => (
+        {visibleTodos.map((t) => (
           <li key={t.id}>
             <label style={{ cursor: "pointer" }}>
               <input type="checkbox" checked={t.done} onChange={() => toggle(t.id)} />{" "}

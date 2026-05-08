@@ -6,6 +6,12 @@ export type Todo = {
 };
 
 export const TODOS_STORAGE_KEY = "todo.todos.v1";
+export const TODOS_SCHEMA_VERSION = 1;
+
+type PersistedTodosV1 = {
+  schemaVersion: 1;
+  todos: Todo[];
+};
 
 export function loadTodos(): Todo[] {
   if (typeof window === "undefined") return [];
@@ -15,13 +21,9 @@ export function loadTodos(): Todo[] {
     if (!raw) return [];
 
     const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
+    const { todos, shouldPersist } = parseTodosPayload(parsed);
 
-    const todos: Todo[] = [];
-    for (const item of parsed) {
-      const t = coerceTodo(item);
-      if (t) todos.push(t);
-    }
+    if (shouldPersist) saveTodos(todos);
     return todos;
   } catch {
     return [];
@@ -38,7 +40,39 @@ export function saveTodos(todos: Todo[]): void {
     ...(typeof t.createdAt === "number" ? { createdAt: t.createdAt } : {}),
   }));
 
-  window.localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(safe));
+  const payload: PersistedTodosV1 = {
+    schemaVersion: TODOS_SCHEMA_VERSION,
+    todos: safe,
+  };
+
+  window.localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function parseTodosPayload(value: unknown): { todos: Todo[]; shouldPersist: boolean } {
+  // Legacy v0: stored as an array of todos under the v1 key.
+  if (Array.isArray(value)) {
+    return { todos: coerceTodosArray(value), shouldPersist: true };
+  }
+
+  if (!value || typeof value !== "object") return { todos: [], shouldPersist: false };
+  const v = value as Record<string, unknown>;
+
+  if (v.schemaVersion === 1) {
+    const todosRaw = v.todos;
+    if (!Array.isArray(todosRaw)) return { todos: [], shouldPersist: false };
+    return { todos: coerceTodosArray(todosRaw), shouldPersist: false };
+  }
+
+  return { todos: [], shouldPersist: false };
+}
+
+function coerceTodosArray(arr: unknown[]): Todo[] {
+  const todos: Todo[] = [];
+  for (const item of arr) {
+    const t = coerceTodo(item);
+    if (t) todos.push(t);
+  }
+  return todos;
 }
 
 function coerceTodo(value: unknown): Todo | null {
