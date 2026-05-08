@@ -51,6 +51,7 @@ Optional **standalone** procedures under **`published/`** mirror classic verific
 | **QMS-PUB-003** | [Subsystem Verification Plan (Subsystem Acceptance)](published/QMS-PUB-003-subsystem-verification-plan.md) |
 | **QMS-PUB-004** | [Unit & Device Test Plan](published/QMS-PUB-004-unit-device-test-plan.md) |
 | **QMS-PUB-005** | [Pull Request Decision Gate (Standard Procedure)](published/QMS-PUB-005-pull-request-decision-gate.md) |
+| **QMS-PUB-006** | [Example: First Factory Loop (todo-instance)](published/QMS-PUB-006-example-first-loop-todo-instance.md) |
 
 ## Who does what
 

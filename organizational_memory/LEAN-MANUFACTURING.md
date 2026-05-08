@@ -52,6 +52,9 @@ Lean is about **flowing value with less waste**. Here is how to practice it **in
 
 - `@agents/*.md` = **work instructions** for Cursor. Don't skip them for "speed."
 - `npm run factory` / `npm run parallel-plan` = **standard work for the task board**.
+- **Post-merge closure is standard work:** after a PR merges, close the loop per **`organizational_memory/QMS/published/QMS-PUB-005-pull-request-decision-gate.md`**:
+  - mark completed task ids `done` in `factory/task-queue.json`
+  - ensure QMS inbox evidence exists (Dev/Quality/Fix as applicable)
 
 **Practice:** When someone finds a better way, update the **agent file** or this doc (standardize the improvement).
 
