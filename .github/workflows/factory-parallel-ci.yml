@@ -1,6 +1,6 @@
-# Parallel "agent gates" on GitHub: typecheck, orchestrator, spec prompts, wave plan — no inter-job deps.
-# When apps/* gain their own package.json + test/build scripts, add matrix jobs (or a workspace runner) per
-# organizational_memory/ARCHITECTURE.md § "CI and workflows (implications)".
+# Parallel "agent gates" on GitHub: typecheck, orchestrator, wave plan — no inter-job deps.
+# Spec prompt generation for other verticals is intentionally not run on every PR; run it manually via
+# `.github/workflows/factory-distributed-dispatch.yml` when needed.
 name: Factory CI (parallel)
 
 on:
@@ -35,25 +35,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run factory
-
-  spec-generation:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        vertical: [dentist, plumber]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-      - run: npm ci
-      - run: npm run generate-spec -- ${{ matrix.vertical }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: spec-prompt-${{ matrix.vertical }}
-          path: specs/_generated/${{ matrix.vertical }}-SPEC-PROMPT.md
 
   parallel-waves:
     runs-on: ubuntu-latest
