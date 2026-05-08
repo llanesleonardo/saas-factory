@@ -41,6 +41,11 @@ Slash command runbook: **`/production-saas-factory`**.
 
 ## Run the factory (terminal)
 
+### Prerequisites
+
+- Node **22 LTS** recommended (see `.nvmrc` / `.node-version`)
+- Minimum supported Node: **>= 20.19.0** (older patch versions may install with warnings and break modern DOM/tooling deps)
+
 1. `npm install`
 2. Paste PM task JSON into `factory/task-queue.json` (either a `tasks` array or a top-level array).
 3. `npm run factory` — prints a **Cursor-native** runbook per task (agents execute in chat + your commands, not inside this script).
