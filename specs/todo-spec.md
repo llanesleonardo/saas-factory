@@ -1,0 +1,126 @@
+# TODO VERTICAL — SPECIFICATION
+
+This is the **minimal** vertical spec for `apps/todo-instance/`. It is intentionally small so the factory workflow (Spec → PM → Dev → Quality → Git) can be exercised end-to-end.
+
+## Document intent
+
+- **Goal**: a single-user Todo list with the core CRUD-like operations.
+- **MVP storage**: **local-only** persistence (in-browser), **no API**, **no auth**, **no multi-tenant**.
+- **Later** (optional): add an API and/or shared packages; capture that in a new Phase section before implementing.
+
+## Personas and goals
+
+- **Primary user**: individual user
+  - Capture tasks quickly
+  - See what’s left
+  - Mark done
+  - Remove tasks
+
+## Domain model
+
+### Entities
+
+- **Todo**
+  - **id**: stable identifier (string or number)
+  - **title**: short text
+  - **done**: boolean
+  - **createdAt**: timestamp (optional in MVP; required if sorting by recency is implemented)
+
+### Relationships
+
+- None (single entity MVP)
+
+### Lifecycle / states
+
+`Todo` state machine:
+
+```mermaid
+stateDiagram-v2
+  [*] --> Active
+  Active --> Completed: toggle done=true
+  Completed --> Active: toggle done=false
+  Active --> [*]: delete
+  Completed --> [*]: delete
+```
+
+## MVP workflows (deterministic)
+
+### 1) Add a todo
+
+- **Trigger**: user submits the “new todo” input (enter key or button)
+- **Rules**:
+  - Title is trimmed
+  - Empty titles are rejected (no-op)
+- **Result**:
+  - New Todo appears in list
+  - Stored locally (see Storage)
+
+### 2) List todos
+
+- **Trigger**: app loads; user returns to the tab
+- **Rules**:
+  - Todos are loaded from local persistence
+  - Order is deterministic (choose one for MVP):
+    - Newest first (requires `createdAt`), or
+    - Insertion order (array order)
+
+### 3) Toggle complete
+
+- **Trigger**: user clicks checkbox
+- **Rules**:
+  - `done` toggles true/false
+  - UI reflects state (e.g. strike-through when done)
+- **Result**:
+  - Change persisted locally
+
+### 4) Delete a todo
+
+- **Trigger**: user clicks delete control on an item
+- **Rules**:
+  - Delete is immediate (no undo in MVP)
+- **Result**:
+  - Item removed from list and local persistence
+
+## Storage & boundaries
+
+### System boundaries (MVP)
+
+- **UI**: `apps/todo-instance/` (React)
+- **Persistence**: browser local storage (e.g. `localStorage`)
+- **No backend**: no `/api`, no database, no external services
+
+### Storage rules (MVP)
+
+- Define a single storage key name (e.g. `todo.todos.v1`) so upgrades can version later.
+- Serialization format: JSON array of `Todo`.
+- Corrupt/missing data: fall back to empty list (do not crash).
+
+## Non-functional requirements (MVP)
+
+- **Performance**: handles at least **500** todos without noticeable UI lag on a typical dev machine.
+- **Accessibility**: keyboard add/toggle/delete are possible (basic tab order + button semantics).
+- **Security/Privacy**: no secrets; no PII; data remains on-device.
+
+## Acceptance criteria (MVP)
+
+### Functional
+
+- User can **add** a todo with a non-empty title.
+- User can **see a list** of todos after refresh (local persistence works).
+- User can **toggle** a todo between active/completed.
+- User can **delete** a todo.
+
+### Out of scope (explicit)
+
+- Accounts / auth / roles
+- Multi-user sync
+- Tags, priorities, due dates, reminders
+- API/server/database
+- Sharing/collaboration
+
+## Open questions (for Phase 2+, answer before implementing)
+
+- Should ordering be newest-first (requires `createdAt`) or insertion order?
+- Do we want undo for delete?
+- When adding an API, does `todo-instance` become HTTP-integrated to a `todo-api`, or remain standalone?
+
