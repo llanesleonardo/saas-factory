@@ -265,5 +265,82 @@
       "`npm run test -w apps/todo-instance` passes",
       "Quality can report `{ status, errors, commands_run }` with empty errors on pass"
     ]
+  },
+  {
+    "id": "TODO_023_phase5_spec_update_storage_and_phase5",
+    "title": "Phase 5: Update todo spec to match current storage payload + add Phase 5 hardening section",
+    "description": "Spec currently states storage is a JSON array; implementation uses a versioned payload. Update Storage rules accordingly and add a Phase 5 section describing forward-schema guardrail + phase convention consistency.",
+    "app": "apps/todo-instance",
+    "priority": 23,
+    "phase": "5",
+    "status": "done",
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` Storage rules reflect versioned payload `{ schemaVersion, todos }` (not array-only).",
+      "Spec explicitly defines behavior for `schemaVersion > current` (forward version guardrail).",
+      "Add a Phase 5 section with scope + non-goals + verification approach (still local-only; no API/auth)."
+    ]
+  },
+  {
+    "id": "TODO_024_phase5_storage_forward_version_guardrail",
+    "title": "Phase 5: Add explicit guardrail for future storage schemaVersion (forward compat)",
+    "description": "Make handling of `schemaVersion > TODOS_SCHEMA_VERSION` explicit and deterministic (no crash; no accidental overwrite).",
+    "app": "apps/todo-instance",
+    "priority": 24,
+    "phase": "5",
+    "status": "done",
+    "depends_on": ["TODO_023_phase5_spec_update_storage_and_phase5"],
+    "acceptance_criteria": [
+      "If persisted payload has `schemaVersion > TODOS_SCHEMA_VERSION`, load returns `[]` (or a clearly defined safe fallback) without throwing.",
+      "Forward-version payload does NOT get overwritten by an empty save during load (i.e., shouldPersist is false for forward versions).",
+      "Behavior is documented via code-level constants/types (no narration-only comments)."
+    ]
+  },
+  {
+    "id": "TODO_025_phase5_storage_forward_version_tests",
+    "title": "Phase 5: Add automated tests for forward-schema guardrail (schemaVersion > current)",
+    "description": "Lock the forward-compat behavior with unit tests alongside existing storage tests.",
+    "app": "apps/todo-instance",
+    "priority": 25,
+    "phase": "5",
+    "status": "done",
+    "depends_on": ["TODO_024_phase5_storage_forward_version_guardrail"],
+    "acceptance_criteria": [
+      "Test covers: payload with higher schemaVersion does not crash and results in safe behavior per spec.",
+      "Test covers: forward-version does not trigger persistence overwrite on load.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_026_phase5_tooling_enforce_phase_convention",
+    "title": "Phase 5: Tooling check to enforce numeric string `phase` convention in task queue",
+    "description": "Prevent future drift like mixing \"Phase 3\" and \"3\" by adding/strengthening validation logic.",
+    "app": "factory/task-queue.json",
+    "priority": 26,
+    "phase": "5",
+    "status": "done",
+    "depends_on": ["TODO_023_phase5_spec_update_storage_and_phase5"],
+    "acceptance_criteria": [
+      "Validation fails if `phase` is non-numeric (e.g. \"Phase 3\").",
+      "Error message points to task id(s) with invalid phase values.",
+      "Document how to run the validation (e.g. `npm run check` or a dedicated script) in an appropriate doc location."
+    ]
+  },
+  {
+    "id": "TODO_027_phase5_quality_gates",
+    "title": "Phase 5: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 27,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_025_phase5_storage_forward_version_tests",
+      "TODO_026_phase5_tooling_enforce_phase_convention"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality reports `{ status, errors, commands_run }` with empty errors on pass"
+    ]
   }
 ]

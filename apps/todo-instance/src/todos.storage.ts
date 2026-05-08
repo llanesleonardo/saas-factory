@@ -57,6 +57,12 @@ function parseTodosPayload(value: unknown): { todos: Todo[]; shouldPersist: bool
   if (!value || typeof value !== "object") return { todos: [], shouldPersist: false };
   const v = value as Record<string, unknown>;
 
+  // Future schema versions are intentionally treated as unreadable to avoid
+  // accidentally overwriting unknown data with an empty save.
+  if (typeof v.schemaVersion === "number" && v.schemaVersion > TODOS_SCHEMA_VERSION) {
+    return { todos: [], shouldPersist: false };
+  }
+
   if (v.schemaVersion === 1) {
     const todosRaw = v.todos;
     if (!Array.isArray(todosRaw)) return { todos: [], shouldPersist: false };
