@@ -178,5 +178,92 @@
       "`npm run test -w apps/todo-instance` passes",
       "Quality can report `{ status, errors }` with commands_run and empty errors on pass"
     ]
+  },
+  {
+    "id": "TODO_017_phase4_refactor_split_app",
+    "title": "Phase 4: Refactor App.tsx into small components + todos.model helpers (no behavior change)",
+    "app": "apps/todo-instance",
+    "priority": 17,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_016_phase3_quality_gates"],
+    "acceptance_criteria": [
+      "Move pure business rules into `src/todos.model.ts` (filtering, counts, bulk action intent helpers) and keep them unit-testable.",
+      "Extract minimal UI components (e.g. Filters, BulkActions, TodoList) without changing runtime behavior.",
+      "All existing tests remain passing with minimal/no snapshot churn.",
+      "`npm run lint -w apps/todo-instance` and `npm run test -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_018_phase4_empty_state",
+    "title": "Phase 4: Add accessible empty state when list is empty",
+    "app": "apps/todo-instance",
+    "priority": 18,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_017_phase4_refactor_split_app"],
+    "acceptance_criteria": [
+      "When there are 0 todos, UI shows a clear empty state message with accessible semantics.",
+      "Keyboard-first add flow remains intact (focus behavior not degraded).",
+      "Behavior persists across refresh (still local-only)."
+    ]
+  },
+  {
+    "id": "TODO_019_phase4_inline_edit_title",
+    "title": "Phase 4: Inline edit todo title (Enter save / Escape cancel, trim, reject empty)",
+    "app": "apps/todo-instance",
+    "priority": 19,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_017_phase4_refactor_split_app"],
+    "acceptance_criteria": [
+      "User can enter edit mode for a todo title and modify it in-place.",
+      "Enter saves; Escape cancels and restores prior title.",
+      "Edits are trimmed; empty/whitespace-only edits are rejected (revert/no-op).",
+      "Edits persist via local storage and remain after refresh."
+    ]
+  },
+  {
+    "id": "TODO_020_phase4_edit_and_empty_state_tests",
+    "title": "Phase 4: Add UI tests for empty state and inline edit keyboard flows",
+    "app": "apps/todo-instance",
+    "priority": 20,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_018_phase4_empty_state", "TODO_019_phase4_inline_edit_title"],
+    "acceptance_criteria": [
+      "UI tests cover empty state rendering when there are zero todos.",
+      "UI tests cover inline edit: Enter saves, Escape cancels, trimming behavior, and reject-empty behavior.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_021_phase4_optional_undo_delete",
+    "title": "Phase 4 (optional): Undo delete (local-only, in-memory buffer acceptable)",
+    "app": "apps/todo-instance",
+    "priority": 30,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_017_phase4_refactor_split_app"],
+    "acceptance_criteria": [
+      "After deleting a todo, user can undo within a short time window (or until next action) without backend involvement.",
+      "Undo restores the deleted todo with its original id/title/done/createdAt fields.",
+      "If implemented, add at least one UI test covering undo flow."
+    ]
+  },
+  {
+    "id": "TODO_022_phase4_quality_gates",
+    "title": "Phase 4: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 22,
+    "phase": "4",
+    "status": "done",
+    "depends_on": ["TODO_020_phase4_edit_and_empty_state_tests"],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality can report `{ status, errors, commands_run }` with empty errors on pass"
+    ]
   }
 ]
