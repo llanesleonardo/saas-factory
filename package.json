@@ -39,8 +39,7 @@
     "picocolors": "^1.1.1"
   },
   "workspaces": [
-    "apps/todoapp-api",
-    "apps/todoapp-instance",
+    "apps/core-saas",
     "apps/todo-instance"
   ]
 }
