@@ -50,6 +50,7 @@ Optional **standalone** procedures under **`published/`** mirror classic verific
 | **QMS-PUB-002** | [System Verification Plan (System Acceptance)](published/QMS-PUB-002-system-verification-plan.md) |
 | **QMS-PUB-003** | [Subsystem Verification Plan (Subsystem Acceptance)](published/QMS-PUB-003-subsystem-verification-plan.md) |
 | **QMS-PUB-004** | [Unit & Device Test Plan](published/QMS-PUB-004-unit-device-test-plan.md) |
+| **QMS-PUB-005** | [Pull Request Decision Gate (Standard Procedure)](published/QMS-PUB-005-pull-request-decision-gate.md) |
 
 ## Who does what
 

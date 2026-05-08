@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "id": "TODO_001_storage_model",
+    "title": "Define Todo model + storage adapter (localStorage v1)",
+    "app": "apps/todo-instance",
+    "priority": 1,
+    "status": "done"
+  },
+  {
+    "id": "TODO_002_ui_crud_wiring",
+    "title": "Wire UI to local storage: add/list/toggle/delete",
+    "app": "apps/todo-instance",
+    "priority": 2,
+    "status": "done",
+    "depends_on": ["TODO_001_storage_model"]
+  },
+  {
+    "id": "TODO_003_basic_accessibility",
+    "title": "Basic accessibility + keyboard flows for MVP",
+    "app": "apps/todo-instance",
+    "priority": 3,
+    "status": "done",
+    "depends_on": ["TODO_002_ui_crud_wiring"]
+  },
+  {
+    "id": "TODO_004_quality_gates",
+    "title": "Quality gates for todo-instance (build + lint) and evidence",
+    "app": "apps/todo-instance",
+    "priority": 4,
+    "status": "done",
+    "depends_on": ["TODO_003_basic_accessibility"]
+  }
+]

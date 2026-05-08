@@ -98,6 +98,14 @@ Git may still help with **draft PR** text or branch naming **before** final gree
 
 Produce PR artifacts humans can ship:
 
+- **Why PRs matter in SaaS Factory (not optional ceremony)**:
+  - **Quality gates attach to a single diff**: CI + Quality results are tied to exactly what will merge.
+  - **Traceability**: PR is the durable link for **task id ↔ spec ↔ code ↔ QMS records**.
+  - **Scope control**: review catches accidental/unrelated files before they hit `main`.
+  - **Auditability**: approvals, discussion, and timestamps form lightweight QMS evidence.
+  - **Safe collaboration**: avoids stepping on parallel work; conflicts and ownership are visible early.
+  - **Rollback clarity**: PRs are easy to revert/bisect compared to “mystery merges.”
+
 - **Title** — concise; include **task id** when standard  
 - **Body** — what changed, why, how tested / **Quality** status, rollout notes if any  
 - **Links** — task, issue, spec section  

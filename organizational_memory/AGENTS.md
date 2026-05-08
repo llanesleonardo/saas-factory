@@ -122,6 +122,16 @@ Each role file includes **`## Toolkit — modern stack`** (and PM / Architect / 
 
 You can **@ more than one file** (e.g. `@specs/plumber-spec.md` + `@agents/pm-agent.md`).
 
+### Why pull requests matter (factory principle)
+
+In SaaS Factory, a pull request is the **decision gate artifact** that makes work **reviewable, traceable, and merge-safe**:
+
+- **Quality gates attach to one diff**: CI/Quality results are tied to exactly what merges.
+- **Traceability**: PR links **task id ↔ spec ↔ code ↔ QMS records**.
+- **Scope control**: reviewers catch accidental file changes before `main`.
+- **Audit trail**: discussion/approvals/timestamps are durable evidence.
+- **Rollback clarity**: PRs are easy to revert/bisect.
+
 ### QMS IV&V controlled procedures (informative)
 
 Standalone **verification / validation** procedures live under **`organizational_memory/QMS/published/`** (registry **`QMS/DOCUMENT-CONTROL.md`**, overview **`QMS/README.md`**): **QMS-PUB-001** system validation strategy · **QMS-PUB-002** system verification (acceptance) · **QMS-PUB-003** subsystem verification (acceptance) · **QMS-PUB-004** unit & device test plan. **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`** lists the same paths for tooling.
