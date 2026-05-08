@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { loadTodos, saveTodos, type Todo } from "./todos.storage";
 
 function newId() {
@@ -7,6 +7,7 @@ function newId() {
 
 export default function App() {
   const [title, setTitle] = useState("");
+  const titleInputRef = useRef<HTMLInputElement | null>(null);
   const [todos, setTodos] = useState<Todo[]>(() => {
     const existing = loadTodos();
     if (existing.length > 0) return existing;
@@ -29,6 +30,7 @@ export default function App() {
     if (!trimmed) return;
     setTodos((prev) => [{ id: newId(), title: trimmed, done: false, createdAt: Date.now() }, ...prev]);
     setTitle("");
+    titleInputRef.current?.focus();
   }
 
   function toggle(id: string) {
@@ -48,15 +50,22 @@ export default function App() {
 
       <form onSubmit={add} style={{ display: "flex", gap: 8 }}>
         <input
+          ref={titleInputRef}
+          id="new-todo-title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Add a task"
+          aria-label="New todo title"
           style={{ flex: 1, padding: "0.6rem" }}
         />
-        <button type="submit">Add</button>
+        <button type="submit" disabled={!title.trim()}>
+          Add
+        </button>
       </form>
 
-      <div style={{ marginTop: "1rem", color: "#666" }}>{remaining} remaining</div>
+      <div style={{ marginTop: "1rem", color: "#666" }} aria-live="polite">
+        {remaining} remaining
+      </div>
 
       <ul style={{ marginTop: "1rem", lineHeight: 1.9, paddingLeft: 18 }}>
         {todos.map((t) => (
@@ -65,7 +74,12 @@ export default function App() {
               <input type="checkbox" checked={t.done} onChange={() => toggle(t.id)} />{" "}
               <span style={{ textDecoration: t.done ? "line-through" : "none" }}>{t.title}</span>
             </label>
-            <button type="button" onClick={() => remove(t.id)} style={{ marginLeft: 12 }}>
+            <button
+              type="button"
+              onClick={() => remove(t.id)}
+              style={{ marginLeft: 12 }}
+              aria-label={`Delete todo: ${t.title}`}
+            >
               Delete
             </button>
           </li>
