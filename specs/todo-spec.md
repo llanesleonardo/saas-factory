@@ -118,6 +118,44 @@ stateDiagram-v2
 - API/server/database
 - Sharing/collaboration
 
+---
+
+## Phase 2 (next loop): Automated verification + testability hardening
+
+Goal: reduce regression risk by making key behaviors **automatically verifiable** (unit + basic UI flow), so Quality is less reliant on manual checks.
+
+### Scope
+
+- Add an automated test harness for `apps/todo-instance/` (unit tests at minimum).
+- Add tests for the most failure-prone behaviors:
+  - local persistence survives refresh (load/save)
+  - add rejects empty/whitespace titles
+  - toggle and delete mutate the stored list
+- Keep integration mode unchanged (still local-only, no API).
+
+### Non-goals (Phase 2)
+
+- Adding a backend/API
+- Auth or multi-tenant behavior
+- New domain fields (tags/due dates)
+
+### Verification approach (Phase 2)
+
+| Layer | What it proves | Evidence |
+|------|-----------------|----------|
+| Unit | Storage adapter correctness | `npm test` (or equivalent) |
+| UI/component | CRUD behavior calls persistence correctly | test runner output |
+| Build/lint | baseline compile + lint | `npm run build`, `npm run lint` |
+
+### Acceptance criteria (Phase 2)
+
+- `apps/todo-instance` has an automated test runner configured and runnable locally.
+- At least these behaviors have automated coverage:
+  - load returns `[]` on missing/corrupt storage
+  - save writes valid JSON array under the versioned key
+  - add rejects empty/whitespace titles
+- Quality can verify Phase 2 without relying only on manual refresh checks (manual may remain supplemental).
+
 ## Open questions (for Phase 2+, answer before implementing)
 
 - Should ordering be newest-first (requires `createdAt`) or insertion order?
