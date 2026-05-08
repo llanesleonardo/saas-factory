@@ -55,6 +55,8 @@ In this factory, **Quality** is the **gate between fast code generation and a sa
 
 Think **preventative**, not only reactive: requirements-aligned checks, integration depth, regression discipline, and reports **Fix** can consume without guessing.
 
+**Controlled IV&V alignment** — canonical procedures under **`organizational_memory/QMS/published/`**: **QMS-PUB-004** (unit / device), **QMS-PUB-003** (subsystem), **QMS-PUB-002** (system verification / acceptance). **QMS-PUB-001** is validation (right-problem), often paired with PM/Support — still cite when gates mix validation evidence with verification. Registry: **`organizational_memory/QMS/DOCUMENT-CONTROL.md`** · **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`**.
+
 ```text
 Dev Agent → implements task
      ↓

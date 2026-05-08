@@ -36,6 +36,7 @@
   },
   "workspaces": [
     "apps/todoapp-api",
-    "apps/todoapp-instance"
+    "apps/todoapp-instance",
+    "apps/todo-instance"
   ]
 }

@@ -40,6 +40,17 @@ flowchart LR
 | **`TEMPLATE-*.md`** | Copy patterns for humans and agents. |
 | **`ISO-ALIGNMENT.md`** | How repo artifacts map to familiar ISO 9001 **themes** (informative only). |
 
+## IV&V-style controlled procedures (SE V-model parity)
+
+Optional **standalone** procedures under **`published/`** mirror classic verification / validation planning levels while staying SaaS Factory–specific (agents, specs, CI). Registry: **`DOCUMENT-CONTROL.md`**.
+
+| Doc ID | Title |
+|--------|--------|
+| **QMS-PUB-001** | [System Validation Strategy](published/QMS-PUB-001-system-validation-strategy.md) |
+| **QMS-PUB-002** | [System Verification Plan (System Acceptance)](published/QMS-PUB-002-system-verification-plan.md) |
+| **QMS-PUB-003** | [Subsystem Verification Plan (Subsystem Acceptance)](published/QMS-PUB-003-subsystem-verification-plan.md) |
+| **QMS-PUB-004** | [Unit & Device Test Plan](published/QMS-PUB-004-unit-device-test-plan.md) |
+
 ## Who does what
 
 | Role | Responsibility |

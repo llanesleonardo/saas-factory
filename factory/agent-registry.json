@@ -139,6 +139,18 @@
     "router": "organizational_memory/AGENTS.md",
     "architecture": "organizational_memory/ARCHITECTURE.md",
     "workflow_machine": "factory/workflow-state-machine.json",
-    "qms_record": "agents/agent-record-for-qms.md"
+    "qms_record": "agents/agent-record-for-qms.md",
+    "qms_ivv_procedures": {
+      "description": "Informative IV&V procedures under QMS published/ (SE V-model parity). Roles: validation ↔ PM/Support/Docs; system verification ↔ Quality/DevOps; subsystem verification ↔ Architect/Quality; unit/device ↔ Quality/Dev.",
+      "document_registry": "organizational_memory/QMS/DOCUMENT-CONTROL.md",
+      "index": "organizational_memory/QMS/README.md",
+      "iso_alignment": "organizational_memory/QMS/ISO-ALIGNMENT.md",
+      "paths": [
+        "organizational_memory/QMS/published/QMS-PUB-001-system-validation-strategy.md",
+        "organizational_memory/QMS/published/QMS-PUB-002-system-verification-plan.md",
+        "organizational_memory/QMS/published/QMS-PUB-003-subsystem-verification-plan.md",
+        "organizational_memory/QMS/published/QMS-PUB-004-unit-device-test-plan.md"
+      ]
+    }
   }
 }

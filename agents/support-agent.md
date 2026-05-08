@@ -64,6 +64,8 @@ Users → Support (triage + taxonomy + routing)
            └── Closure checklist (did the fix reach the customer?)
 ```
 
+Customer narratives and recurring themes can supply **validation** evidence (see **`organizational_memory/QMS/published/QMS-PUB-001-system-validation-strategy.md`**). **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`** lists all IV&V-style controlled docs.
+
 ---
 
 ## Input
