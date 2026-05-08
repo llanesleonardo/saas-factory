@@ -114,7 +114,7 @@ flowchart TB
   subgraph B["2. Turn spec into work"]
     B1["@ pm-agent + spec → JSON tasks"]
     B2["Paste factory/task-queue.json"]
-    B2a["Optional: status / priority / owner / app / blocked_reason"]
+    B2a["Optional: status / priority / owner / app / blocked_reason / phase"]
     B3["npm run factory:next — next pullable @dev line"]
     B4["npm run parallel-plan — dependency waves"]
     B5["npm run factory — runbook of remaining tasks"]
@@ -236,7 +236,7 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 
 | Piece | What it is |
 |-------|------------|
-| **`factory/task-queue.json`** | Canonical list of tasks: **`id`**, **`title`**, optional **`depends_on`**, optional **`status`** (`backlog` · `ready` · `in_progress` · `blocked` · `done`), **`priority`**, **`blocked_reason`**, **`owner`**, **`app`**. |
+| **`factory/task-queue.json`** | Canonical list of tasks: **`id`**, **`title`**, optional **`depends_on`**, optional **`status`** (`backlog` · `ready` · `in_progress` · `blocked` · `done`), **`priority`**, **`blocked_reason`**, **`owner`**, **`app`**, optional **`phase`** (e.g. `"3"` / `"Phase 3"` for reporting). |
 | **`npm run factory:next`** | Deterministic **“what should Dev pull next?”** — respects finished deps, WIP cap, and priority; does **not** invoke the model. |
 | **`npm run parallel-plan`** | Structural **waves** among **non-done** tasks — same graph logic as the planner’s dependency world. |
 | **`npm run factory`** | Runbook printout for remaining (non-done) tasks; still Cursor-native execution. |

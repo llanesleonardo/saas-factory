@@ -81,6 +81,7 @@ async function main(): Promise<void> {
   console.log("");
   console.log(`  id:      ${t.id}`);
   console.log(`  title:   ${t.title}`);
+  if (t.phase !== undefined) console.log(`  phase:   ${t.phase}`);
   if (t.status !== undefined) console.log(`  status:  ${t.status}`);
   if (t.priority !== undefined) console.log(`  priority: ${t.priority}`);
   if (t.owner !== undefined) console.log(`  owner:   ${t.owner}`);
