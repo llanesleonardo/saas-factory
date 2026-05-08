@@ -1,6 +1,0 @@
-dist/
-node_modules/
-data/*.db
-uploads/*
-!.gitkeep
-.env

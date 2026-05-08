@@ -6,7 +6,7 @@ Monorepo for a base SaaS engine, generated vertical instances, shared packages, 
 
 ## Layout
 
-- **apps/** — `core-saas` (shared engine), vertical instances (dentist, plumber), and **`mission-control-instance`** (same static placeholder pattern — future VSM UI shell).
+- **apps/** — `core-saas` (shared engine) and `todo-instance` (local-only learning vertical).
 - **packages/** — shared UI, database, auth, and billing.
 - **agents/** — prompt roles (PM, **builder**, dev, **quality**, fix, git, spec generator, architect, security, DevOps, docs, support, tooling, finOps, spike). See **`organizational_memory/AGENTS.md`** for how to `@` each. After substantive work, each role logs a **QMS inbox** record per **`agents/agent-record-for-qms.md`**.
 - **organizational_memory/** — **single documentation home** (FACTORY-PROCESS, MISSION-CONTROL, ARCHITECTURE, GITHUB-PROJECTS-SETUP, LEAN-MANUFACTURING, AGENTS, AGENT-RUN-LOG, **`QMS/`** for lessons + controlled procedures).
@@ -21,7 +21,7 @@ Monorepo for a base SaaS engine, generated vertical instances, shared packages, 
 
 Configs in `configs/<vertical>.json` drive a **deterministic prompt bundle**; Cursor (or any LLM) fills the narrative.
 
-1. Edit or add `configs/<vertical>.json` (see `dentist` / `plumber` for field examples).
+1. Edit or add `configs/<vertical>.json`.
 2. `npm run generate-spec -- <vertical>` — writes `specs/_generated/<vertical>-SPEC-PROMPT.md` (agent rules + JSON + filled template shell).
 3. In Cursor, @ that file and ask the agent to execute it: it should write **`specs/<vertical>-spec.md`** end-to-end.
 4. Use **`/generate-vertical-spec`** (project command) as a shortcut checklist to the same flow.
@@ -33,8 +33,8 @@ There is **no** cloud API in-repo: "automatic" means **one command assembles the
 | Track | What you get |
 |--------|----------------|
 | **1. Parallel "agents"** | `factory/task-graph.ts` exposes **`computeParallelBatches`** (waves of tasks with no blocking edges can run together). `npm run parallel-plan` prints waves; **`--json`** emits a plan for tooling. CI job **parallel-waves** uploads that JSON as an artifact. |
-| **2. GitHub distributed execution** | **`.github/workflows/factory-parallel-ci.yml`** — on every push/PR, **four parallel jobs**: `typecheck`, `orchestrator`, **matrix** `spec-generation` (dentist + plumber), `parallel-waves`. **`.github/workflows/factory-distributed-dispatch.yml`** — manual or **`repository_dispatch`** event `factory-run` with optional `client_payload.vertical`. |
-| **3. Vercel per instance** | Minimal static **`index.html`** + **`vercel.json`** under **`apps/core-saas`**, **`apps/dentist-instance`**, **`apps/plumber-instance`**, **`apps/mission-control-instance`**. **`.github/workflows/vercel-deploy.yml`** runs **four deploy jobs in parallel** (`workflow_dispatch`, preview vs `--prod`). Set secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID_CORE_SAAS`, `VERCEL_PROJECT_ID_DENTIST`, `VERCEL_PROJECT_ID_PLUMBER`, `VERCEL_PROJECT_ID_MISSION_CONTROL`. |
+| **2. GitHub distributed execution** | CI workflows can run typecheck + factory tooling on every push/PR; keep app-specific matrices only for apps that exist. |
+| **3. Vercel per app (optional)** | This repo supports deploying static placeholder apps (or real apps) per `apps/*` folder. Keep `.github/workflows/vercel-deploy.yml` aligned to the apps that exist. |
 | **4. Spec prompt system** | Already documented above (`generate-spec`, `agents/spec-generator-agent.md`, `templates/`). CI regenerates prompt files in parallel for both verticals. |
 
 Slash command runbook: **`/production-saas-factory`**.
