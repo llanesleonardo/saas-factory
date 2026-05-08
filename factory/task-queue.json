@@ -29,5 +29,38 @@
     "priority": 4,
     "status": "done",
     "depends_on": ["TODO_003_basic_accessibility"]
+  },
+  {
+    "id": "TODO_005_test_harness_setup",
+    "title": "Add unit test harness for todo-instance (Vitest + RTL)",
+    "app": "apps/todo-instance",
+    "priority": 5,
+    "status": "done",
+    "depends_on": ["TODO_004_quality_gates"]
+  },
+  {
+    "id": "TODO_006_storage_adapter_tests",
+    "title": "Add automated tests for todos.storage.ts (missing/corrupt + save format)",
+    "app": "apps/todo-instance",
+    "priority": 6,
+    "status": "done",
+    "depends_on": ["TODO_005_test_harness_setup"]
+  },
+  {
+    "id": "TODO_007_ui_add_rejects_empty_test",
+    "title": "Add automated UI test: Add rejects empty/whitespace title",
+    "description": "Write a component test ensuring empty/whitespace titles do not create a todo.",
+    "app": "apps/todo-instance",
+    "priority": 7,
+    "status": "done",
+    "depends_on": ["TODO_005_test_harness_setup"]
+  },
+  {
+    "id": "TODO_008_quality_phase2_gates",
+    "title": "Quality gates for Phase 2: tests + build + lint evidence",
+    "app": "apps/todo-instance",
+    "priority": 8,
+    "status": "done",
+    "depends_on": ["TODO_006_storage_adapter_tests", "TODO_007_ui_add_rejects_empty_test"]
   }
 ]
