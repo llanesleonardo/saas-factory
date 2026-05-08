@@ -342,5 +342,77 @@
       "`npm run test -w apps/todo-instance` passes",
       "Quality reports `{ status, errors, commands_run }` with empty errors on pass"
     ]
+  },
+  {
+    "id": "TODO_028_phase6_export_import_spec",
+    "title": "Phase 6: Spec alignment for local-only export/import + ordering",
+    "app": "apps/todo-instance",
+    "priority": 28,
+    "phase": "6",
+    "status": "done",
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` contains a Phase 6 section that is explicitly local-only (no API/auth).",
+      "Phase 6 scope includes export/import and deterministic ordering."
+    ]
+  },
+  {
+    "id": "TODO_029_phase6_export_import_ui",
+    "title": "Phase 6: Add export/import UI for todos (local-only)",
+    "description": "Add Export (download JSON) and Import (paste/select JSON) UI actions; must be resilient to invalid input.",
+    "app": "apps/todo-instance",
+    "priority": 29,
+    "phase": "6",
+    "status": "done",
+    "depends_on": ["TODO_028_phase6_export_import_spec"],
+    "acceptance_criteria": [
+      "Export downloads a JSON payload `{ schemaVersion, todos }` matching current storage shape.",
+      "Import accepts current payload and legacy array; invalid JSON does not crash the app.",
+      "Import updates in-memory state and persists via storage adapter."
+    ]
+  },
+  {
+    "id": "TODO_030_phase6_deterministic_ordering",
+    "title": "Phase 6: Ensure deterministic ordering (newest-first by createdAt)",
+    "description": "Make visible ordering deterministic and resilient when createdAt is missing (safe fallback).",
+    "app": "apps/todo-instance",
+    "priority": 30,
+    "phase": "6",
+    "status": "done",
+    "depends_on": ["TODO_029_phase6_export_import_ui"],
+    "acceptance_criteria": [
+      "New todos always have createdAt set.",
+      "List order is deterministic (newest-first by createdAt with a safe fallback).",
+      "Ordering remains stable after import and refresh."
+    ]
+  },
+  {
+    "id": "TODO_031_phase6_export_import_tests",
+    "title": "Phase 6: Add automated tests for export/import + ordering",
+    "app": "apps/todo-instance",
+    "priority": 31,
+    "phase": "6",
+    "status": "done",
+    "depends_on": ["TODO_030_phase6_deterministic_ordering"],
+    "acceptance_criteria": [
+      "Tests cover export payload shape.",
+      "Tests cover import: v1 payload, legacy array payload, and invalid JSON (no crash).",
+      "Tests cover ordering is deterministic after import/add."
+    ]
+  },
+  {
+    "id": "TODO_032_phase6_quality_gates",
+    "title": "Phase 6: Quality gates + evidence (lint/build/test/check all green)",
+    "app": "apps/todo-instance",
+    "priority": 32,
+    "phase": "6",
+    "status": "done",
+    "depends_on": ["TODO_031_phase6_export_import_tests"],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "`npm run check` passes",
+      "`npm run validate-task-queue` passes (if present)"
+    ]
   }
 ]

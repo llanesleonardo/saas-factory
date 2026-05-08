@@ -2,7 +2,7 @@ export type Todo = {
   id: string;
   title: string;
   done: boolean;
-  createdAt?: number;
+  createdAt: number;
 };
 
 export const TODOS_STORAGE_KEY = "todo.todos.v1";
@@ -37,7 +37,7 @@ export function saveTodos(todos: Todo[]): void {
     id: t.id,
     title: t.title,
     done: !!t.done,
-    ...(typeof t.createdAt === "number" ? { createdAt: t.createdAt } : {}),
+    createdAt: typeof t.createdAt === "number" ? t.createdAt : 0,
   }));
 
   const payload: PersistedTodosV1 = {
@@ -98,6 +98,6 @@ function coerceTodo(value: unknown): Todo | null {
     return { id, title, done, createdAt };
   }
 
-  return { id, title, done };
+  return { id, title, done, createdAt: 0 };
 }
 

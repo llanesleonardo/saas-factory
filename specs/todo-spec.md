@@ -323,3 +323,44 @@ Goal: close the last “future-proofing” gaps while keeping the app **local-on
 - Forward schema guardrail behavior is explicit and covered by automated tests.
 - Factory validation catches non-numeric `phase` values with clear error output.
 
+---
+
+## Phase 6 (next loop): Local-only UX upgrades (still no API)
+
+Goal: add a couple of “real app” quality-of-life features while staying **strictly local-only** (no backend, no auth, no sync).
+
+### Scope
+
+#### 1) Export / import todos (local-only)
+
+- Add an **Export** action that downloads the current todos as JSON (versioned payload `{ schemaVersion, todos }`).
+- Add an **Import** action that accepts JSON:
+  - Supports the current payload shape `{ schemaVersion, todos }`
+  - Supports legacy array format (migrate like storage does)
+  - Rejects invalid input without crashing the app
+
+#### 2) Deterministic ordering
+
+- Ensure ordering is deterministic and documented:
+  - New todos have `createdAt` set.
+  - Visible list ordering is consistent (e.g. newest-first by `createdAt`, falling back safely if missing).
+
+### Non-goals (Phase 6)
+
+- Backend/API/database
+- Auth, multi-user, multi-tenant
+- Sync across devices
+
+### Verification approach (Phase 6)
+
+- Add automated tests for:
+  - export payload shape
+  - import accepts v1 payload and legacy array
+  - invalid import does not crash and does not corrupt existing state
+- Gates remain: `npm run lint`, `npm run build`, `npm run test`, `npm run check`.
+
+### Acceptance criteria (Phase 6)
+
+- Export and import work end-to-end and are resilient to invalid input.
+- Ordering remains deterministic after add/toggle/delete/import and refresh.
+

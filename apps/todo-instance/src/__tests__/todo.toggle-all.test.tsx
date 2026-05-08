@@ -13,8 +13,9 @@ beforeEach(() => {
 
 test("toggle all marks all completed when any todo is active, and toggles back when all completed", () => {
   const seed: Todo[] = [
-    { id: "1", title: "Scaffolded todo-instance", done: true, createdAt: 1 },
-    { id: "2", title: "Persistence: refresh should keep todos", done: false, createdAt: 2 },
+    // Newest-first ordering: ensure the completed item renders first.
+    { id: "1", title: "Scaffolded todo-instance", done: true, createdAt: 2 },
+    { id: "2", title: "Persistence: refresh should keep todos", done: false, createdAt: 1 },
   ];
   saveTodos(seed);
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { loadTodos, saveTodos, type Todo } from "./todos.storage";
+import { buildExportPayload, parseImportedTodos } from "./todos.portable";
 import { BulkActions } from "./components/BulkActions";
 import { Filters } from "./components/Filters";
 import {
@@ -83,6 +84,29 @@ export default function App() {
     setLastDeleted(null);
   }
 
+  function exportTodos() {
+    const payload = buildExportPayload(todos);
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "todos.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importTodos() {
+    const raw = window.prompt("Paste exported todos JSON");
+    if (raw === null) return;
+    try {
+      const imported = parseImportedTodos(raw);
+      setLastDeleted(null);
+      setTodos(imported.todos);
+    } catch {
+      // Invalid JSON: no-op (must not crash)
+    }
+  }
+
   return (
     <div style={{ fontFamily: "system-ui", maxWidth: 560, margin: "2rem auto", padding: "0 1rem" }}>
       <h1>Todo (placeholder)</h1>
@@ -112,6 +136,14 @@ export default function App() {
       <div style={{ marginTop: "0.75rem", display: "flex", gap: 8, flexWrap: "wrap" }}>
         <Filters value={filter} onChange={setFilter} />
         <BulkActions onToggleAll={toggleAll} onClearCompleted={clearCompleted} />
+        <div role="group" aria-label="Import and export" style={{ display: "flex", gap: 8 }}>
+          <button type="button" onClick={exportTodos}>
+            Export
+          </button>
+          <button type="button" onClick={importTodos}>
+            Import
+          </button>
+        </div>
       </div>
 
       {lastDeleted ? (
