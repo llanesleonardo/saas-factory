@@ -15,6 +15,7 @@ Assign the next free id when **Docs Agent** creates a new controlled document. U
 | QMS-PUB-003 | Subsystem Verification Plan (Subsystem Acceptance) | `published/QMS-PUB-003-subsystem-verification-plan.md` | 0.1 | Draft |
 | QMS-PUB-004 | Unit & Device Test Plan | `published/QMS-PUB-004-unit-device-test-plan.md` | 0.1 | Draft |
 | QMS-PUB-005 | Pull Request Decision Gate (Standard Procedure) | `published/QMS-PUB-005-pull-request-decision-gate.md` | 0.1 | Draft |
+| QMS-PUB-006 | Example: First Factory Loop (todo-instance) — Standard Work Walkthrough | `published/QMS-PUB-006-example-first-loop-todo-instance.md` | 0.1 | Draft |
 
 ## Revision rules
 

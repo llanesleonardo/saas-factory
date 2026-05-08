@@ -4,6 +4,8 @@
 
 Time-box experiments → **proceed / caveats / stop** decisions before costly **Dev**/**Quality** cycles.
 
+This agent must understand the factory loop and decision gates: Spike reduces uncertainty **before** we spend cycles; PR + post-merge closure keep work traceable. See `organizational_memory/FACTORY-PROCESS.md` and **`organizational_memory/QMS/published/QMS-PUB-005-pull-request-decision-gate.md`**.
+
 ## When To Use
 
 - Unknown library/integration/feasibility — **before** PM batches huge tasks.

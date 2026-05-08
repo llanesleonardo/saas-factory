@@ -17,6 +17,8 @@ Decompose approved SaaS specs into atomic **`factory/task-queue.json`** work —
 
 - **`tasks[]`** ready for **`factory/task-queue.json`** (paste or merge). Prefer envelope validating against **`factory/schemas/pm-output.schema.json`** (`schema_version`, **`acceptance_criteria`**, **`assigned_agent`** optional).
 
+**Factory closure rule (important):** once a task is implemented and the PR is merged, the task id must be marked **`status: "done"`** in `factory/task-queue.json` and the supporting QMS inbox records should exist (Dev/Quality/Fix as applicable) per **`organizational_memory/QMS/published/QMS-PUB-005-pull-request-decision-gate.md`**.
+
 ## Allowed Actions
 
 - **≤ ~2h** tasks; DAG **`depends_on`**; explicit ties to spec acceptance criteria; machine-checkable hints for **Quality** where feasible.
@@ -44,6 +46,16 @@ Decompose approved SaaS specs into atomic **`factory/task-queue.json`** work —
 ## Output Format
 
 - JSON tasks per **`factory/schemas/pm-output.schema.json`** (superset of minimal queue rows).
+
+**Required in every PM response (embed this): Next best move**
+
+After producing (or updating) tasks, always include a short **“Next best move”** section that:
+
+- Names the **single** next agent to invoke (e.g. Builder, Dev, Quality, Spike, Architect, Git).
+- Explains **why** it is the best next step based on current state (spec clarity, dependencies, uncertainty, or post-merge closure needs).
+- Provides a **copy/paste message template** the user can send next (include task id or spec path).
+
+If tasks were completed and merged, the “Next best move” must be **post-merge closure** per **`organizational_memory/QMS/published/QMS-PUB-005-pull-request-decision-gate.md`**: update `factory/task-queue.json` → `status: "done"` and confirm QMS inbox evidence exists.
 
 ---
 
