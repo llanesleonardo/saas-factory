@@ -228,3 +228,61 @@ Add automated coverage for the new behaviors:
 - Migration behavior exists (even if it’s “v1 only today”), and corrupt/missing data never crashes the app.
 - Automated tests cover the new behaviors sufficiently for Quality to gate without manual-only verification.
 
+---
+
+## Phase 4 (next loop): Local-only polish + maintainability
+
+Goal: improve maintainability and UX polish **without changing the integration mode**. The app remains **local-only** (no API, no auth, no multi-tenant).
+
+### Scope
+
+#### 1) Maintainability refactor (no behavior changes)
+
+- Split `App.tsx` into small, predictable modules:
+  - `src/todos.model.ts` for pure helpers (filtering, bulk action intent like “toggle all” decision, counts helpers).
+  - Components such as `Filters`, `BulkActions`, and `TodoList` (exact filenames may vary; keep them minimal).
+- Keep `todos.storage.ts` as the persistence adapter boundary.
+- Preserve existing behaviors and tests while refactoring (refactor-first slice).
+
+#### 2) Empty state + copy polish
+
+- When there are **0 todos**, show a clear empty state (text + focus guidance).
+- Keep keyboard-first add flow intact.
+
+#### 3) Inline edit title (local-only)
+
+- User can edit a todo title in-place.
+- Keyboard behavior:
+  - `Enter` saves
+  - `Escape` cancels
+- Title is trimmed; empty/whitespace-only edits are rejected (no-op or revert).
+- Changes persist to local storage.
+
+#### 4) Optional: undo delete (local-only)
+
+- Provide a lightweight undo for delete (time-boxed in-memory buffer is acceptable).
+- Undo should not require backend or durable history.
+
+### Non-goals (Phase 4)
+
+- Backend/API/database
+- Auth, multi-user, multi-tenant
+- Tags, priorities, due dates, reminders
+- Drag-and-drop reordering
+
+### Verification approach (Phase 4)
+
+- Maintain existing unit/component coverage while refactoring (tests should not become brittle).
+- Add UI tests for:
+  - empty state rendering when list is empty
+  - inline edit save/cancel keyboard flows
+  - optional undo delete flow (if implemented)
+- Gates remain the same: `npm run lint`, `npm run build`, `npm run test` are green.
+
+### Acceptance criteria (Phase 4)
+
+- `App.tsx` is decomposed into smaller modules with clear boundaries; behavior unchanged and tests still pass.
+- Empty state is present and accessible when there are zero todos.
+- Inline edit works with Enter/Escape behavior, trims input, and persists changes.
+- If undo delete is implemented, it works without backend and has automated coverage.
+
