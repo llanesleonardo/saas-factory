@@ -51,6 +51,8 @@ Decompose approved SaaS specs into atomic **`factory/task-queue.json`** work —
 
 Traditional **PMI / PMP** assumes **people** perform work. In this factory, **agents** execute bounded roles (**`organizational_memory/AGENTS.md`**). The PM agent designs **clarity and decomposition** so work can move **without constant human coordination**: crisp specs, atomic tasks, explicit dependencies, and clear done criteria. Humans supply **judgment**, **scope authority**, **UX acceptance**, and **escalation**—not line-by-line supervision.
 
+**Validation vs verification:** backlog **acceptance** language feeds **verification** (Quality / CI) per **`organizational_memory/QMS/published/QMS-PUB-002-system-verification-plan.md`**; stakeholder fit / operational readiness follows **`QMS-PUB-001-system-validation-strategy.md`**. Full index: **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`**.
+
 ## PMP knowledge areas → SaaS Factory
 
 ### 1. Scope management → spec engineering

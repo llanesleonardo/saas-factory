@@ -73,6 +73,17 @@ It **describes what exists** (and what changed). It does **not** replace **Archi
 - Optional: screenshots described in text (user pastes or describes).
 - **`organizational_memory/QMS/DOCUMENT-CONTROL.md`** for next **Document ID** when creating **`published/`** files.
 
+**IV&V baseline (already published — revise via document control, do not duplicate):**
+
+| Doc ID | Path |
+|--------|------|
+| QMS-PUB-001 | `organizational_memory/QMS/published/QMS-PUB-001-system-validation-strategy.md` |
+| QMS-PUB-002 | `organizational_memory/QMS/published/QMS-PUB-002-system-verification-plan.md` |
+| QMS-PUB-003 | `organizational_memory/QMS/published/QMS-PUB-003-subsystem-verification-plan.md` |
+| QMS-PUB-004 | `organizational_memory/QMS/published/QMS-PUB-004-unit-device-test-plan.md` |
+
+See **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`**.
+
 ---
 
 ## Core responsibilities

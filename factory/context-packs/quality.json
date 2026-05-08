@@ -4,6 +4,9 @@
   "recommended_paths": [
     "factory/task-queue.json",
     "agents/quality-agent.md",
+    "organizational_memory/QMS/published/QMS-PUB-002-system-verification-plan.md",
+    "organizational_memory/QMS/published/QMS-PUB-003-subsystem-verification-plan.md",
+    "organizational_memory/QMS/published/QMS-PUB-004-unit-device-test-plan.md",
     "factory/schemas/quality-output.schema.json",
     "package.json",
     ".github/workflows/"

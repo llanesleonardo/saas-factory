@@ -46,6 +46,8 @@ Define **system boundaries**, integration modes, and reversible technical decisi
 
 ---
 
+When defining **`packages/*`** vs **`apps/*`** boundaries, align verification expectations with **`organizational_memory/QMS/published/QMS-PUB-003-subsystem-verification-plan.md`** (subsystem acceptance). Registry: **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`**.
+
 ## Architectural doctrine — elite practice for an agent-driven factory
 
 A staff/principal architect is not “only a senior developer.” They **shape systems that can scale, evolve, and absorb change without collapsing**—and in this factory, weak architecture makes agents **produce inconsistency faster**. Design for **humans + agents**: predictable layout, explicit boundaries, contracts agents can follow literally.

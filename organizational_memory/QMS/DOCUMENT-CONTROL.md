@@ -10,7 +10,10 @@ Assign the next free id when **Docs Agent** creates a new controlled document. U
 
 | Doc ID | Title | File path | Revision | Status |
 |--------|-------|-----------|----------|--------|
-| — | *(none yet)* | — | — | — |
+| QMS-PUB-001 | System Validation Strategy | `published/QMS-PUB-001-system-validation-strategy.md` | 0.1 | Draft |
+| QMS-PUB-002 | System Verification Plan (System Acceptance) | `published/QMS-PUB-002-system-verification-plan.md` | 0.1 | Draft |
+| QMS-PUB-003 | Subsystem Verification Plan (Subsystem Acceptance) | `published/QMS-PUB-003-subsystem-verification-plan.md` | 0.1 | Draft |
+| QMS-PUB-004 | Unit & Device Test Plan | `published/QMS-PUB-004-unit-device-test-plan.md` | 0.1 | Draft |
 
 ## Revision rules
 

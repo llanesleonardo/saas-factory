@@ -122,6 +122,10 @@ Each role file includes **`## Toolkit — modern stack`** (and PM / Architect / 
 
 You can **@ more than one file** (e.g. `@specs/plumber-spec.md` + `@agents/pm-agent.md`).
 
+### QMS IV&V controlled procedures (informative)
+
+Standalone **verification / validation** procedures live under **`organizational_memory/QMS/published/`** (registry **`QMS/DOCUMENT-CONTROL.md`**, overview **`QMS/README.md`**): **QMS-PUB-001** system validation strategy · **QMS-PUB-002** system verification (acceptance) · **QMS-PUB-003** subsystem verification (acceptance) · **QMS-PUB-004** unit & device test plan. **`factory/agent-registry.json`** → **`references.qms_ivv_procedures`** lists the same paths for tooling.
+
 ## Phrase you can reuse
 
 ```text

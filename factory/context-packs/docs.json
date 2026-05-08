@@ -4,6 +4,11 @@
   "recommended_paths": [
     "agents/docs-agent.md",
     "organizational_memory/QMS/",
+    "organizational_memory/QMS/published/QMS-PUB-001-system-validation-strategy.md",
+    "organizational_memory/QMS/published/QMS-PUB-002-system-verification-plan.md",
+    "organizational_memory/QMS/published/QMS-PUB-003-subsystem-verification-plan.md",
+    "organizational_memory/QMS/published/QMS-PUB-004-unit-device-test-plan.md",
+    "factory/agent-registry.json",
     "README.md",
     "organizational_memory/"
   ]
