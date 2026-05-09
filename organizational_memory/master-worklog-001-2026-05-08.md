@@ -5,7 +5,8 @@ This document is a **human-friendly master summary** of the work completed in th
 ## 1) Executive summary
 
 - **Vertical/app:** `apps/todo-instance` (local-only; no API/auth/multi-tenant)
-- **Outcome:** Completed Phase 2–4 for todo-instance with automated verification and quality gates; captured QMS evidence; improved task queue phase tracking; merged changes into `main`.
+- **Repo layout:** `apps/core-saas` + `apps/todo-instance` only (other sample verticals removed from workspaces).
+- **Outcome:** Completed Phases 2–**6** for todo-instance (through local export/import, deterministic ordering, tests, and factory checks); Phase **5** hardening (forward schema guardrail, task-queue phase validation); captured QMS evidence; merged changes into `main`. Factory hygiene: **Mermaid diagrams** skill added at `.cursor/skills/mermaid-diagrams/` for diagrams-as-code in specs and docs.
 
 ## 2) Integration mode / boundaries (current)
 
@@ -38,6 +39,12 @@ This document is a **human-friendly master summary** of the work completed in th
 - Tooling validation added to enforce numeric-string `phase` convention in `factory/task-queue.json`.
 - Quality gates passed (lint/build/test/check + validate-task-queue).
 
+### Phase 6 — Local-only export/import + ordering
+- Spec Phase 6 section (local-only; no API/auth).
+- Export/download and import (paste/file) for `{ schemaVersion, todos }` with resilient invalid JSON handling.
+- Deterministic list order (newest-first by `createdAt` with safe fallbacks).
+- Automated tests and Phase 6 quality gates (`lint` / `build` / `test` / `check` / `validate-task-queue`).
+
 ## 4) Task ledger (from `factory/task-queue.json`)
 
 ### Phase 2 (TODO_001–TODO_008)
@@ -51,6 +58,9 @@ This document is a **human-friendly master summary** of the work completed in th
 
 ### Phase 5 (TODO_023–TODO_027, phase: "5")
 - **Done:** TODO_023 … TODO_027
+
+### Phase 6 (TODO_028–TODO_032, phase: "6")
+- **Done:** TODO_028 … TODO_032
 
 ### Task definition (how tasks are defined in JSON)
 
@@ -157,11 +167,11 @@ export type FactoryTask = {
 ## 5) Agent participation (who did what)
 
 - **Spec Generator**
-  - Updated `specs/todo-spec.md` (Phase 3 + Phase 4 sections)
+  - Updated `specs/todo-spec.md` through Phase **6** (storage payload, phases 3–6 scope)
 - **PM**
-  - Decomposed phases into atomic tasks and kept `factory/task-queue.json` statuses in sync
+  - Decomposed phases into atomic tasks and kept `factory/task-queue.json` statuses in sync (`TODO_001`–`TODO_032` complete on `main`)
 - **Dev**
-  - Implemented storage versioning/migration, filters, bulk actions, counts, empty state, inline edit, undo delete; refactored into components/helpers; added tests
+  - Implemented storage versioning/migration, filters, bulk actions, counts, empty state, inline edit, undo delete; Phase **5** forward-schema guardrail; Phase **6** export/import and ordering; refactored into components/helpers; added tests
 - **Quality**
   - Executed gates: lint/build/test; provided pass/fail evidence
 - **Fix**
@@ -172,6 +182,8 @@ export type FactoryTask = {
   - Wrote QMS inbox records, updated lessons learned, and captured loop narratives
 - **Architect**
   - Produced architecture review memo for todo-instance evolution and next-scope recommendation
+- **Tooling**
+  - Task-queue validation (`npm run validate-task-queue`); factory planning scripts; optional **Mermaid diagrams-as-code** skill (`.cursor/skills/mermaid-diagrams/`) for specs and `organizational_memory/`
 
 ## 6) Verification commands used (copy/paste)
 
@@ -245,24 +257,23 @@ flowchart TB
 
 ## 7) PR / merge checkpoints (what landed on `main`)
 
-Recent merge commits (chronological order in `git log --merges`):
+Recent merge commits (chronological order in `git log --merges`); see `git log --oneline --merges -20` for current list.
 
 - **PR #4 / #5:** `fix/todo-instance-vitest-happy-dom` — test env + Node pin follow-up
 - **PR #6:** `feature/todo-phase3-filters-bulk-actions` — Phase 3 features + tests + queue updates
 - **PR #7:** `chore/task-phase-tracking` — optional `phase` field on tasks + docs/QMS loop records
 - **PR #8:** `feature/todo-phase4-polish` — Phase 4 features + tests + queue/spec updates
-
-(See `git log --merges` for full details and SHAs.)
+- **Later merges (naming may vary by fork):** `chore/prune-apps` — workspaces trimmed to `core-saas` + `todo-instance`; Phase **5**/**6** branches for forward-schema guardrail, export/import, and related QMS/queue updates; direct `main` commits for **mermaid-diagrams** skill and worklog/diagram follow-ups.
 
 ## 8) Evidence & documentation inventory (paths)
 
 ### Specs
-- `specs/todo-spec.md` (MVP + Phase 2 + Phase 3 + Phase 4)
+- `specs/todo-spec.md` (MVP + Phases 2–**6**, local-only)
 
 ### Architecture memo
 - `organizational_memory/architecture-review-001-2026-05-08.md`
 
-### QMS inbox records (2026-05-08)
+### QMS inbox records (partial list; see `organizational_memory/QMS/inbox/` for full set)
 - `organizational_memory/QMS/inbox/2026-05-08-spec-generator-todo-spec.md`
 - `organizational_memory/QMS/inbox/2026-05-08-builder-todo-instance-scaffold.md`
 - `organizational_memory/QMS/inbox/2026-05-08-dev-TODO_001_storage_model.md`
@@ -292,6 +303,6 @@ Recent merge commits (chronological order in `git log --merges`):
 
 ## 10) Current state
 
-- `main` is up to date and Phase 2–4 tasks are **all marked `done`** in `factory/task-queue.json`.
-- Next scope should be decided (e.g. Phase 5 deploy path, or move to the full-stack `todoapp-*` apps).
+- **`main`:** todo-instance tasks **`TODO_001` through `TODO_032` are all `status: "done"`** in `factory/task-queue.json` (Phases 2–6). Post-merge closure is recorded in `organizational_memory/QMS/inbox/2026-05-08-docs-post-merge-closure-phase6-task-queue-complete.md` (QMS-PUB-005 loop).
+- **Product boundary:** `apps/todo-instance` remains **local-only** (no API/auth in current spec). The **next** factory loop is **Phase 7**: choose scope with **Spec Generator** + **PM** (new task ids from `TODO_033`), after you set direction (e.g. continued local polish vs any future HTTP-integrated work—only if you explicitly change the spec).
 
