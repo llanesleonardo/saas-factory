@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "task_id": "DEVFIX_001",
+  "branch": "feature/DEVFIX_001",
+  "files_changed": ["factory/validate-agent-output.ts"],
+  "summary": "Valid dev output fixture summary.",
+  "commands_run": ["npm run check"],
+  "handoff_to": "quality"
+}
+

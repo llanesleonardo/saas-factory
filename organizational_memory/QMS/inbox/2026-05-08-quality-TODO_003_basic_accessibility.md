@@ -29,3 +29,7 @@
 
 - PASS (gates). Manual keyboard-only smoke requires human observation.
 
+## Handoff
+
+- Human: perform manual keyboard-only smoke test.
+

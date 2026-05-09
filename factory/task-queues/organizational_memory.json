@@ -11,7 +11,7 @@
     "depends_on": [],
     "assigned_agent": "tooling",
     "priority": 100,
-    "status": "ready",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -45,7 +45,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 90,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -111,7 +111,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 70,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -128,7 +128,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 65,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -143,7 +143,7 @@
     "depends_on": [],
     "assigned_agent": "tooling",
     "priority": 60,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -160,7 +160,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 55,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {

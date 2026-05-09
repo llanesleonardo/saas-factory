@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "vertical_id": "demo",
+  "tasks": [
+    {
+      "id": "PMFIX_001",
+      "title": "Valid PM fixture task",
+      "depends_on": [],
+      "status": "backlog",
+      "acceptance_criteria": ["Something is verifiable"],
+      "assigned_agent": "tooling"
+    }
+  ]
+}
+

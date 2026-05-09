@@ -32,8 +32,10 @@ flowchart TB
   Ok --> EndOk([Exit code 0])
 ```
 
+
+
 ## Important limitation (what it does *not* check)
+
 This validator checks that the **workflow definition file is consistent with itself**.
 
 It does **not** yet verify that `factory/task-queue.json` tasks are “following” the workflow (that would be a separate validator comparing task statuses/metadata to workflow rules).
-
