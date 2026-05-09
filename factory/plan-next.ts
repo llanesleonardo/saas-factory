@@ -2,7 +2,8 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { loadTaskQueue } from "./task-graph.js";
-import { devAgentPromptLine, planNext, planNextToJson, qualityAgentPromptLine } from "./planner.js";
+import { nextAgentPromptLine, planNext, planNextToJson, qualityAgentPromptLine } from "./planner.js";
+import { recordRun, repoRootFromHere } from "./telemetry.js";
 
 function parseWipCap(argv: string[]): number {
   const fromEnv = Number.parseInt(process.env.FACTORY_WIP_CAP ?? "", 10);
@@ -45,11 +46,14 @@ async function main(): Promise<void> {
   const wipCap = parseWipCap(argv);
   const queuePath = parseQueuePath(argv);
 
-  const tasks =
-    queuePath !== undefined
-      ? await loadTaskQueue(queuePath)
-      : await loadTaskQueue();
-  const result = planNext(tasks, wipCap);
+  const repoRoot = repoRootFromHere(import.meta.url);
+  const tasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
+  const result = await recordRun(repoRoot, {
+    kind: "command",
+    command: `npm run factory:next${asJson ? " -- --json" : ""}${queuePath ? ` -- --queue=${queuePath}` : ""}`,
+    queue_path: queuePath,
+    app: "factory/",
+  }, async () => planNext(tasks, wipCap));
 
   if (asJson) {
     console.log(JSON.stringify(planNextToJson(result), null, 2));
@@ -87,13 +91,23 @@ async function main(): Promise<void> {
   if (t.owner !== undefined) console.log(`  owner:   ${t.owner}`);
   if (t.app !== undefined) console.log(`  app:     ${t.app}`);
   console.log("");
-  console.log("Dev agent line (paste into Cursor):");
+  console.log("Next agent line (paste into Cursor):");
   console.log("");
-  console.log(devAgentPromptLine(t));
+  console.log(nextAgentPromptLine(t));
   console.log("");
-  console.log("Quality agent line (after Dev — harness + gates):");
-  console.log("");
-  console.log(qualityAgentPromptLine(t));
+  // Quality follow-up is meaningful primarily for code/automation changes.
+  const assigned = (t as any).assigned_agent;
+  const includeQuality =
+    assigned === undefined ||
+    assigned === "dev" ||
+    assigned === "tooling" ||
+    assigned === "fix" ||
+    assigned === "devops";
+  if (includeQuality) {
+    console.log("Quality agent line (after implementation — harness + gates):");
+    console.log("");
+    console.log(qualityAgentPromptLine(t));
+  }
 }
 
 const isMain =

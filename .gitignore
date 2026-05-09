@@ -29,5 +29,8 @@ Thumbs.db
 # Test / coverage
 coverage/
 
+# Factory local time tracking
+factory/.local/
+
 # Local diagram exports (regenerate from Mermaid in markdown)
 organizational_memory/mermaid-diagram.png

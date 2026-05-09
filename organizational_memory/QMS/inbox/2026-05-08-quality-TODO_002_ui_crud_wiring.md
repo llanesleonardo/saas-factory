@@ -24,3 +24,7 @@
 
 - PASS (gates). Manual refresh persistence check requires human observation.
 
+## Handoff
+
+- Human: perform manual refresh persistence check.
+

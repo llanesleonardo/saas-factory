@@ -124,6 +124,28 @@ Each role file includes **`## Toolkit — modern stack`** (and PM / Architect / 
 
 You can **@ more than one file** (e.g. `@specs/plumber-spec.md` + `@agents/pm-agent.md`).
 
+## Role boundary matrix (factory-system work)
+
+Use this when the work is about the **factory platform itself** (schemas, validators, CI gates, docs, QMS).
+
+- **PM**: owns what becomes a task id in `factory/task-queue.json` (scope, acceptance criteria, dependencies, priority, closure expectations).
+- **Dev**: owns implementation of a single task (code changes) and a clean handoff to Quality; does **not** own CI policy or harness design.
+- **Quality**: owns harness + gates + evidence (fixtures, env, mocks/seeds, CI proof). Quality is the “stop-the-line” authority on pass/fail.
+- **Fix**: owns remediation only when Quality/CI fails; minimal, scoped fixes until gates are green again.
+- **Tooling**: owns factory kernel and automation (schemas, validators, planners/orchestrator ergonomics, CI wiring for factory tooling).
+- **Docs**: owns operator docs and QMS consolidation (promoting `organizational_memory/QMS/inbox/` into `organizational_memory/QMS/published/`, updating `LESSONS-LEARNED.md`, maintaining cross-links).
+- **DevOps**: owns deployment/infra automation and runbooks when the factory touches deploy surfaces (environment model, deploy guardrails, rollback).
+- **Architect**: owns ADR-level decisions when a change affects architecture boundaries, integration mode, or shared package decisions.
+
+### Quick ownership map
+
+- **Schemas / contracts**: Tooling (authoring), PM (task definition), Quality (fixture coverage), Docs (human-facing conventions when needed)
+- **Validators / CLIs**: Tooling (implementation), Quality (fixtures + gates), Fix (unblock failures), PM (keeps tasks aligned)
+- **CI gates**: Quality (what must be proven + evidence shape), Tooling/DevOps (wiring), Fix (repair), Docs (how to run / interpret)
+- **Task decomposition & prioritization**: PM (primary), Architect (boundary decisions), Tooling (factory primitives), Docs (doc tasks)
+- **QMS inbox records (`organizational_memory/QMS/inbox/`)**: each role writes its own record after substantive work (per `agents/agent-record-for-qms.md`)
+- **Published QMS docs (`organizational_memory/QMS/published/`)**: Docs Agent only (curation + document control)
+
 ### Why pull requests matter (factory principle)
 
 In SaaS Factory, a pull request is the **decision gate artifact** that makes work **reviewable, traceable, and merge-safe**:

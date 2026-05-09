@@ -2,6 +2,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { isTaskDone, loadTaskQueue, orderTasks } from "./task-graph.js";
+import { recordRun, repoRootFromHere } from "./telemetry.js";
 
 export type { FactoryTask, TaskStatus } from "./task-graph.js";
 export {
@@ -19,8 +20,18 @@ export {
  * in Cursor (or later wire @cursor/sdk / CI here).
  */
 export async function runOrchestrator(queuePath?: string): Promise<void> {
+  const repoRoot = repoRootFromHere(import.meta.url);
   const queueTasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
-  const tasks = orderTasks(queueTasks).filter((t) => !isTaskDone(t));
+  const tasks = await recordRun(
+    repoRoot,
+    {
+      kind: "command",
+      command: `npm run factory${queuePath ? ` -- --queue=${queuePath}` : ""}`,
+      queue_path: queuePath,
+      app: "factory/",
+    },
+    async () => orderTasks(queueTasks).filter((t) => !isTaskDone(t)),
+  );
 
   if (tasks.length === 0) {
     console.log("No tasks in factory/task-queue.json. Paste PM JSON output there first.");

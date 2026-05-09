@@ -1,4 +1,4 @@
-import { loadTaskQueue, normalizeTaskStatus, type FactoryTask } from "./task-graph.js";
+import { assertQueueIntegrity, loadTaskQueue, normalizeTaskStatus, type FactoryTask } from "./task-graph.js";
 import registry from "./agent-registry.json" with { type: "json" };
 import path from "node:path";
 
@@ -91,6 +91,7 @@ async function main(): Promise<void> {
 
   const tasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
 
+  assertQueueIntegrity(tasks);
   assertNoDuplicateIds(tasks);
   // Unknown dependency ids are rejected by task-graph.ts (assertQueueIntegrity), but we also enforce:
   assertNoSelfDependencies(tasks);

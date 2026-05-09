@@ -7,6 +7,7 @@ import {
   isTaskDone,
   loadTaskQueue,
 } from "./task-graph.js";
+import { recordRun, repoRootFromHere } from "./telemetry.js";
 
 export type ParallelPlanJson = {
   waves: { id: string; title: string }[][];
@@ -40,7 +41,17 @@ async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const queuePath = parseQueuePath(argv);
   const tasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
-  const plan = await buildParallelPlan(tasks);
+  const repoRoot = repoRootFromHere(import.meta.url);
+  const plan = await recordRun(
+    repoRoot,
+    {
+      kind: "command",
+      command: `npm run parallel-plan${argv.includes("--json") ? " -- --json" : ""}${queuePath ? ` -- --queue=${queuePath}` : ""}`,
+      queue_path: queuePath,
+      app: "factory/",
+    },
+    async () => buildParallelPlan(tasks),
+  );
   const asJson = argv.includes("--json");
 
   if (asJson) {

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saasfactory.local/schemas/tool-registry.schema.json",
+  "title": "Factory OS tool registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tools"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/tool" }
+    }
+  },
+  "$defs": {
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool_id", "title", "owner_role", "kind", "how_to_run", "artifacts"],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "pattern": "^TOOL_[A-Z0-9_]+$"
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "owner_role": { "type": "string", "minLength": 2 },
+        "kind": {
+          "type": "string",
+          "enum": ["npm_script", "tsx_cli", "workflow", "doc_procedure"]
+        },
+        "scope": { "type": "string" },
+        "preconditions": { "type": "array", "items": { "type": "string" } },
+        "inputs": { "type": "array", "items": { "type": "string" } },
+        "outputs": { "type": "array", "items": { "type": "string" } },
+        "replaces": { "type": "array", "items": { "type": "string" } },
+        "deprecated": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["since", "reason", "replacement_tool_id"],
+          "properties": {
+            "since": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+            "reason": { "type": "string" },
+            "replacement_tool_id": { "type": "string" }
+          }
+        },
+        "how_to_run": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "command": { "type": "string" },
+            "workflow_file": { "type": "string" },
+            "trigger": { "type": "string" },
+            "doc_path": { "type": "string" }
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "description"],
+            "properties": {
+              "type": { "type": "string", "enum": ["json", "md", "artifact", "stdout"] },
+              "path": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
