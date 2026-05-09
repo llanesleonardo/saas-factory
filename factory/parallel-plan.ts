@@ -28,10 +28,20 @@ export async function buildParallelPlan(
   return { waves, waveCount: waves.length, maxParallelism };
 }
 
+function parseQueuePath(argv: string[]): string | undefined {
+  const eq = argv.find((a) => a.startsWith("--queue="));
+  if (eq) {
+    return path.resolve(eq.slice("--queue=".length));
+  }
+  return undefined;
+}
+
 async function main(): Promise<void> {
-  const tasks = await loadTaskQueue();
+  const argv = process.argv.slice(2);
+  const queuePath = parseQueuePath(argv);
+  const tasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
   const plan = await buildParallelPlan(tasks);
-  const asJson = process.argv.includes("--json");
+  const asJson = argv.includes("--json");
 
   if (asJson) {
     console.log(JSON.stringify(plan, null, 2));

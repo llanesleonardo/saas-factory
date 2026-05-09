@@ -200,3 +200,13 @@ Output format:
 ## QMS — action record
 
 After **substantive work**, add one raw record under **`organizational_memory/QMS/inbox/`** following **`agents/agent-record-for-qms.md`**. **Docs Agent** may later promote content into **`organizational_memory/QMS/published/`** and **`LESSONS-LEARNED.md`** in ISO-style form.
+
+## Per-app task queues (optional)
+
+PM should continue to treat **`factory/task-queue.json`** as the canonical inventory. When operators want separate queues per app, they can generate dependency-closed queue views under `factory/task-queues/`:
+
+- `npm run task-queues:sync`
+
+PM guidance:
+- Populate `task.app` consistently (e.g. `apps/todo-instance`, `factory/`, `organizational_memory/`) so queue partitioning is predictable.
+- Keep dependencies explicit even across app buckets; per-app queues are derived views, not an alternate source of truth.

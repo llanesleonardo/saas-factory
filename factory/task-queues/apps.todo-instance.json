@@ -1,0 +1,580 @@
+[
+  {
+    "id": "TODO_001_storage_model",
+    "title": "Define Todo model + storage adapter (localStorage v1)",
+    "app": "apps/todo-instance",
+    "priority": 1,
+    "status": "done"
+  },
+  {
+    "id": "TODO_002_ui_crud_wiring",
+    "title": "Wire UI to local storage: add/list/toggle/delete",
+    "app": "apps/todo-instance",
+    "priority": 2,
+    "status": "done",
+    "depends_on": [
+      "TODO_001_storage_model"
+    ]
+  },
+  {
+    "id": "TODO_003_basic_accessibility",
+    "title": "Basic accessibility + keyboard flows for MVP",
+    "app": "apps/todo-instance",
+    "priority": 3,
+    "status": "done",
+    "depends_on": [
+      "TODO_002_ui_crud_wiring"
+    ]
+  },
+  {
+    "id": "TODO_004_quality_gates",
+    "title": "Quality gates for todo-instance (build + lint) and evidence",
+    "app": "apps/todo-instance",
+    "priority": 4,
+    "status": "done",
+    "depends_on": [
+      "TODO_003_basic_accessibility"
+    ]
+  },
+  {
+    "id": "TODO_005_test_harness_setup",
+    "title": "Add unit test harness for todo-instance (Vitest + RTL)",
+    "app": "apps/todo-instance",
+    "priority": 5,
+    "status": "done",
+    "depends_on": [
+      "TODO_004_quality_gates"
+    ]
+  },
+  {
+    "id": "TODO_006_storage_adapter_tests",
+    "title": "Add automated tests for todos.storage.ts (missing/corrupt + save format)",
+    "app": "apps/todo-instance",
+    "priority": 6,
+    "status": "done",
+    "depends_on": [
+      "TODO_005_test_harness_setup"
+    ]
+  },
+  {
+    "id": "TODO_007_ui_add_rejects_empty_test",
+    "title": "Add automated UI test: Add rejects empty/whitespace title",
+    "description": "Write a component test ensuring empty/whitespace titles do not create a todo.",
+    "app": "apps/todo-instance",
+    "priority": 7,
+    "status": "done",
+    "depends_on": [
+      "TODO_005_test_harness_setup"
+    ]
+  },
+  {
+    "id": "TODO_008_quality_phase2_gates",
+    "title": "Quality gates for Phase 2: tests + build + lint evidence",
+    "app": "apps/todo-instance",
+    "priority": 8,
+    "status": "done",
+    "depends_on": [
+      "TODO_006_storage_adapter_tests",
+      "TODO_007_ui_add_rejects_empty_test"
+    ]
+  },
+  {
+    "id": "TODO_009_phase3_storage_schema_and_migration_plan",
+    "title": "Phase 3: Define storage schema versioning + migration strategy",
+    "app": "apps/todo-instance",
+    "priority": 9,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_008_quality_phase2_gates"
+    ],
+    "acceptance_criteria": [
+      "Storage format is explicitly versioned (either payload schemaVersion or new key) and documented in code/readme comment-free (types/consts are fine).",
+      "Load path handles missing/corrupt data by returning an empty list (no throw).",
+      "If an older schema is detected, data is migrated to the current in-memory shape and persisted back on next save (or immediately on load if chosen)."
+    ]
+  },
+  {
+    "id": "TODO_010_phase3_filter_state_ui",
+    "title": "Phase 3: Add filter state + UI (All / Active / Completed)",
+    "app": "apps/todo-instance",
+    "priority": 10,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_009_phase3_storage_schema_and_migration_plan"
+    ],
+    "acceptance_criteria": [
+      "UI provides three deterministic filter states: All, Active, Completed.",
+      "Filter selection updates visible list correctly without mutating underlying data.",
+      "Filter control is keyboard accessible and has clear accessible names/labels."
+    ]
+  },
+  {
+    "id": "TODO_011_phase3_counts_summary",
+    "title": "Phase 3: Add items-left count (and optional total count)",
+    "app": "apps/todo-instance",
+    "priority": 11,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_010_phase3_filter_state_ui"
+    ],
+    "acceptance_criteria": [
+      "UI displays active-count (items left) that updates as todos are added/toggled/deleted/cleared.",
+      "Count remains correct after refresh (load from storage)."
+    ]
+  },
+  {
+    "id": "TODO_012_phase3_bulk_clear_completed",
+    "title": "Phase 3: Implement 'Clear completed' bulk action (persisted)",
+    "app": "apps/todo-instance",
+    "priority": 12,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_010_phase3_filter_state_ui"
+    ],
+    "acceptance_criteria": [
+      "Clear completed removes only completed todos.",
+      "Result is persisted to local storage.",
+      "Control is keyboard accessible and has an accessible name."
+    ]
+  },
+  {
+    "id": "TODO_013_phase3_bulk_toggle_all",
+    "title": "Phase 3: Implement 'Toggle all' bulk action (persisted)",
+    "app": "apps/todo-instance",
+    "priority": 13,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_010_phase3_filter_state_ui"
+    ],
+    "acceptance_criteria": [
+      "Toggle all marks all active → completed; if all are completed, toggles all → active.",
+      "Result is persisted to local storage.",
+      "Control is keyboard accessible and has an accessible name."
+    ]
+  },
+  {
+    "id": "TODO_014_phase3_storage_migration_tests",
+    "title": "Phase 3: Add automated tests for storage migration + corrupt/missing behavior",
+    "app": "apps/todo-instance",
+    "priority": 14,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_009_phase3_storage_schema_and_migration_plan"
+    ],
+    "acceptance_criteria": [
+      "Tests cover: missing storage → empty list; corrupt JSON → empty list (no crash).",
+      "Tests cover: older schema input → migrated current shape and persisted behavior (as designed).",
+      "Tests are runnable via `npm run test -w apps/todo-instance`."
+    ]
+  },
+  {
+    "id": "TODO_015_phase3_ui_filters_and_bulk_actions_tests",
+    "title": "Phase 3: Add automated UI tests for filters + bulk actions",
+    "app": "apps/todo-instance",
+    "priority": 15,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_012_phase3_bulk_clear_completed",
+      "TODO_013_phase3_bulk_toggle_all",
+      "TODO_011_phase3_counts_summary"
+    ],
+    "acceptance_criteria": [
+      "UI tests verify filter behavior (All/Active/Completed) changes visible items correctly.",
+      "UI tests verify: clear completed removes only completed items.",
+      "UI tests verify: toggle all toggles expected state (including the 'all completed' toggle-back case)."
+    ]
+  },
+  {
+    "id": "TODO_016_phase3_quality_gates",
+    "title": "Phase 3: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 16,
+    "phase": "3",
+    "status": "done",
+    "depends_on": [
+      "TODO_014_phase3_storage_migration_tests",
+      "TODO_015_phase3_ui_filters_and_bulk_actions_tests"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality can report `{ status, errors }` with commands_run and empty errors on pass"
+    ]
+  },
+  {
+    "id": "TODO_017_phase4_refactor_split_app",
+    "title": "Phase 4: Refactor App.tsx into small components + todos.model helpers (no behavior change)",
+    "app": "apps/todo-instance",
+    "priority": 17,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_016_phase3_quality_gates"
+    ],
+    "acceptance_criteria": [
+      "Move pure business rules into `src/todos.model.ts` (filtering, counts, bulk action intent helpers) and keep them unit-testable.",
+      "Extract minimal UI components (e.g. Filters, BulkActions, TodoList) without changing runtime behavior.",
+      "All existing tests remain passing with minimal/no snapshot churn.",
+      "`npm run lint -w apps/todo-instance` and `npm run test -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_018_phase4_empty_state",
+    "title": "Phase 4: Add accessible empty state when list is empty",
+    "app": "apps/todo-instance",
+    "priority": 18,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_017_phase4_refactor_split_app"
+    ],
+    "acceptance_criteria": [
+      "When there are 0 todos, UI shows a clear empty state message with accessible semantics.",
+      "Keyboard-first add flow remains intact (focus behavior not degraded).",
+      "Behavior persists across refresh (still local-only)."
+    ]
+  },
+  {
+    "id": "TODO_019_phase4_inline_edit_title",
+    "title": "Phase 4: Inline edit todo title (Enter save / Escape cancel, trim, reject empty)",
+    "app": "apps/todo-instance",
+    "priority": 19,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_017_phase4_refactor_split_app"
+    ],
+    "acceptance_criteria": [
+      "User can enter edit mode for a todo title and modify it in-place.",
+      "Enter saves; Escape cancels and restores prior title.",
+      "Edits are trimmed; empty/whitespace-only edits are rejected (revert/no-op).",
+      "Edits persist via local storage and remain after refresh."
+    ]
+  },
+  {
+    "id": "TODO_020_phase4_edit_and_empty_state_tests",
+    "title": "Phase 4: Add UI tests for empty state and inline edit keyboard flows",
+    "app": "apps/todo-instance",
+    "priority": 20,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_018_phase4_empty_state",
+      "TODO_019_phase4_inline_edit_title"
+    ],
+    "acceptance_criteria": [
+      "UI tests cover empty state rendering when there are zero todos.",
+      "UI tests cover inline edit: Enter saves, Escape cancels, trimming behavior, and reject-empty behavior.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_021_phase4_optional_undo_delete",
+    "title": "Phase 4 (optional): Undo delete (local-only, in-memory buffer acceptable)",
+    "app": "apps/todo-instance",
+    "priority": 30,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_017_phase4_refactor_split_app"
+    ],
+    "acceptance_criteria": [
+      "After deleting a todo, user can undo within a short time window (or until next action) without backend involvement.",
+      "Undo restores the deleted todo with its original id/title/done/createdAt fields.",
+      "If implemented, add at least one UI test covering undo flow."
+    ]
+  },
+  {
+    "id": "TODO_022_phase4_quality_gates",
+    "title": "Phase 4: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 22,
+    "phase": "4",
+    "status": "done",
+    "depends_on": [
+      "TODO_020_phase4_edit_and_empty_state_tests"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality can report `{ status, errors, commands_run }` with empty errors on pass"
+    ]
+  },
+  {
+    "id": "TODO_023_phase5_spec_update_storage_and_phase5",
+    "title": "Phase 5: Update todo spec to match current storage payload + add Phase 5 hardening section",
+    "description": "Spec currently states storage is a JSON array; implementation uses a versioned payload. Update Storage rules accordingly and add a Phase 5 section describing forward-schema guardrail + phase convention consistency.",
+    "app": "apps/todo-instance",
+    "priority": 23,
+    "phase": "5",
+    "status": "done",
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` Storage rules reflect versioned payload `{ schemaVersion, todos }` (not array-only).",
+      "Spec explicitly defines behavior for `schemaVersion > current` (forward version guardrail).",
+      "Add a Phase 5 section with scope + non-goals + verification approach (still local-only; no API/auth)."
+    ]
+  },
+  {
+    "id": "TODO_024_phase5_storage_forward_version_guardrail",
+    "title": "Phase 5: Add explicit guardrail for future storage schemaVersion (forward compat)",
+    "description": "Make handling of `schemaVersion > TODOS_SCHEMA_VERSION` explicit and deterministic (no crash; no accidental overwrite).",
+    "app": "apps/todo-instance",
+    "priority": 24,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_023_phase5_spec_update_storage_and_phase5"
+    ],
+    "acceptance_criteria": [
+      "If persisted payload has `schemaVersion > TODOS_SCHEMA_VERSION`, load returns `[]` (or a clearly defined safe fallback) without throwing.",
+      "Forward-version payload does NOT get overwritten by an empty save during load (i.e., shouldPersist is false for forward versions).",
+      "Behavior is documented via code-level constants/types (no narration-only comments)."
+    ]
+  },
+  {
+    "id": "TODO_025_phase5_storage_forward_version_tests",
+    "title": "Phase 5: Add automated tests for forward-schema guardrail (schemaVersion > current)",
+    "description": "Lock the forward-compat behavior with unit tests alongside existing storage tests.",
+    "app": "apps/todo-instance",
+    "priority": 25,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_024_phase5_storage_forward_version_guardrail"
+    ],
+    "acceptance_criteria": [
+      "Test covers: payload with higher schemaVersion does not crash and results in safe behavior per spec.",
+      "Test covers: forward-version does not trigger persistence overwrite on load.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_026_phase5_tooling_enforce_phase_convention",
+    "title": "Phase 5: Tooling check to enforce numeric string `phase` convention in task queue",
+    "description": "Prevent future drift like mixing \"Phase 3\" and \"3\" by adding/strengthening validation logic.",
+    "app": "factory/task-queue.json",
+    "priority": 26,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_023_phase5_spec_update_storage_and_phase5"
+    ],
+    "acceptance_criteria": [
+      "Validation fails if `phase` is non-numeric (e.g. \"Phase 3\").",
+      "Error message points to task id(s) with invalid phase values.",
+      "Document how to run the validation (e.g. `npm run check` or a dedicated script) in an appropriate doc location."
+    ]
+  },
+  {
+    "id": "TODO_027_phase5_quality_gates",
+    "title": "Phase 5: Quality gates + evidence (lint/build/test all green)",
+    "app": "apps/todo-instance",
+    "priority": 27,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_025_phase5_storage_forward_version_tests",
+      "TODO_026_phase5_tooling_enforce_phase_convention"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "Quality reports `{ status, errors, commands_run }` with empty errors on pass"
+    ]
+  },
+  {
+    "id": "TODO_028_phase6_export_import_spec",
+    "title": "Phase 6: Spec alignment for local-only export/import + ordering",
+    "app": "apps/todo-instance",
+    "priority": 28,
+    "phase": "6",
+    "status": "done",
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` contains a Phase 6 section that is explicitly local-only (no API/auth).",
+      "Phase 6 scope includes export/import and deterministic ordering."
+    ]
+  },
+  {
+    "id": "TODO_029_phase6_export_import_ui",
+    "title": "Phase 6: Add export/import UI for todos (local-only)",
+    "description": "Add Export (download JSON) and Import (paste/select JSON) UI actions; must be resilient to invalid input.",
+    "app": "apps/todo-instance",
+    "priority": 29,
+    "phase": "6",
+    "status": "done",
+    "depends_on": [
+      "TODO_028_phase6_export_import_spec"
+    ],
+    "acceptance_criteria": [
+      "Export downloads a JSON payload `{ schemaVersion, todos }` matching current storage shape.",
+      "Import accepts current payload and legacy array; invalid JSON does not crash the app.",
+      "Import updates in-memory state and persists via storage adapter."
+    ]
+  },
+  {
+    "id": "TODO_030_phase6_deterministic_ordering",
+    "title": "Phase 6: Ensure deterministic ordering (newest-first by createdAt)",
+    "description": "Make visible ordering deterministic and resilient when createdAt is missing (safe fallback).",
+    "app": "apps/todo-instance",
+    "priority": 30,
+    "phase": "6",
+    "status": "done",
+    "depends_on": [
+      "TODO_029_phase6_export_import_ui"
+    ],
+    "acceptance_criteria": [
+      "New todos always have createdAt set.",
+      "List order is deterministic (newest-first by createdAt with a safe fallback).",
+      "Ordering remains stable after import and refresh."
+    ]
+  },
+  {
+    "id": "TODO_031_phase6_export_import_tests",
+    "title": "Phase 6: Add automated tests for export/import + ordering",
+    "app": "apps/todo-instance",
+    "priority": 31,
+    "phase": "6",
+    "status": "done",
+    "depends_on": [
+      "TODO_030_phase6_deterministic_ordering"
+    ],
+    "acceptance_criteria": [
+      "Tests cover export payload shape.",
+      "Tests cover import: v1 payload, legacy array payload, and invalid JSON (no crash).",
+      "Tests cover ordering is deterministic after import/add."
+    ]
+  },
+  {
+    "id": "TODO_032_phase6_quality_gates",
+    "title": "Phase 6: Quality gates + evidence (lint/build/test/check all green)",
+    "app": "apps/todo-instance",
+    "priority": 32,
+    "phase": "6",
+    "status": "done",
+    "depends_on": [
+      "TODO_031_phase6_export_import_tests"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "`npm run check` passes",
+      "`npm run validate-task-queue` passes (if present)"
+    ]
+  },
+  {
+    "id": "TODO_033_phase7_spec_ux_ui",
+    "title": "Phase 7: Spec alignment for UX/UI (Tailwind + Headless UI, local-only)",
+    "description": "Phase 7 requires Tailwind CSS + @headlessui/react per architecture-review-003; see specs/todo-spec.md.",
+    "app": "apps/todo-instance",
+    "priority": 33,
+    "phase": "7",
+    "status": "done",
+    "depends_on": [
+      "TODO_032_phase6_quality_gates"
+    ],
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` Phase 7 names **Tailwind CSS** + **`@headlessui/react`**, tooling scope, tokens via `theme.extend`, dark mode via `prefers-color-scheme` minimum, feedback + a11y, non-goals (no heavy UI kits).",
+      "References `organizational_memory/architecture-review-002-2026-05-08.md` and `architecture-review-003-2026-05-08-phase7-ui-stack.md`.",
+      "Stays local-only (no API/auth/sync)."
+    ]
+  },
+  {
+    "id": "TODO_034_phase7_tooling_tailwind_headless",
+    "title": "Phase 7: Tooling — Tailwind CSS + PostCSS + @headlessui/react + Vite wiring",
+    "app": "apps/todo-instance",
+    "priority": 34,
+    "phase": "7",
+    "status": "done",
+    "depends_on": [
+      "TODO_033_phase7_spec_ux_ui"
+    ],
+    "acceptance_criteria": [
+      "`apps/todo-instance` lists `tailwindcss`, `postcss`, `autoprefixer` (dev) and `@headlessui/react` (dependency) with working install from repo root.",
+      "`tailwind.config` (or equivalent) scans `./index.html` and `./src/**/*.{ts,tsx}`; `postcss.config` includes tailwind + autoprefixer if using PostCSS pipeline.",
+      "`src/index.css` (or agreed entry) contains Tailwind directives; `main.tsx` imports global styles.",
+      "No unused Headless imports (lint clean).",
+      "`npm run build -w apps/todo-instance` and `npm run lint -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_035_phase7_tailwind_layout_theme_headless",
+    "title": "Phase 7: Tailwind tokens, layout shell, dark mode, Headless primitives on UI",
+    "app": "apps/todo-instance",
+    "priority": 35,
+    "phase": "7",
+    "status": "ready",
+    "depends_on": [
+      "TODO_034_phase7_tooling_tailwind_headless"
+    ],
+    "acceptance_criteria": [
+      "`theme.extend` defines shared palette, spacing, radius, typography; components use utilities (not only raw browser defaults).",
+      "Page structure: header / main / optional footer utilities; max-width comfortable on wide screens.",
+      "Light + dark via `prefers-color-scheme` (Tailwind `darkMode: 'media'` or equivalent); optional manual toggle documented if added.",
+      "Headless UI used where it adds accessibility (e.g. `Button`, `Listbox` for filters per spec)—styled with Tailwind.",
+      "`npm run lint -w apps/todo-instance` and `npm run build -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_036_phase7_import_export_feedback_landmarks",
+    "title": "Phase 7: Import/export accessible feedback + main landmark + h1",
+    "app": "apps/todo-instance",
+    "priority": 36,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": [
+      "TODO_035_phase7_tailwind_layout_theme_headless"
+    ],
+    "acceptance_criteria": [
+      "Import: user-visible success/error for invalid JSON, unusable payload, etc.; `role=\"status\"` / `aria-live=\"polite\"` (or equivalent).",
+      "Export: brief user-visible confirmation.",
+      "`main` landmark + sensible `h1`; keyboard flows unchanged for add, filters, bulk, inline edit, undo.",
+      "`npm run lint -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_037_phase7_ux_ui_tests",
+    "title": "Phase 7: Automated tests (import feedback, landmark/heading, theme signal)",
+    "app": "apps/todo-instance",
+    "priority": 37,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": [
+      "TODO_036_phase7_import_export_feedback_landmarks"
+    ],
+    "acceptance_criteria": [
+      "Tests: import failure + success paths expose status/live region text.",
+      "Tests: stable dark/theme signal (e.g. `html` class, `data-theme`) without brittle snapshots.",
+      "Tests: `main` / heading presence per Phase 7.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_038_phase7_quality_gates",
+    "title": "Phase 7: Quality gates + evidence (lint/build/test/check + validate-task-queue)",
+    "app": "apps/todo-instance",
+    "priority": 38,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": [
+      "TODO_037_phase7_ux_ui_tests"
+    ],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "`npm run check` passes",
+      "`npm run validate-task-queue` passes"
+    ]
+  }
+]

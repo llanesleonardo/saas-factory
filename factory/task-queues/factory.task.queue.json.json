@@ -1,0 +1,33 @@
+[
+  {
+    "id": "TODO_023_phase5_spec_update_storage_and_phase5",
+    "title": "Phase 5: Update todo spec to match current storage payload + add Phase 5 hardening section",
+    "description": "Spec currently states storage is a JSON array; implementation uses a versioned payload. Update Storage rules accordingly and add a Phase 5 section describing forward-schema guardrail + phase convention consistency.",
+    "app": "apps/todo-instance",
+    "priority": 23,
+    "phase": "5",
+    "status": "done",
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` Storage rules reflect versioned payload `{ schemaVersion, todos }` (not array-only).",
+      "Spec explicitly defines behavior for `schemaVersion > current` (forward version guardrail).",
+      "Add a Phase 5 section with scope + non-goals + verification approach (still local-only; no API/auth)."
+    ]
+  },
+  {
+    "id": "TODO_026_phase5_tooling_enforce_phase_convention",
+    "title": "Phase 5: Tooling check to enforce numeric string `phase` convention in task queue",
+    "description": "Prevent future drift like mixing \"Phase 3\" and \"3\" by adding/strengthening validation logic.",
+    "app": "factory/task-queue.json",
+    "priority": 26,
+    "phase": "5",
+    "status": "done",
+    "depends_on": [
+      "TODO_023_phase5_spec_update_storage_and_phase5"
+    ],
+    "acceptance_criteria": [
+      "Validation fails if `phase` is non-numeric (e.g. \"Phase 3\").",
+      "Error message points to task id(s) with invalid phase values.",
+      "Document how to run the validation (e.g. `npm run check` or a dedicated script) in an appropriate doc location."
+    ]
+  }
+]

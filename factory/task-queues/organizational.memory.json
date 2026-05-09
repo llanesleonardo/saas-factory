@@ -1,0 +1,290 @@
+[
+  {
+    "id": "FACTORY_001_task_queue_schema",
+    "title": "Define task queue JSON schema",
+    "description": "Add a first-class schema for factory/task-queue.json covering required fields, optional PM fields, status values, depends_on shape, assigned_agent, priority, app, and blocked_reason.",
+    "acceptance_criteria": [
+      "A schema exists under factory/schemas/ for task queue entries and the full queue envelope/array shape currently supported by loaders.",
+      "Schema accepts existing valid task-queue.json content.",
+      "Schema documents allowed statuses and expected field types without requiring vertical-only fields."
+    ],
+    "depends_on": [],
+    "assigned_agent": "tooling",
+    "priority": 100,
+    "status": "ready",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_002_validate_task_queue_integrity",
+    "title": "Harden task queue validation",
+    "description": "Extend npm run validate-task-queue beyond phase checks to enforce uniqueness, dependency integrity, acyclic graph, status values, and registry-aligned assigned_agent values.",
+    "acceptance_criteria": [
+      "Validation fails on duplicate ids, unknown depends_on ids, self-dependencies, cycles, invalid statuses, and invalid assigned_agent values.",
+      "Validation errors name the failing task id and field.",
+      "Existing factory/task-queue.json validates successfully after any necessary non-behavioral cleanup."
+    ],
+    "depends_on": [
+      "FACTORY_001_task_queue_schema"
+    ],
+    "assigned_agent": "tooling",
+    "priority": 95,
+    "status": "done",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_003_task_queue_fixture_harness",
+    "title": "Add task queue validator fixtures",
+    "description": "Create small valid and invalid fixture files for task queue validation so future changes are evidence-backed.",
+    "acceptance_criteria": [
+      "Fixtures cover at least: valid queue, duplicate id, unknown dependency, dependency cycle, invalid assigned_agent, and invalid status.",
+      "A documented command runs validation against fixtures and exits nonzero for invalid cases.",
+      "Fixture expectations are deterministic and do not depend on current backlog size."
+    ],
+    "depends_on": [
+      "FACTORY_002_validate_task_queue_integrity"
+    ],
+    "assigned_agent": "quality",
+    "priority": 90,
+    "status": "backlog",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_004_ci_task_queue_gate",
+    "title": "Gate task queue validation in CI",
+    "description": "Wire task queue validation into the factory CI workflow so PRs cannot merge with broken task graph metadata.",
+    "acceptance_criteria": [
+      "Factory CI runs npm run validate-task-queue on pull_request.",
+      "CI output clearly separates task queue validation from typecheck/orchestrator output.",
+      "The gate uploads or prints enough evidence for Quality to cite the command result."
+    ],
+    "depends_on": [
+      "FACTORY_003_task_queue_fixture_harness"
+    ],
+    "assigned_agent": "quality",
+    "priority": 85,
+    "status": "done",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_005_agent_registry_validator",
+    "title": "Validate agent registry references",
+    "description": "Add validation for factory/agent-registry.json references so agent files, context packs, schemas, and next_agents stay in sync.",
+    "acceptance_criteria": [
+      "A script validates agent-registry.json against its schema.",
+      "The script fails if an agent file, context_pack, output_schema, or next_agents entry points to a missing or unknown item.",
+      "An npm script exposes the validator from package.json."
+    ],
+    "depends_on": [],
+    "assigned_agent": "tooling",
+    "priority": 80,
+    "status": "done",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_006_ci_registry_gate",
+    "title": "Gate agent registry validation in CI",
+    "description": "Add the agent registry validator to the factory CI path.",
+    "acceptance_criteria": [
+      "Factory CI runs the registry validator on pull_request.",
+      "A broken file path or unknown next_agents value causes a clear CI failure.",
+      "Quality can cite the exact command in pass/fail evidence."
+    ],
+    "depends_on": [
+      "FACTORY_005_agent_registry_validator"
+    ],
+    "assigned_agent": "quality",
+    "priority": 75,
+    "status": "done",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_007_agent_output_validator_parity",
+    "title": "Align agent output validator with schemas",
+    "description": "Bring validate-agent-output behavior closer to factory/schemas/* so PM, Dev, and Quality payload validation is deterministic.",
+    "acceptance_criteria": [
+      "PM validation checks id pattern, acceptance_criteria item types, depends_on item types, status enum, and assigned_agent when present.",
+      "Quality validation accepts documented schema fields while preserving fail requires errors[] behavior.",
+      "Validator errors include agent kind and JSON path-like field names."
+    ],
+    "depends_on": [
+      "FACTORY_005_agent_registry_validator"
+    ],
+    "assigned_agent": "tooling",
+    "priority": 70,
+    "status": "backlog",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_008_agent_output_fixture_harness",
+    "title": "Add agent output validation fixtures",
+    "description": "Add valid and invalid PM/Dev/Quality fixture payloads for validate-agent-output.",
+    "acceptance_criteria": [
+      "Fixtures include at least one valid and one invalid payload for PM, Dev, and Quality.",
+      "A single documented command verifies all valid fixtures pass and invalid fixtures fail.",
+      "Invalid fixture failures are stable enough for Quality evidence."
+    ],
+    "depends_on": [
+      "FACTORY_007_agent_output_validator_parity"
+    ],
+    "assigned_agent": "quality",
+    "priority": 65,
+    "status": "backlog",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_009_qms_inbox_record_schema",
+    "title": "Define QMS inbox record schema",
+    "description": "Add a machine-readable schema for optional QMS inbox companion JSON records described by agents/agent-record-for-qms.md.",
+    "acceptance_criteria": [
+      "Schema includes schema_version, date_utc, agent_role, task_id, depends_on, spec_pr_refs, evidence_paths, and handoff_next_role.",
+      "agent_role values align with factory/agent-registry.json role ids.",
+      "Schema avoids storing secrets or full logs by design."
+    ],
+    "depends_on": [],
+    "assigned_agent": "tooling",
+    "priority": 60,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_010_qms_inbox_validator",
+    "title": "Add QMS inbox evidence validator",
+    "description": "Create a lightweight validator for QMS inbox companion JSON files and required Markdown headings.",
+    "acceptance_criteria": [
+      "Validator checks companion JSON files against the QMS inbox schema when present.",
+      "Validator checks Markdown inbox records for required headings from agents/agent-record-for-qms.md.",
+      "Validator reports filename and missing/invalid section without rewriting records."
+    ],
+    "depends_on": [
+      "FACTORY_009_qms_inbox_record_schema"
+    ],
+    "assigned_agent": "tooling",
+    "priority": 55,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_011_qms_evidence_quality_gate",
+    "title": "Add QMS evidence gate fixtures",
+    "description": "Quality-owned fixtures and command evidence for the QMS inbox validator.",
+    "acceptance_criteria": [
+      "Fixtures cover valid Markdown, missing heading, valid companion JSON, and invalid companion JSON.",
+      "A documented command verifies the QMS validator behavior.",
+      "Quality output can cite commands_run and fixture outcomes."
+    ],
+    "depends_on": [
+      "FACTORY_010_qms_inbox_validator"
+    ],
+    "assigned_agent": "quality",
+    "priority": 50,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_012_role_boundary_matrix_docs",
+    "title": "Clarify role boundary matrix",
+    "description": "Update agent routing docs with a concise ownership matrix for PM, Dev, Tooling, Docs, Quality, DevOps, and Fix around factory-system work.",
+    "acceptance_criteria": [
+      "Docs identify who owns schemas, validators, CI gates, task decomposition, QMS inbox records, and controlled docs.",
+      "Docs explicitly state that Quality owns harness/gates/evidence and Docs owns published QMS consolidation.",
+      "Docs avoid changing existing vertical architecture decisions."
+    ],
+    "depends_on": [],
+    "assigned_agent": "docs",
+    "priority": 45,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_013_task_queue_conventions_docs",
+    "title": "Document task queue conventions",
+    "description": "Add human-facing conventions for task ids, priority semantics, status transitions, depends_on rules, app values, and closure expectations.",
+    "acceptance_criteria": [
+      "Docs explain whether higher or lower priority runs first based on current planner behavior.",
+      "Docs include examples for factory/ and organizational_memory/ system tasks.",
+      "Docs reference post-merge closure: status done plus QMS evidence."
+    ],
+    "depends_on": [
+      "FACTORY_001_task_queue_schema",
+      "FACTORY_002_validate_task_queue_integrity"
+    ],
+    "assigned_agent": "docs",
+    "priority": 40,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_014_role_aware_next_prompts",
+    "title": "Make next-task prompts role-aware",
+    "description": "Update factory planning output so suggested prompts respect assigned_agent instead of always defaulting to Dev plus Quality.",
+    "acceptance_criteria": [
+      "factory:next JSON includes a next agent invocation based on assigned_agent when present.",
+      "Dev and Git handoffs mention branch-first expectations when applicable.",
+      "Existing Dev and Quality prompt helpers remain covered for product implementation tasks."
+    ],
+    "depends_on": [
+      "FACTORY_002_validate_task_queue_integrity",
+      "FACTORY_012_role_boundary_matrix_docs"
+    ],
+    "assigned_agent": "tooling",
+    "priority": 35,
+    "status": "backlog",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_015_factory_next_contract_docs",
+    "title": "Document factory:next JSON contract",
+    "description": "Document the fields emitted by factory:next and how agents should consume suggested next moves.",
+    "acceptance_criteria": [
+      "Docs show example output for a Dev task, Quality task, Docs task, and Tooling task.",
+      "Docs explain WIP cap behavior and blocked/done/in_progress handling.",
+      "Docs reference task queue conventions instead of duplicating conflicting rules."
+    ],
+    "depends_on": [
+      "FACTORY_014_role_aware_next_prompts"
+    ],
+    "assigned_agent": "docs",
+    "priority": 30,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  },
+  {
+    "id": "FACTORY_016_ci_evidence_artifacts",
+    "title": "Publish factory CI evidence artifacts",
+    "description": "Standardize CI outputs for validators and planning so Quality and PR reviewers have durable evidence.",
+    "acceptance_criteria": [
+      "CI stores or prints artifacts for parallel-plan output, task queue validation, registry validation, agent output fixtures, and QMS evidence checks.",
+      "Artifact names are stable and documented.",
+      "Quality can reference the artifacts in a pass/fail JSON report."
+    ],
+    "depends_on": [
+      "FACTORY_004_ci_task_queue_gate",
+      "FACTORY_006_ci_registry_gate",
+      "FACTORY_008_agent_output_fixture_harness",
+      "FACTORY_011_qms_evidence_quality_gate"
+    ],
+    "assigned_agent": "quality",
+    "priority": 25,
+    "status": "backlog",
+    "app": "factory/"
+  },
+  {
+    "id": "FACTORY_017_factory_delivery_loop_qms_doc",
+    "title": "Publish factory delivery loop procedure",
+    "description": "Docs Agent consolidates the updated factory-system workflow into a controlled QMS-style procedure.",
+    "acceptance_criteria": [
+      "Published QMS doc describes system-task flow from PM backlog through Tooling/Dev/Docs, Quality gates, Git, and post-merge closure.",
+      "Document control metadata and revision history follow existing QMS published format.",
+      "The procedure references validators and CI gates added by prior tasks."
+    ],
+    "depends_on": [
+      "FACTORY_011_qms_evidence_quality_gate",
+      "FACTORY_013_task_queue_conventions_docs",
+      "FACTORY_016_ci_evidence_artifacts"
+    ],
+    "assigned_agent": "docs",
+    "priority": 20,
+    "status": "backlog",
+    "app": "organizational_memory/"
+  }
+]

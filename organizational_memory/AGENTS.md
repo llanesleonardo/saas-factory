@@ -2,6 +2,8 @@
 
 There is **one** Cursor chat. You choose a **role** by `@`-mentioning the matching file and telling the model to follow it for this turn. **Shortcut:** run **slash commands** under **`.cursor/commands/agent-*.md`** (e.g. `agent-dev`) which point at the same prompts. **Registry:** **`factory/agent-registry.json`** (categories, `next_agents`, schemas).
 
+Handoff overview: see **`organizational_memory/AGENT-MAP.md`**.
+
 **Lean manufacturing (humans + agents):** see **`organizational_memory/LEAN-MANUFACTURING.md`** — value stream, WIP limits, quality at source, waste checklist, kaizen. Ask Cursor to apply it with `@organizational_memory/LEAN-MANUFACTURING.md` (e.g. "we have too much WIP—suggest concrete repo/process changes").
 
 ## How calling an agent works
@@ -353,3 +355,13 @@ Use the exact filename: `pm-agent`, `builder-agent`, `dev-agent`, `quality-agent
 ## Optional: factory reminder
 
 `npm run factory` prints a **runbook** per task (Dev → Quality → Fix → Git). It does **not** open chat for you; use the router table to decide who to `@` for each step.
+
+### Per-app task queues (optional)
+
+By default the factory reads from **`factory/task-queue.json`**. If you want one queue per app (or per domain bucket), use:
+
+- **Generate per-app queues**: `npm run task-queues:sync` → writes `factory/task-queues/*.json` and `factory/task-queues/index.json`
+- **Pick next task from a specific queue**: `npm run factory:next -- --queue=factory/task-queues/<queue>.json`
+- **Parallel waves for a specific queue**: `npm run parallel-plan -- --queue=factory/task-queues/<queue>.json`
+- **Runbook for a specific queue**: `npm run factory -- --queue=factory/task-queues/<queue>.json`
+
