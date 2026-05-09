@@ -6,7 +6,7 @@ This is the **minimal** vertical spec for `apps/todo-instance/`. It is intention
 
 - **Goal**: a single-user Todo list with the core CRUD-like operations.
 - **MVP storage**: **local-only** persistence (in-browser), **no API**, **no auth**, **no multi-tenant**.
-- **Later** (optional): add an API and/or shared packages; capture that in a new Phase section before implementing.
+- **Later** (Phase 9+): evolve into a “true SaaS” (auth/tenancy, DB, deploy environments, observability; billing only if needed). Capture scope and non-goals in the Phase sections before implementing.
 
 ## Personas and goals
 
@@ -425,3 +425,121 @@ Make `apps/todo-instance` feel like a **cohesive product**: readable typography,
 - Import/export outcomes surface **user-visible, accessible** feedback.
 - **Landmarks / headings** meet the scope; existing keyboard-first flows still work.
 - Tests and quality gates pass per verification approach.
+
+---
+
+## Phase 9 (next loop): Auth + tenancy (true SaaS start)
+
+Goal: transition from local-only to a multi-tenant SaaS baseline with authenticated access and deterministic tenant isolation.
+
+### Scope
+- Tenant model: `Tenant` (workspace/org), `User`, `Membership` (role per tenant).
+- Authentication: session-based auth (or equivalent) with explicit login/logout flows.
+- Authorization: every read/write is tenant-scoped; role checks are enforced on the server boundary.
+- Data isolation: cross-tenant access is impossible by construction (not “best effort” filters).
+
+### Non-goals (Phase 9)
+- Billing, payments, or subscriptions
+- Advanced RBAC beyond a small initial set (e.g. `owner`, `member`)
+- Data residency / compliance commitments (needs human review)
+
+### Verification approach (Phase 9)
+- Automated tests proving tenant scoping and auth checks on core operations.
+- Smoke test: create two tenants, ensure reads/writes cannot cross.
+
+### Acceptance criteria (Phase 9)
+- All app operations require auth (or an explicit public read-only exception if designed).
+- Tenant isolation is enforced and covered by automated tests.
+- Quality can gate with deterministic commands (build/test).
+
+---
+
+## Phase 10 (next loop): Database + migrations
+
+Goal: replace local-only persistence with a real database, with deterministic migrations and repeatable environments.
+
+### Scope
+- Database schema for todos, users, tenants, and memberships.
+- Migration tooling: repeatable create/migrate/reset flows for local + CI.
+- Deterministic seeding for test environments (minimal fixtures).
+
+### Non-goals (Phase 10)
+- Complex reporting/analytics
+- Offline-first sync
+
+### Verification approach (Phase 10)
+- CI runs migrations from scratch and executes tests against a clean DB.
+- Migration rollback story is defined (at least “how to revert a bad migration”).
+
+### Acceptance criteria (Phase 10)
+- Migrations are deterministic and runnable locally and in CI.
+- CRUD operations persist in DB and remain tenant-scoped.
+
+---
+
+## Phase 11 (conditional): Payments / billing (if needed)
+
+Only execute this phase if `todo-instance` is intended to be monetized.
+
+### Scope
+- Plan/entitlement model (free vs paid) with server-side enforcement.
+- Billing integration (e.g. Stripe) including webhook handling and idempotency.
+
+### Non-goals (Phase 11)
+- Tax/legal advice in spec (requires human review)
+- Building a full billing UI if not required (prefer portal patterns)
+
+### Verification approach (Phase 11)
+- Test-mode billing flows + webhook replay/idempotency tests.
+- Security review checkpoint for billing boundaries.
+
+### Acceptance criteria (Phase 11)
+- Entitlements are enforced server-side and cannot be bypassed from the client.
+- Webhooks are idempotent and tested.
+
+---
+
+## Phase 12 (next loop): Deployment environments (preview / staging / prod)
+
+Goal: establish a single golden-path deployment target with environment separation and gated releases.
+
+### Scope
+- Preview deploy per PR (or equivalent).
+- Staging/prod deploys gated on Quality pass and merge.
+- Rollback approach documented (even if simple).
+
+### Non-goals (Phase 12)
+- Multi-region / HA commitments
+- Auto-deploy to prod without gates
+
+### Verification approach (Phase 12)
+- Deployment runbook is reproducible; environment variables referenced by name only.
+- Quality gates are required before staging/prod deploy attempts.
+
+### Acceptance criteria (Phase 12)
+- Preview/staging/prod model is implemented and documented.
+- Deploys are gated and reproducible with clear rollback guidance.
+
+---
+
+## Phase 13 (next loop): Observability + SLOs
+
+Goal: define what “healthy” means and make core user flows observable in a production-like runtime.
+
+### Scope
+- Structured logs and error reporting for server and client (where applicable).
+- Minimal dashboards for:
+  - error rate
+  - latency for key routes/actions
+  - availability/uptime signal
+- Initial SLO targets documented as “starter targets” (not contractual).
+
+### Non-goals (Phase 13)
+- Full SRE program
+- Exhaustive tracing everywhere
+
+### Verification approach (Phase 13)
+- Validate that key actions emit logs/events and errors are captured with enough context (no PII leakage).
+
+### Acceptance criteria (Phase 13)
+- Observability exists for core flows with documented initial SLOs and alerting hooks (even minimal).
