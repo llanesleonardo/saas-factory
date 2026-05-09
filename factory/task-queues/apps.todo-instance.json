@@ -675,7 +675,7 @@
     ],
     "assigned_agent": "dev",
     "priority": 135,
-    "status": "in_progress",
+    "status": "done",
     "app": "apps/todo-instance"
   },
   {
@@ -692,7 +692,7 @@
     ],
     "assigned_agent": "dev",
     "priority": 132,
-    "status": "in_progress",
+    "status": "done",
     "app": "apps/todo-instance"
   },
   {
@@ -709,7 +709,7 @@
     ],
     "assigned_agent": "dev",
     "priority": 130,
-    "status": "backlog",
+    "status": "in_progress",
     "app": "apps/todo-instance"
   },
   {

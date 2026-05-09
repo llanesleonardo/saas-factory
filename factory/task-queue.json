@@ -954,7 +954,7 @@
     "depends_on": ["TODO_SAAS_P9_010_tenancy_auth_contract"],
     "assigned_agent": "dev",
     "priority": 135,
-    "status": "in_progress",
+    "status": "done",
     "app": "apps/todo-instance"
   },
   {
@@ -969,7 +969,7 @@
     "depends_on": ["TODO_SAAS_P9_010_tenancy_auth_contract"],
     "assigned_agent": "dev",
     "priority": 132,
-    "status": "in_progress",
+    "status": "done",
     "app": "apps/todo-instance"
   },
   {
@@ -984,7 +984,7 @@
     "depends_on": ["TODO_SAAS_P9_025_server_runtime_baseline"],
     "assigned_agent": "dev",
     "priority": 130,
-    "status": "backlog",
+    "status": "in_progress",
     "app": "apps/todo-instance"
   },
   {
