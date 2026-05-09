@@ -244,27 +244,32 @@ These upgrades expand the factory into a more “OS-like” platform while prese
 - Add a tool registry (e.g. `factory/tool-registry.json` or a TS module) that lists:
   - tool id, purpose, command(s), required permissions (if any), and which roles commonly use it
 - Add a validator for the tool registry (paths exist, commands documented, ids stable).
+- Spec for contract + examples: `organizational_memory/factory-os-tool-registry-spec.md`
 
 #### 10.3.2 Deployment engine
 - Provide a single orchestrated deploy command and an environment model:
   - explicit environments (preview/staging/prod) + app targets
   - guardrails: only deploy after QA pass equivalent and PR merge
 - Output should be reproducible and reference env var *names* only.
+- Spec for environment model + gate policy: `organizational_memory/factory-os-deploy-engine-spec.md`
 
 #### 10.3.3 Telemetry (run history + dashboards)
 - Capture run history (task id, role, commands_run, outcome) in a durable place.
 - Provide a dashboard surface (Phase B mission control UI) to view:
   - current WIP, next tasks, waves, recent runs, and evidence links.
+- Spec for event model + dashboard views: `organizational_memory/factory-os-telemetry-spec.md`
 
 #### 10.3.4 Cost tracking
 - Track usage and runtime/model cost per run/app (where available).
 - Roll up costs by app/day to support FinOps reviews and optimization tasks.
+- Spec for event model + rollups + provenance rules: `organizational_memory/factory-os-cost-tracking-spec.md`
 
 #### 10.3.5 Self-healing layer (strictly gated)
 - Automate “retry / fix suggestions” pipelines that:
   - never auto-merge
   - only propose minimal patches after a failed gate
   - require Quality re-run and PR review before merge
+- Spec for inputs/actions/invariants: `organizational_memory/factory-os-self-healing-spec.md`
 
 ---
 

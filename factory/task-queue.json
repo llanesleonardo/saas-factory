@@ -670,7 +670,7 @@
     "depends_on": ["FACTORY_010_qms_inbox_validator"],
     "assigned_agent": "quality",
     "priority": 50,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -685,7 +685,7 @@
     "depends_on": [],
     "assigned_agent": "docs",
     "priority": 45,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -700,7 +700,7 @@
     "depends_on": ["FACTORY_001_task_queue_schema", "FACTORY_002_validate_task_queue_integrity"],
     "assigned_agent": "docs",
     "priority": 40,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -715,7 +715,7 @@
     "depends_on": ["FACTORY_002_validate_task_queue_integrity", "FACTORY_012_role_boundary_matrix_docs"],
     "assigned_agent": "tooling",
     "priority": 35,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -750,7 +750,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 25,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -765,7 +765,7 @@
     "depends_on": ["FACTORY_011_qms_evidence_quality_gate", "FACTORY_013_task_queue_conventions_docs", "FACTORY_016_ci_evidence_artifacts"],
     "assigned_agent": "docs",
     "priority": 20,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -780,7 +780,7 @@
     "depends_on": ["FACTORY_014_role_aware_next_prompts", "FACTORY_017_factory_delivery_loop_qms_doc"],
     "assigned_agent": "quality",
     "priority": 10,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -790,7 +790,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 9,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec describes tool registry purpose, required fields, and examples (no secrets).",
@@ -804,7 +804,7 @@
     "depends_on": ["FACTORY_OS_001_tool_registry_spec"],
     "assigned_agent": "tooling",
     "priority": 8,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Tool registry exists with stable ids and documented commands.",
@@ -819,7 +819,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 7,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines environments, required gates (QA pass equivalent, merged PR), and rollback expectations.",
@@ -833,7 +833,7 @@
     "depends_on": ["FACTORY_OS_003_deploy_engine_spec"],
     "assigned_agent": "devops",
     "priority": 6,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "A deploy CLI exists (dry-run supported) and is documented.",
@@ -847,7 +847,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 5,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines event model (job/run/task/role/outcome) and required fields.",
@@ -861,7 +861,7 @@
     "depends_on": ["FACTORY_OS_005_telemetry_spec"],
     "assigned_agent": "tooling",
     "priority": 4,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Run history records task id, role, start/stop timestamps, and outcome.",
@@ -876,7 +876,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 3,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines cost fields and rollups (per run, per app/day).",
@@ -890,7 +890,7 @@
     "depends_on": ["FACTORY_OS_007_cost_tracking_spec", "FACTORY_OS_006_telemetry_run_history_store"],
     "assigned_agent": "finops",
     "priority": 2,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "A report command prints per-app/day cost totals and per-run breakdown (if present).",
@@ -904,7 +904,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 1,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines failure inputs (Quality output JSON, CI logs) and allowed actions (suggestions/patch proposals).",
@@ -918,7 +918,7 @@
     "depends_on": ["FACTORY_OS_009_self_healing_spec"],
     "assigned_agent": "tooling",
     "priority": 0,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Pipeline produces suggestions/patches but never merges automatically.",

@@ -143,8 +143,16 @@ function validateMarkdownRecord(filePath: string, md: string): string[] {
 }
 
 async function main(): Promise<void> {
+  const argv = process.argv.slice(2);
+  const dirArg = argv.find((a) => a.startsWith("--dir="));
+  const queueDirArg = argv.find((a) => a.startsWith("--inbox="));
+
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const inboxDir = path.resolve(__dirname, "..", "organizational_memory", "QMS", "inbox");
+  const inboxDir = dirArg
+    ? path.resolve(dirArg.slice("--dir=".length))
+    : queueDirArg
+      ? path.resolve(queueDirArg.slice("--inbox=".length))
+      : path.resolve(__dirname, "..", "organizational_memory", "QMS", "inbox");
 
   const mdFiles = walkFiles(inboxDir, ".md");
   if (mdFiles.length === 0) throw new Error(`No inbox markdown files found under: ${inboxDir}`);

@@ -99,6 +99,59 @@ export function devAgentPromptLine(task: FactoryTask): string {
   );
 }
 
+type AgentRoleId =
+  | "pm"
+  | "architect"
+  | "dev"
+  | "quality"
+  | "fix"
+  | "git"
+  | "devops"
+  | "docs"
+  | "security"
+  | "finops"
+  | "support"
+  | "tooling"
+  | "spike"
+  | "spec-generator"
+  | "builder";
+
+function agentFileForRole(role: AgentRoleId): string {
+  if (role === "spec-generator") return "spec-generator-agent.md";
+  return `${role}-agent.md`;
+}
+
+function roleAwarePrimaryAgent(task: FactoryTask): AgentRoleId {
+  const r = (task as any).assigned_agent;
+  if (typeof r === "string" && r.length > 0) {
+    // assigned_agent is validated by validate-task-queue against the registry keys
+    return r as AgentRoleId;
+  }
+  return "dev";
+}
+
+export function nextAgentPromptLine(task: FactoryTask): string {
+  const role = roleAwarePrimaryAgent(task);
+  const agentFile = agentFileForRole(role);
+
+  // Keep branch guidance for roles that typically change the repo.
+  const includeBranch =
+    role === "dev" ||
+    role === "tooling" ||
+    role === "fix" ||
+    role === "devops" ||
+    role === "docs" ||
+    role === "builder";
+
+  const branchSuffix = includeBranch ? ` Branch \`feature/${task.id}\`.` : "";
+
+  return (
+    `For this message only, follow the role in @agents/${agentFile}. ` +
+    `Implement only task id \`${task.id}\`.` +
+    branchSuffix
+  );
+}
+
 export function qualityAgentPromptLine(task: FactoryTask): string {
   return (
     `For this message only, follow the role in @agents/quality-agent.md. ` +
@@ -108,12 +161,17 @@ export function qualityAgentPromptLine(task: FactoryTask): string {
 
 export function planNextToJson(result: PlanNextResult): Record<string, unknown> {
   if (result.kind === "suggest") {
+    const primaryRole = roleAwarePrimaryAgent(result.task);
+    const includeQuality = primaryRole === "dev" || primaryRole === "tooling" || primaryRole === "fix" || primaryRole === "devops";
     return {
       kind: result.kind,
       task: result.task,
       wip: result.wip,
+      nextAgentRole: primaryRole,
+      nextAgentInvocation: nextAgentPromptLine(result.task),
+      // Back-compat fields for existing consumers (and common product flow).
       devAgentInvocation: devAgentPromptLine(result.task),
-      qualityAgentInvocation: qualityAgentPromptLine(result.task),
+      qualityAgentInvocation: includeQuality ? qualityAgentPromptLine(result.task) : undefined,
     };
   }
   if (result.kind === "wip_full") {

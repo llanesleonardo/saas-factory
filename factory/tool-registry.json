@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "tool_id": "TOOL_FACTORY_NEXT",
+      "title": "Suggest next task (role-aware)",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run factory:next -- [--queue=...] [--wip=...]" },
+      "artifacts": [
+        { "type": "stdout", "description": "Human output (next task + agent invocation lines)" },
+        { "type": "json", "description": "Planner JSON when called with --json" }
+      ],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_PARALLEL_PLAN",
+      "title": "Compute parallel execution waves",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run parallel-plan -- [--queue=...] [--json]" },
+      "artifacts": [{ "type": "json", "description": "Wave plan JSON when called with --json" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_VALIDATE_TASK_QUEUE",
+      "title": "Validate task queue integrity",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run validate-task-queue -- [--queue=...]" },
+      "artifacts": [{ "type": "stdout", "description": "Pass/fail message; non-zero exit on failure" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_VALIDATE_TOOL_REGISTRY",
+      "title": "Validate tool registry references",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run validate-tool-registry" },
+      "artifacts": [{ "type": "stdout", "description": "Pass/fail message; non-zero exit on failure" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_DEPLOY",
+      "title": "Deploy orchestrator (guarded)",
+      "owner_role": "devops",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run factory:deploy -- --env <preview|staging|prod> [--target <path>] [--dry-run]" },
+      "artifacts": [{ "type": "stdout", "description": "Plan + gate output; refuses staging/prod when main is dirty" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_HOSTING_COST",
+      "title": "Estimate baseline hosting cost (compute-only)",
+      "owner_role": "finops",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run factory:hosting-cost -- --app <app> --provider <aws|azure|gcp|digitalocean> [--size tiny|small|medium] [--json]" },
+      "artifacts": [{ "type": "stdout", "description": "Human summary (or JSON with --json) including exclusions" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_COST",
+      "title": "Cost events + rollups (local-first)",
+      "owner_role": "finops",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run factory:cost -- <add|add-hosting-baseline|report> [--day YYYY-MM-DD] [--app <app>] [--json]" },
+      "artifacts": [{ "type": "stdout", "description": "JSON on add; rollup summary (or JSON with --json) on report" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_SELF_HEAL",
+      "title": "Generate gated self-healing report from failures",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run factory:self-heal -- --quality <path-to-quality-output.json> [--out <path.md>] [--json]" },
+      "artifacts": [{ "type": "artifact", "description": "Markdown self-healing report (written under factory/.local by default)" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_CI_PARALLEL",
+      "title": "Factory CI (parallel)",
+      "owner_role": "quality",
+      "kind": "workflow",
+      "how_to_run": {
+        "workflow_file": ".github/workflows/factory-parallel-ci.yml",
+        "trigger": "pull_request"
+      },
+      "artifacts": [
+        { "type": "artifact", "path": "factory-next.json", "description": "factory:next JSON output (uploaded)" },
+        { "type": "artifact", "path": "parallel-plan.json", "description": "parallel-plan JSON output (uploaded)" }
+      ],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_QMS_PUB_007_FACTORY_DELIVERY_LOOP",
+      "title": "Factory delivery loop procedure (controlled)",
+      "owner_role": "docs",
+      "kind": "doc_procedure",
+      "how_to_run": { "doc_path": "organizational_memory/QMS/published/QMS-PUB-007-factory-delivery-loop-procedure.md" },
+      "artifacts": [{ "type": "md", "path": "organizational_memory/QMS/published/QMS-PUB-007-factory-delivery-loop-procedure.md", "description": "Controlled procedure" }],
+      "scope": "organizational_memory/"
+    }
+  ]
+}
+

@@ -245,6 +245,34 @@ Details for **B**–**C** planner fields, **K** templates, and **R** trust ladde
 
 Phases **B** and **C** are optional; **A** already gives you a literal planner box in software without agent autopilot.
 
+### Task queue conventions (human rules; enforced where possible)
+
+- **`id`**
+  - Stable, unique string used by `depends_on`, branch names, and evidence.
+  - Convention: `TODO_###_…` for vertical tasks; `FACTORY_###_…` for factory tasks; `FACTORY_OS_###_…` for Factory OS.
+- **`status`**
+  - Allowed (strict): `backlog | ready | in_progress | blocked | done`.
+  - Omitted → treated as `backlog`.
+  - If `status = "blocked"`, you must set `blocked_reason` (enforced by `npm run validate-task-queue`).
+- **`depends_on`**
+  - List only task ids; the planner will not pull a task until every dependency is `done`.
+  - Keep chains short; use `npm run parallel-plan` to visualize waves.
+- **`priority`**
+  - Used only when multiple tasks are startable at once.
+  - **Higher numbers run first** (planner sorts descending by priority; tie-breaker is `id` alphabetical).
+- **`app`**
+  - A routing/bucketing hint for humans and per-app queue generation (e.g. `apps/todo-instance`, `factory/`, `organizational_memory/`).
+  - Generate per-app queues: `npm run task-queues:sync` → `factory/task-queues/*.json`.
+- **Closure rule**
+  - When a task is truly complete, mark it `status: "done"` in `factory/task-queue.json` **and** ensure supporting evidence exists (QMS inbox records when substantive) per `agents/agent-record-for-qms.md` and QMS decision gate `organizational_memory/QMS/published/QMS-PUB-005-pull-request-decision-gate.md`.
+
+**Examples**
+
+- **Factory code task** (bucketed to `factory/`):
+  - `FACTORY_010_qms_inbox_validator` (validator + npm script)
+- **Organizational memory doc task** (bucketed to `organizational_memory/`):
+  - `FACTORY_012_role_boundary_matrix_docs` (role boundaries, QMS consolidation rule)
+
 ---
 
 ## 3. Build the real app

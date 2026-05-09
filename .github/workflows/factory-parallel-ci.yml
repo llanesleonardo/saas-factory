@@ -34,9 +34,34 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      - run: npm run validate-task-queue
-      - run: npm run validate-agent-registry
-      - run: npm run validate-workflow-machine
+      - name: Validate task queue
+        run: npm run validate-task-queue
+      - name: Validate agent registry
+        run: npm run validate-agent-registry
+      - name: Validate workflow machine
+        run: npm run validate-workflow-machine
+      - name: Validate tool registry
+        run: npm run validate-tool-registry
+      - name: Validate task-queue fixtures (evidence)
+        run: npm run validate-task-queue-fixtures
+      - name: Validate agent-output fixtures (evidence)
+        run: npm run validate-agent-output-fixtures
+      - name: Validate QMS inbox records (evidence)
+        run: npm run validate-qms-inbox
+      - name: Validate QMS inbox fixtures (evidence)
+        run: npm run validate-qms-inbox-fixtures
+      - name: Validate self-heal fixtures (evidence)
+        run: npm run validate-self-heal-fixtures
+
+      - name: Emit factory:next (JSON)
+        run: npm run factory:next -- --json | tee factory-next.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: factory-evidence
+          path: |
+            factory-next.json
 
   orchestrator:
     runs-on: ubuntu-latest

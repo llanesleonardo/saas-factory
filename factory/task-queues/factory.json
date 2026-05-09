@@ -177,7 +177,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 50,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -192,7 +192,7 @@
     "depends_on": [],
     "assigned_agent": "docs",
     "priority": 45,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -210,7 +210,7 @@
     ],
     "assigned_agent": "docs",
     "priority": 40,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -228,7 +228,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 35,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -248,7 +248,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 25,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -267,7 +267,7 @@
     ],
     "assigned_agent": "docs",
     "priority": 20,
-    "status": "backlog",
+    "status": "done",
     "app": "organizational_memory/"
   },
   {
@@ -285,7 +285,7 @@
     ],
     "assigned_agent": "quality",
     "priority": 10,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/"
   },
   {
@@ -295,7 +295,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 9,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec describes tool registry purpose, required fields, and examples (no secrets).",
@@ -311,7 +311,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 8,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Tool registry exists with stable ids and documented commands.",
@@ -326,7 +326,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 7,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines environments, required gates (QA pass equivalent, merged PR), and rollback expectations.",
@@ -342,7 +342,7 @@
     ],
     "assigned_agent": "devops",
     "priority": 6,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "A deploy CLI exists (dry-run supported) and is documented.",
@@ -356,7 +356,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 5,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines event model (job/run/task/role/outcome) and required fields.",
@@ -372,7 +372,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 4,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Run history records task id, role, start/stop timestamps, and outcome.",
@@ -387,7 +387,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 3,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines cost fields and rollups (per run, per app/day).",
@@ -404,7 +404,7 @@
     ],
     "assigned_agent": "finops",
     "priority": 2,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "A report command prints per-app/day cost totals and per-run breakdown (if present).",
@@ -418,7 +418,7 @@
     "depends_on": [],
     "assigned_agent": "spec-generator",
     "priority": 1,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Spec defines failure inputs (Quality output JSON, CI logs) and allowed actions (suggestions/patch proposals).",
@@ -434,7 +434,7 @@
     ],
     "assigned_agent": "tooling",
     "priority": 0,
-    "status": "backlog",
+    "status": "done",
     "app": "factory/",
     "acceptance_criteria": [
       "Pipeline produces suggestions/patches but never merges automatically.",
