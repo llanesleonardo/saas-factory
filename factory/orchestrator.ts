@@ -18,8 +18,9 @@ export {
  * in-process AI. This prints the runbook for each task so you can execute steps
  * in Cursor (or later wire @cursor/sdk / CI here).
  */
-export async function runOrchestrator(): Promise<void> {
-  const tasks = orderTasks(await loadTaskQueue()).filter((t) => !isTaskDone(t));
+export async function runOrchestrator(queuePath?: string): Promise<void> {
+  const queueTasks = queuePath !== undefined ? await loadTaskQueue(queuePath) : await loadTaskQueue();
+  const tasks = orderTasks(queueTasks).filter((t) => !isTaskDone(t));
 
   if (tasks.length === 0) {
     console.log("No tasks in factory/task-queue.json. Paste PM JSON output there first.");
@@ -50,8 +51,18 @@ const isMain =
   Boolean(process.argv[1]) &&
   import.meta.url === pathToFileURL(path.resolve(process.argv[1]!)).href;
 
+function parseQueuePath(argv: string[]): string | undefined {
+  const eq = argv.find((a) => a.startsWith("--queue="));
+  if (eq) {
+    return path.resolve(eq.slice("--queue=".length));
+  }
+  return undefined;
+}
+
 if (isMain) {
-  void runOrchestrator().catch((err: unknown) => {
+  const argv = process.argv.slice(2);
+  const queuePath = parseQueuePath(argv);
+  void runOrchestrator(queuePath).catch((err: unknown) => {
     console.error(err);
     process.exitCode = 1;
   });

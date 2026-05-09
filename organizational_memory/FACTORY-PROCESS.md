@@ -339,6 +339,9 @@ Phases **B** and **C** are optional; **A** already gives you a literal planner b
 
 | Topic | Where |
 |-------|--------|
+| **Factory platform design (meta-spec)** | **`organizational_memory/factory-design-spec.md`** |
+| **Factory ADRs (platform decisions)** | **`organizational_memory/ADRs/`** |
+| **Workflow machine validation** | **`organizational_memory/WORKFLOW-MACHINE-VALIDATION.md`** |
 | **Architecture** — separate `apps/*-instance` + `packages/*`, **frontend/backend placement**, **integration modes** (monorepo / HTTP / standalone), **CI workflow** notes | **`ARCHITECTURE.md`** |
 | **Mission control** — where PM items live besides Issues, VSM "you are here", agent log | **`MISSION-CONTROL.md`**, **`AGENT-RUN-LOG.md`** |
 | **MRP UI + orchestrated runner roadmap** (Phases B & C) | **`MRP-PHASE-B-AND-C.md`** |
