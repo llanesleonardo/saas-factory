@@ -513,7 +513,8 @@
     "app": "apps/todo-instance",
     "priority": 35,
     "phase": "7",
-    "status": "ready",
+    "status": "blocked",
+    "blocked_reason": "Deferred while executing Phase 9 (auth + tenancy) on phase/todo-saas-phase9. Resume Phase 7 polish after Phase 9 merge.",
     "depends_on": [
       "TODO_034_phase7_tooling_tailwind_headless"
     ],
@@ -678,6 +679,23 @@
     "app": "apps/todo-instance"
   },
   {
+    "id": "TODO_SAAS_P9_025_server_runtime_baseline",
+    "title": "Phase 9: Add server runtime baseline (cookie session capable) for /api/*",
+    "description": "Introduce a minimal server runtime for apps/todo-instance so we can support cookie sessions and authenticated /api endpoints. This is a foundational step needed before CSRF mitigation and todo CRUD APIs can be implemented and tested deterministically.",
+    "acceptance_criteria": [
+      "App has a server runtime that can serve an /api route and set/read httpOnly cookies.",
+      "Local dev flow is documented and runnable (command names only; no secrets).",
+      "`npm run check` passes."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_010_tenancy_auth_contract"
+    ],
+    "assigned_agent": "dev",
+    "priority": 132,
+    "status": "in_progress",
+    "app": "apps/todo-instance"
+  },
+  {
     "id": "TODO_SAAS_P9_030_csrf_mitigation",
     "title": "Phase 9: Implement CSRF mitigation for cookie sessions",
     "description": "Add CSRF protection appropriate for cookie-based sessions for state-changing requests.",
@@ -687,7 +705,7 @@
       "No secrets committed; env var names only if needed."
     ],
     "depends_on": [
-      "TODO_SAAS_P9_020_packages_auth_skeleton"
+      "TODO_SAAS_P9_025_server_runtime_baseline"
     ],
     "assigned_agent": "dev",
     "priority": 130,

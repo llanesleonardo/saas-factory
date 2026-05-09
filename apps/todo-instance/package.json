@@ -4,15 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npx tsx server/dev.ts",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "preview": "npx tsx server/prod.ts",
     "test": "vitest run",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -22,6 +24,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/testing-library__jest-dom": "^5.14.9",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express": "^4.17.23",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.5.0",
     "eslint": "^9.17.0",

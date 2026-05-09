@@ -11,11 +11,22 @@ npm install
 npm run dev -w apps/todo-instance
 ```
 
+This starts a single local server that serves both the SPA and a minimal `/api/*` surface (Phase 9 baseline).
+
 ## Build
 
 ```bash
 npm run build -w apps/todo-instance
 ```
+
+## API (Phase 9 baseline)
+
+The Phase 9 server baseline provides:
+
+- `GET /api/health`
+- `POST /api/session/login` (sets an httpOnly cookie)
+- `GET /api/session/me` (reads the cookie)
+- `POST /api/session/logout`
 
 ## SaaS roadmap (Phase 9+)
 - Canonical roadmap: `specs/todo-spec.md` (Phases 9–13)
