@@ -57,6 +57,7 @@
   },
   "workspaces": [
     "apps/core-saas",
-    "apps/todo-instance"
+    "apps/todo-instance",
+    "packages/*"
   ]
 }

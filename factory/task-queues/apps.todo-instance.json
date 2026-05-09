@@ -576,5 +576,207 @@
       "`npm run check` passes",
       "`npm run validate-task-queue` passes"
     ]
+  },
+  {
+    "id": "TODO_SAAS_P10_010_postgres_migrations_tooling",
+    "title": "Phase 10: Add packages/db + Postgres migrations toolchain",
+    "description": "Introduce Postgres and a single migrations toolchain with deterministic local + CI flows (migrate/reset/seed).",
+    "acceptance_criteria": [
+      "packages/db exists with connection helpers and migration runner wiring.",
+      "Migrations are source-controlled and runnable from scratch in CI.",
+      "Local developer commands exist for migrate/reset/seed (names documented)."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_080_security_review_auth_tenancy"
+    ],
+    "assigned_agent": "dev",
+    "priority": 100,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P10_020_db_schema_tenants_users_memberships_todos",
+    "title": "Phase 10: Create DB schema + migrations for tenants/users/memberships/todos",
+    "description": "Add initial schema. Ensure tenant scoping is structural (FKs/constraints where applicable).",
+    "acceptance_criteria": [
+      "Tables exist for tenants, users, memberships, todos with tenant_id enforced.",
+      "Unique constraint exists for (tenant_id, user_id) membership.",
+      "Migrations are rerunnable on a clean database."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P10_010_postgres_migrations_tooling"
+    ],
+    "assigned_agent": "dev",
+    "priority": 95,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P10_030_persist_todos_in_db",
+    "title": "Phase 10: Persist todo CRUD to Postgres (tenant-scoped)",
+    "description": "Replace the persistence layer behind todo API with Postgres while preserving tenant isolation and deterministic behavior.",
+    "acceptance_criteria": [
+      "Todo CRUD endpoints read/write Postgres (not local-only).",
+      "Tenant scoping remains enforced in queries/mutations.",
+      "Basic CRUD semantics remain consistent."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P10_020_db_schema_tenants_users_memberships_todos"
+    ],
+    "assigned_agent": "dev",
+    "priority": 90,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P10_040_ci_db_test_harness",
+    "title": "Phase 10: CI DB harness (migrations from scratch + tests)",
+    "description": "Ensure CI spins up Postgres (or equivalent), runs migrations from scratch, then runs tests deterministically.",
+    "acceptance_criteria": [
+      "CI runs migrations from scratch before tests.",
+      "Tests cover DB-backed CRUD + tenant isolation.",
+      "Quality can gate with deterministic commands and evidence."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P10_030_persist_todos_in_db"
+    ],
+    "assigned_agent": "quality",
+    "priority": 85,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_010_tenancy_auth_contract",
+    "title": "Phase 9: Lock auth+tenancy contract (Tenant/User/Membership, roles, isolation rules)",
+    "description": "Encode the agreed tenancy model and auth invariants as developer-executable constraints: Tenant/User/Membership(role), role set (owner/member), and the rule that all data access is tenant-scoped and membership-verified server-side.",
+    "acceptance_criteria": [
+      "Tenant/User/Membership model and role set (owner/member) is recorded in repo docs/spec notes.",
+      "Tenant isolation rule is explicit: every todo is owned by tenantId; queries/mutations require membership verification.",
+      "API boundary expectation is explicit (todo CRUD via authenticated endpoints)."
+    ],
+    "depends_on": [],
+    "assigned_agent": "docs",
+    "priority": 140,
+    "status": "done",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_020_packages_auth_skeleton",
+    "title": "Phase 9: Add packages/auth skeleton (session cookie + guards)",
+    "description": "Create shared auth primitives in packages/auth: session helpers, requireUser, requireTenantMembership, role checks. No secrets. No product-specific UI here.",
+    "acceptance_criteria": [
+      "packages/auth exists with exported primitives for auth + tenant membership checks.",
+      "Session-based auth (httpOnly cookies) is the baseline mechanism.",
+      "Typecheck passes (`npm run check`)."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_010_tenancy_auth_contract"
+    ],
+    "assigned_agent": "dev",
+    "priority": 135,
+    "status": "in_progress",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_030_csrf_mitigation",
+    "title": "Phase 9: Implement CSRF mitigation for cookie sessions",
+    "description": "Add CSRF protection appropriate for cookie-based sessions for state-changing requests.",
+    "acceptance_criteria": [
+      "State-changing endpoints are protected against CSRF (mechanism documented).",
+      "Unauthenticated/invalid CSRF requests fail deterministically.",
+      "No secrets committed; env var names only if needed."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_020_packages_auth_skeleton"
+    ],
+    "assigned_agent": "dev",
+    "priority": 130,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_040_auth_ui_login_logout",
+    "title": "Phase 9: Add login/logout flow and protected app shell",
+    "description": "Implement minimal login/logout UX and block protected routes/actions when unauthenticated.",
+    "acceptance_criteria": [
+      "User can log in and log out.",
+      "Unauthenticated users cannot access todo CRUD routes/actions.",
+      "Behavior is deterministic and testable."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_030_csrf_mitigation"
+    ],
+    "assigned_agent": "dev",
+    "priority": 125,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_050_tenant_context_selection",
+    "title": "Phase 9: Add tenant context selection (minimal)",
+    "description": "Add minimal mechanism to establish current tenant context per user (e.g., default tenant or selection if multiple memberships).",
+    "acceptance_criteria": [
+      "Current tenant context is deterministically established after login.",
+      "If multiple memberships exist, user can select a tenant (minimal UX acceptable).",
+      "Tenant id used for subsequent API calls."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_040_auth_ui_login_logout"
+    ],
+    "assigned_agent": "dev",
+    "priority": 120,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_060_api_todos_tenant_scoped",
+    "title": "Phase 9: Implement tenant-scoped todo API endpoints",
+    "description": "Create authenticated endpoints for todo CRUD: GET/POST/PATCH/DELETE. Enforce membership and tenant scoping server-side.",
+    "acceptance_criteria": [
+      "Endpoints exist for GET/POST/PATCH/DELETE for todos.",
+      "Every operation is tenant-scoped and requires membership verification.",
+      "Cross-tenant access attempts are rejected deterministically (403/404 as designed)."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_050_tenant_context_selection"
+    ],
+    "assigned_agent": "dev",
+    "priority": 115,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_070_quality_gates_auth_tenancy",
+    "title": "Phase 9: Quality gates for auth + tenant isolation",
+    "description": "Add tests proving tenant isolation and auth enforcement; produce Quality evidence output per schema.",
+    "acceptance_criteria": [
+      "Automated tests cover: unauth blocked + two-tenant isolation (cannot read/write across).",
+      "`npm run check` passes.",
+      "Quality outputs pass/fail JSON with non-empty errors on fail."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_060_api_todos_tenant_scoped"
+    ],
+    "assigned_agent": "quality",
+    "priority": 110,
+    "status": "backlog",
+    "app": "apps/todo-instance"
+  },
+  {
+    "id": "TODO_SAAS_P9_080_security_review_auth_tenancy",
+    "title": "Phase 9: Security review for auth + tenant isolation",
+    "description": "Threat-model auth flows, cookie/session risks, CSRF, and tenant isolation boundary.",
+    "acceptance_criteria": [
+      "Security notes list concrete risks + mitigations (session fixation, CSRF, tenant isolation).",
+      "Review confirms tenant isolation is enforced server-side.",
+      "No secrets included; pointers only."
+    ],
+    "depends_on": [
+      "TODO_SAAS_P9_070_quality_gates_auth_tenancy"
+    ],
+    "assigned_agent": "security",
+    "priority": 105,
+    "status": "backlog",
+    "app": "apps/todo-instance"
   }
 ]

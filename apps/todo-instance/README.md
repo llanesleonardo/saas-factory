@@ -2,7 +2,7 @@
 
 Vite + React + TypeScript vertical scaffold.
 
-This folder is intentionally **scaffold-only** (placeholder UI, no persisted data yet).
+This folder currently ships a local-only Todo app (see `specs/todo-spec.md` for the canonical spec), and will evolve into a “true SaaS” across later phases.
 
 ## Dev
 
@@ -16,4 +16,8 @@ npm run dev -w apps/todo-instance
 ```bash
 npm run build -w apps/todo-instance
 ```
+
+## SaaS roadmap (Phase 9+)
+- Canonical roadmap: `specs/todo-spec.md` (Phases 9–13)
+- Phase 9 contract (auth + tenancy): `apps/todo-instance/docs/phase9-auth-tenancy-contract.md`
 
