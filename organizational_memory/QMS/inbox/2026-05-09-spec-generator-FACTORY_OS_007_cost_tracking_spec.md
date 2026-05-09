@@ -1,7 +1,13 @@
 # Agent action record
 
-## Context
-Task `FACTORY_OS_007_cost_tracking_spec` required a Factory OS cost tracking specification that defines the event model, rollups, provenance rules, and how it links to telemetry and tools.
+## Document metadata
+- **Date (UTC):** 2026-05-09
+- **Agent role:** spec-generator
+- **Task id / issue:** FACTORY_OS_007_cost_tracking_spec
+- **Spec / PR refs:** `organizational_memory/factory-os-cost-tracking-spec.md`, `organizational_memory/factory-design-spec.md`
+
+## Actions performed
+- Authored the cost tracking spec and linked it from the factory design meta-spec.
 
 ## Actions taken
 - Created the cost tracking spec: `organizational_memory/factory-os-cost-tracking-spec.md`

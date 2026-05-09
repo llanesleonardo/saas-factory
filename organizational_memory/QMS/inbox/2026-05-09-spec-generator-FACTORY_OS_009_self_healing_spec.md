@@ -1,7 +1,13 @@
 # Agent action record
 
-## Context
-Task `FACTORY_OS_009_self_healing_spec` required a Factory OS specification for a **strictly gated** self-healing layer (retry + fix suggestions) that never bypasses PR/CI/human review governance.
+## Document metadata
+- **Date (UTC):** 2026-05-09
+- **Agent role:** spec-generator
+- **Task id / issue:** FACTORY_OS_009_self_healing_spec
+- **Spec / PR refs:** `organizational_memory/factory-os-self-healing-spec.md`, `organizational_memory/factory-design-spec.md`
+
+## Actions performed
+- Authored the self-healing spec and linked it from the factory design meta-spec.
 
 ## Actions taken
 - Created self-healing spec: `organizational_memory/factory-os-self-healing-spec.md`

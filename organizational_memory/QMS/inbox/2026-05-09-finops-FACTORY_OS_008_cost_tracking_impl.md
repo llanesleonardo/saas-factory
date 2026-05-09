@@ -1,7 +1,14 @@
 # Agent action record
 
-## Context
-Task `FACTORY_OS_008_cost_tracking_impl` required implementing a local-first, deterministic way to **enter costs** and **report rollups** per app/day and per run, without integrating cloud billing APIs or storing secrets.
+## Document metadata
+- **Date (UTC):** 2026-05-09
+- **Agent role:** finops
+- **Task id / issue:** FACTORY_OS_008_cost_tracking_impl
+- **Spec / PR refs:** `organizational_memory/factory-os-cost-tracking-spec.md`, `factory/task-queue.json`
+- **Depends on (optional):** FACTORY_OS_007_cost_tracking_spec, FACTORY_OS_006_telemetry_run_history_store
+
+## Actions performed
+- Implemented local-first, deterministic cost events and rollups (manual-first; no billing APIs; no secrets).
 
 ## Actions taken
 - Implemented local-first cost events + rollups:

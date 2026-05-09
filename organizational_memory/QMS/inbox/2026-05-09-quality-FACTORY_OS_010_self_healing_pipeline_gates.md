@@ -1,7 +1,13 @@
 # Agent action record
 
-## Context
-Follow-up Quality work for `FACTORY_OS_010_self_healing_pipeline`: add deterministic fixtures and a CI evidence gate so self-healing report generation remains stable over time.
+## Document metadata
+- **Date (UTC):** 2026-05-09
+- **Agent role:** quality
+- **Task id / issue:** FACTORY_OS_010_self_healing_pipeline (Quality fixtures/gate follow-up)
+- **Spec / PR refs:** `organizational_memory/factory-os-self-healing-spec.md`
+
+## Actions performed
+- Added deterministic fixtures and a CI evidence gate so self-healing report generation remains stable.
 
 ## Actions taken
 - Added self-heal fixtures:

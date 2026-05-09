@@ -1,7 +1,13 @@
 # Agent action record
 
-## Context
-Task `FACTORY_OS_010_self_healing_pipeline` required a strictly gated self-healing implementation that can turn a **Quality failure output** into a **reproducible fix plan** and a report artifact, without bypassing PR/CI governance.
+## Document metadata
+- **Date (UTC):** 2026-05-09
+- **Agent role:** tooling
+- **Task id / issue:** FACTORY_OS_010_self_healing_pipeline
+- **Spec / PR refs:** `organizational_memory/factory-os-self-healing-spec.md`
+
+## Actions performed
+- Implemented a strictly gated self-healing report generator (no auto-merge, no code changes applied).
 
 ## Actions taken
 - Implemented self-healing report generator:
