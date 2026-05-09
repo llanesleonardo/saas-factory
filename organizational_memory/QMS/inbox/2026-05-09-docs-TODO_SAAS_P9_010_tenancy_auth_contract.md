@@ -8,6 +8,8 @@
 - **Depends on (optional):** n/a
 
 ## Actions performed
+
+- Moved the Phase 9 auth+tenancy implementation contract to `organizational_memory/apps/todo-instance/phase9-auth-tenancy-contract.md` to keep app docs consolidated under Organizational Memory.
 - Authored a Phase 9 implementation contract for auth + tenancy (tenant model, auth method invariants, API expectations, verification notes).
 - Linked the contract from the `apps/todo-instance` README for discoverability.
 

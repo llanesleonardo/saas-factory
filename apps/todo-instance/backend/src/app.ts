@@ -1,9 +1,8 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import type { Request, Response } from "express";
 import express from "express";
 import { randomUUID } from "node:crypto";
-
-export type ServerApp = ReturnType<typeof createServerApp>;
 
 type Session = {
   userId: string;
@@ -17,7 +16,7 @@ function getSid(req: Request): string | null {
   return typeof v === "string" && v.length > 0 ? v : null;
 }
 
-export function createServerApp(): {
+export function createBackendApp(): {
   app: express.Express;
   sessions: Map<string, Session>;
 } {
@@ -28,12 +27,18 @@ export function createServerApp(): {
   app.use(express.json({ limit: "256kb" }));
   app.use(cookieParser());
 
+  // Two-port dev topology: allow frontend dev server to call the API with cookies.
+  app.use(
+    cors({
+      origin: "http://localhost:5174",
+      credentials: true,
+    }),
+  );
+
   app.get("/api/health", (_req, res) => {
     res.status(200).json({ ok: true });
   });
 
-  // Baseline login endpoint for cookie-session capability.
-  // Phase 9 will replace this with real auth + tenancy wiring.
   app.post("/api/session/login", (req: Request, res: Response) => {
     const userId =
       typeof req.body?.userId === "string" && req.body.userId.trim().length > 0

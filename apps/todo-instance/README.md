@@ -11,7 +11,10 @@ npm install
 npm run dev -w apps/todo-instance
 ```
 
-This starts a single local server that serves both the SPA and a minimal `/api/*` surface (Phase 9 baseline).
+This starts **two** local processes:
+
+- **Frontend** (Vite): `http://localhost:5174`
+- **Backend** (API): `http://localhost:5175` (frontend proxies `/api/*` to this)
 
 ## Build
 
@@ -23,12 +26,12 @@ npm run build -w apps/todo-instance
 
 The Phase 9 server baseline provides:
 
-- `GET /api/health`
-- `POST /api/session/login` (sets an httpOnly cookie)
-- `GET /api/session/me` (reads the cookie)
-- `POST /api/session/logout`
+- `GET http://localhost:5175/api/health`
+- `POST http://localhost:5175/api/session/login` (sets an httpOnly cookie)
+- `GET http://localhost:5175/api/session/me` (reads the cookie)
+- `POST http://localhost:5175/api/session/logout`
 
 ## SaaS roadmap (Phase 9+)
 - Canonical roadmap: `specs/todo-spec.md` (Phases 9–13)
-- Phase 9 contract (auth + tenancy): `apps/todo-instance/docs/phase9-auth-tenancy-contract.md`
+- Phase 9 contract (auth + tenancy): `organizational_memory/apps/todo-instance/phase9-auth-tenancy-contract.md`
 

@@ -26,10 +26,7 @@ export function TodoList({
   return (
     <ul className="mt-4 space-y-2">
       {todos.map((t) => (
-        <li
-          key={t.id}
-          className="flex items-center gap-3 rounded-lg border border-ink/10 bg-surface px-3 py-2 shadow-sm"
-        >
+        <li key={t.id} className="flex items-center gap-3 rounded-lg border border-ink/10 bg-surface px-3 py-2 shadow-sm">
           <label className="flex flex-1 items-center gap-3">
             <input
               type="checkbox"

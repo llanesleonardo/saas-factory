@@ -1,5 +1,5 @@
-import type { Filter } from "../todos.model";
 import { RadioGroup } from "@headlessui/react";
+import type { Filter } from "../todos.model";
 
 const options: Array<{ value: Filter; label: string }> = [
   { value: "all", label: "All" },
@@ -17,7 +17,11 @@ export function Filters({
   return (
     <RadioGroup value={value} onChange={onChange}>
       <RadioGroup.Label className="sr-only">Filter todos</RadioGroup.Label>
-      <div role="group" aria-label="Filter todos" className="inline-flex rounded-md border border-ink/10 bg-surface p-1 shadow-sm">
+      <div
+        role="group"
+        aria-label="Filter todos"
+        className="inline-flex rounded-md border border-ink/10 bg-surface p-1 shadow-sm"
+      >
         {options.map((o) => (
           <RadioGroup.Option key={o.value} value={o.value} className="focus:outline-none">
             {({ checked }) => (

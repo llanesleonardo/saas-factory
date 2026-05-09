@@ -170,7 +170,7 @@
     "acceptance_criteria": [
       "Tests cover: missing storage → empty list; corrupt JSON → empty list (no crash).",
       "Tests cover: older schema input → migrated current shape and persisted behavior (as designed).",
-      "Tests are runnable via `npm run test -w apps/todo-instance`."
+      "Tests are runnable via `npm run test -w apps/todo-instance/frontend`."
     ]
   },
   {
@@ -203,9 +203,9 @@
       "TODO_015_phase3_ui_filters_and_bulk_actions_tests"
     ],
     "acceptance_criteria": [
-      "`npm run lint -w apps/todo-instance` passes",
-      "`npm run build -w apps/todo-instance` passes",
-      "`npm run test -w apps/todo-instance` passes",
+      "`npm run lint -w apps/todo-instance/frontend` passes",
+      "`npm run build -w apps/todo-instance/frontend` passes",
+      "`npm run test -w apps/todo-instance/frontend` passes",
       "Quality can report `{ status, errors }` with commands_run and empty errors on pass"
     ]
   },
@@ -223,7 +223,7 @@
       "Move pure business rules into `src/todos.model.ts` (filtering, counts, bulk action intent helpers) and keep them unit-testable.",
       "Extract minimal UI components (e.g. Filters, BulkActions, TodoList) without changing runtime behavior.",
       "All existing tests remain passing with minimal/no snapshot churn.",
-      "`npm run lint -w apps/todo-instance` and `npm run test -w apps/todo-instance` pass."
+      "`npm run lint -w apps/todo-instance/frontend` and `npm run test -w apps/todo-instance/frontend` pass."
     ]
   },
   {
@@ -273,7 +273,7 @@
     "acceptance_criteria": [
       "UI tests cover empty state rendering when there are zero todos.",
       "UI tests cover inline edit: Enter saves, Escape cancels, trimming behavior, and reject-empty behavior.",
-      "`npm run test -w apps/todo-instance` passes."
+      "`npm run test -w apps/todo-instance/frontend` passes."
     ]
   },
   {
@@ -303,9 +303,9 @@
       "TODO_020_phase4_edit_and_empty_state_tests"
     ],
     "acceptance_criteria": [
-      "`npm run lint -w apps/todo-instance` passes",
-      "`npm run build -w apps/todo-instance` passes",
-      "`npm run test -w apps/todo-instance` passes",
+      "`npm run lint -w apps/todo-instance/frontend` passes",
+      "`npm run build -w apps/todo-instance/frontend` passes",
+      "`npm run test -w apps/todo-instance/frontend` passes",
       "Quality can report `{ status, errors, commands_run }` with empty errors on pass"
     ]
   },
@@ -354,7 +354,7 @@
     "acceptance_criteria": [
       "Test covers: payload with higher schemaVersion does not crash and results in safe behavior per spec.",
       "Test covers: forward-version does not trigger persistence overwrite on load.",
-      "`npm run test -w apps/todo-instance` passes."
+      "`npm run test -w apps/todo-instance/frontend` passes."
     ]
   },
   {
@@ -386,9 +386,9 @@
       "TODO_026_phase5_tooling_enforce_phase_convention"
     ],
     "acceptance_criteria": [
-      "`npm run lint -w apps/todo-instance` passes",
-      "`npm run build -w apps/todo-instance` passes",
-      "`npm run test -w apps/todo-instance` passes",
+      "`npm run lint -w apps/todo-instance/frontend` passes",
+      "`npm run build -w apps/todo-instance/frontend` passes",
+      "`npm run test -w apps/todo-instance/frontend` passes",
       "Quality reports `{ status, errors, commands_run }` with empty errors on pass"
     ]
   },
@@ -465,9 +465,9 @@
       "TODO_031_phase6_export_import_tests"
     ],
     "acceptance_criteria": [
-      "`npm run lint -w apps/todo-instance` passes",
-      "`npm run build -w apps/todo-instance` passes",
-      "`npm run test -w apps/todo-instance` passes",
+      "`npm run lint -w apps/todo-instance/frontend` passes",
+      "`npm run build -w apps/todo-instance/frontend` passes",
+      "`npm run test -w apps/todo-instance/frontend` passes",
       "`npm run check` passes",
       "`npm run validate-task-queue` passes (if present)"
     ]
@@ -500,11 +500,11 @@
       "TODO_033_phase7_spec_ux_ui"
     ],
     "acceptance_criteria": [
-      "`apps/todo-instance` lists `tailwindcss`, `postcss`, `autoprefixer` (dev) and `@headlessui/react` (dependency) with working install from repo root.",
+      "`apps/todo-instance/frontend` lists `tailwindcss`, `postcss`, `autoprefixer` (dev) and `@headlessui/react` (dependency) with working install from repo root.",
       "`tailwind.config` (or equivalent) scans `./index.html` and `./src/**/*.{ts,tsx}`; `postcss.config` includes tailwind + autoprefixer if using PostCSS pipeline.",
       "`src/index.css` (or agreed entry) contains Tailwind directives; `main.tsx` imports global styles.",
       "No unused Headless imports (lint clean).",
-      "`npm run build -w apps/todo-instance` and `npm run lint -w apps/todo-instance` pass."
+      "`npm run build -w apps/todo-instance/frontend` and `npm run lint -w apps/todo-instance/frontend` pass."
     ]
   },
   {
@@ -523,7 +523,7 @@
       "Page structure: header / main / optional footer utilities; max-width comfortable on wide screens.",
       "Light + dark via `prefers-color-scheme` (Tailwind `darkMode: 'media'` or equivalent); optional manual toggle documented if added.",
       "Headless UI used where it adds accessibility (e.g. `Button`, `Listbox` for filters per spec)—styled with Tailwind.",
-      "`npm run lint -w apps/todo-instance` and `npm run build -w apps/todo-instance` pass."
+      "`npm run lint -w apps/todo-instance/frontend` and `npm run build -w apps/todo-instance/frontend` pass."
     ]
   },
   {
@@ -540,7 +540,7 @@
       "Import: user-visible success/error for invalid JSON, unusable payload, etc.; `role=\"status\"` / `aria-live=\"polite\"` (or equivalent).",
       "Export: brief user-visible confirmation.",
       "`main` landmark + sensible `h1`; keyboard flows unchanged for add, filters, bulk, inline edit, undo.",
-      "`npm run lint -w apps/todo-instance` passes."
+      "`npm run lint -w apps/todo-instance/frontend` passes."
     ]
   },
   {
@@ -557,7 +557,7 @@
       "Tests: import failure + success paths expose status/live region text.",
       "Tests: stable dark/theme signal (e.g. `html` class, `data-theme`) without brittle snapshots.",
       "Tests: `main` / heading presence per Phase 7.",
-      "`npm run test -w apps/todo-instance` passes."
+      "`npm run test -w apps/todo-instance/frontend` passes."
     ]
   },
   {
@@ -571,9 +571,9 @@
       "TODO_037_phase7_ux_ui_tests"
     ],
     "acceptance_criteria": [
-      "`npm run lint -w apps/todo-instance` passes",
-      "`npm run build -w apps/todo-instance` passes",
-      "`npm run test -w apps/todo-instance` passes",
+      "`npm run lint -w apps/todo-instance/frontend` passes",
+      "`npm run build -w apps/todo-instance/frontend` passes",
+      "`npm run test -w apps/todo-instance/frontend` passes",
       "`npm run check` passes",
       "`npm run validate-task-queue` passes"
     ]
