@@ -108,60 +108,84 @@ export default function App() {
   }
 
   return (
-    <div style={{ fontFamily: "system-ui", maxWidth: 560, margin: "2rem auto", padding: "0 1rem" }}>
-      <h1>Todo (placeholder)</h1>
-      <p style={{ color: "#666" }}>
-        This is a scaffold-only shell. Next steps: write a spec, generate tasks, then implement persistence/API.
-      </p>
+    <div className="mx-auto max-w-2xl px-4 py-8">
+      <header className="mb-6 flex flex-col gap-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">Todos</h1>
+        <p className="text-sm text-ink-muted">Local-only todos with export/import, filters, and bulk actions.</p>
+      </header>
 
-      <form onSubmit={add} style={{ display: "flex", gap: 8 }}>
-        <input
-          ref={titleInputRef}
-          id="new-todo-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Add a task"
-          aria-label="New todo title"
-          style={{ flex: 1, padding: "0.6rem" }}
-        />
-        <button type="submit" disabled={!title.trim()}>
-          Add
-        </button>
-      </form>
+      <main>
+        <section aria-label="Add a todo" className="rounded-xl border border-ink/10 bg-surface p-4 shadow-sm">
+          <form onSubmit={add} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <input
+              ref={titleInputRef}
+              id="new-todo-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Add a task"
+              aria-label="New todo title"
+              className="w-full flex-1 rounded-md border border-ink/10 bg-surface-muted px-3 py-2 text-sm text-ink outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            />
+            <button
+              type="submit"
+              disabled={!title.trim()}
+              className="inline-flex items-center justify-center rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white shadow-sm outline-none hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Add
+            </button>
+          </form>
 
-      <div style={{ marginTop: "1rem", color: "#666" }} aria-live="polite">
-        {remaining} remaining ({total} total)
-      </div>
+          <div className="mt-3 text-sm text-ink-muted" aria-live="polite">
+            {remaining} remaining ({total} total)
+          </div>
 
-      <div style={{ marginTop: "0.75rem", display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <Filters value={filter} onChange={setFilter} />
-        <BulkActions onToggleAll={toggleAll} onClearCompleted={clearCompleted} />
-        <div role="group" aria-label="Import and export" style={{ display: "flex", gap: 8 }}>
-          <button type="button" onClick={exportTodos}>
-            Export
-          </button>
-          <button type="button" onClick={importTodos}>
-            Import
-          </button>
-        </div>
-      </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <Filters value={filter} onChange={setFilter} />
+            <BulkActions onToggleAll={toggleAll} onClearCompleted={clearCompleted} />
+            <div role="group" aria-label="Import and export" className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={exportTodos}
+                className="rounded-md border border-ink/10 bg-surface px-3 py-2 text-sm font-medium text-ink shadow-sm outline-none hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                onClick={importTodos}
+                className="rounded-md border border-ink/10 bg-surface px-3 py-2 text-sm font-medium text-ink shadow-sm outline-none hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        </section>
 
-      {lastDeleted ? (
-        <div role="status" style={{ marginTop: "0.75rem", color: "#666", display: "flex", gap: 8 }}>
-          <span>Todo deleted.</span>
-          <button type="button" onClick={undoDelete} aria-label="Undo delete">
-            Undo
-          </button>
-        </div>
-      ) : null}
+        {lastDeleted ? (
+          <div
+            role="status"
+            className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-ink/10 bg-surface px-3 py-2 text-sm text-ink-muted shadow-sm"
+          >
+            <span>Todo deleted.</span>
+            <button
+              type="button"
+              onClick={undoDelete}
+              aria-label="Undo delete"
+              className="rounded-md bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent outline-none hover:bg-accent/15 focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Undo
+            </button>
+          </div>
+        ) : null}
 
-      {total === 0 ? (
-        <div role="status" style={{ marginTop: "1rem", color: "#666" }}>
-          No todos yet. Add one above to get started.
-        </div>
-      ) : null}
+        {total === 0 ? (
+          <div role="status" className="mt-6 rounded-lg border border-ink/10 bg-surface p-4 text-sm text-ink-muted">
+            No todos yet. Add one above to get started.
+          </div>
+        ) : null}
 
-      <TodoList todos={visibleTodos} onToggle={toggle} onDelete={remove} onUpdateTitle={updateTitle} />
+        <TodoList todos={visibleTodos} onToggle={toggle} onDelete={remove} onUpdateTitle={updateTitle} />
+      </main>
     </div>
   );
 }
