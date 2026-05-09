@@ -80,6 +80,16 @@ Git may still help with **draft PR** text or branch naming **before** final gree
 - One coherent stream of work per task when possible: `feature/<task-id>` or `fix/<task-id>` aligned with **Dev** agent conventions
 - Know how to create/switch branches and **avoid** mixing unrelated tasks on one branch
 
+#### Delivery loop — branch per iteration (factory default)
+
+Treat each **new execution loop** (e.g. a spec phase such as Phase 7, or a coherent batch of new **`factory/task-queue.json`** tasks) as **branch-first**:
+
+1. **Cut a branch before implementation** — e.g. `feature/todo-phase7` or `feature/<TASK_ID>_short-slug` (prefer tying the name to the **primary task id** when one task anchors the PR).
+2. **Implement → Quality green → PR → merge to `main`** — preserves **TASK → branch → commits → PR** traceability and attaches gates to a single diff.
+3. **Direct pushes to `main`** — use only for **exceptions** the org explicitly allows (e.g. single-file typo, emergency revert, documented housekeeping), or prevent bypass entirely with **`main` branch protection** and required PR checks.
+
+**Alignment:** **Dev** should not treat implementation as started until this branch exists unless the human **waives** branch-first for that turn.
+
 ### 2. Commit discipline
 
 - **Atomic** commits: one logical change per commit when feasible; no unrelated feature mixing

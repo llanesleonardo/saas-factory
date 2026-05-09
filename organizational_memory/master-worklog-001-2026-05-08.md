@@ -209,50 +209,54 @@ npm run check
 
 ## 6.1) Factory process diagram (agents + tools)
 
+Aligned with the factory process figure (`organizational_memory/mermaid-diagram.png`): three bands — **Planning & Specification**, **Execution Pipeline**, **Organizational Memory**.
+
 ```mermaid
 flowchart TB
-  %% Artifacts
-  SPEC[specs/todo-spec.md]
-  TQ[factory/task-queue.json]
-  QMS[organizational_memory/QMS/inbox/*.md]
-  PR[Pull request]
-  MAIN[main branch]
+  classDef agent fill:#c8e6c9,stroke:#2e7d32,color:#1b5e20
+  classDef cmd fill:#fff9c4,stroke:#f9a825,color:#5d4037
+  classDef store fill:#bbdefb,stroke:#1565c0,color:#0d47a1
+  classDef gate fill:#ffcdd2,stroke:#c62828,color:#b71c1c
+  classDef gitflow fill:#e1bee7,stroke:#6a1b9a,color:#4a148c
 
-  %% Agents (roles)
-  SG[Spec Generator]
-  PM[PM]
-  DEV[Dev]
-  QUAL[Quality]
-  FIX[Fix]
-  GIT[Git]
-  DOCS[Docs]
-  ARCH[Architect]
+  subgraph MEM["Organizational Memory"]
+    direction LR
+    DOCS[Docs Agent] -->|curates lessons learned| QMS[(QMS Inbox / Worklogs)]
+  end
 
-  %% Tools / commands
-  GENSPEC[npm run generate-spec]
-  NEXT[npm run factory:next]
-  GATES["npm run lint/build/test -w apps/todo-instance\nnpm run check\nnpm run validate-task-queue"]
+  subgraph LANES[" "]
+    direction LR
+    subgraph PLAN["Planning & Specification"]
+      direction TB
+      ARCH[Architect] -->|recommendations| SPEC[(specs/todo-spec.md)]
+      GENSPEC[npm run generate-spec] -->|generates| SPEC
+      SG[Spec Generator] -->|refines spec| SPEC
+    end
+    subgraph EXEC["Execution Pipeline"]
+      direction TB
+      PM[PM] -->|tasks + acceptance criteria| TQ[(factory/task-queue.json)]
+      NEXT[npm run factory:next] -->|select ready task| TQ
+      TQ --> DEV[Developer]
+      DEV -->|implementation + tests| QUAL[Quality]
+      QUAL -->|executes gates| GATES{{"Quality Gates<br/>lint + build + test + check + validate-task-queue"}}
+      GATES -->|fail| FIXAG[Fix Agent]
+      FIXAG -->|minimal patch| QUAL
+      GATES -->|pass| GIT[Git Agent]
+      GIT -->|branch / commit / push| PR[Pull Request]
+      PR -->|merge approved| MAIN[(main branch)]
+      MAIN -->|work complete| TQ
+    end
+  end
 
-  %% Flow
-  ARCH -->|recommendations| SPEC
-  GENSPEC --> SPEC
-  SG -->|update spec| SPEC
-  SPEC --> PM
-  PM -->|tasks + acceptance criteria| TQ
-  NEXT -->|select next ready task| TQ
-  TQ --> DEV
-  DEV -->|code + tests| QUAL
-  QUAL -->|run gates| GATES
-  GATES -->|pass| GIT
-  GATES -->|fail| FIX
-  FIX -->|minimal patch| QUAL
-  GIT -->|branch/commit/push| PR
-  PR -->|merge| MAIN
-  MAIN -->|closure: mark done| TQ
+  SPEC -->|spec baseline| PM
   DEV -->|evidence| QMS
-  QUAL -->|evidence| QMS
-  FIX -->|evidence (when used)| QMS
-  DOCS -->|curate worklog + lessons| QMS
+  FIXAG -->|evidence| QMS
+
+  class ARCH,SG,PM,DEV,QUAL,FIXAG,GIT,DOCS agent
+  class GENSPEC,NEXT cmd
+  class SPEC,TQ,QMS store
+  class GATES gate
+  class PR,MAIN gitflow
 ```
 
 ## 7) PR / merge checkpoints (what landed on `main`)
@@ -272,6 +276,8 @@ Recent merge commits (chronological order in `git log --merges`); see `git log -
 
 ### Architecture memo
 - `organizational_memory/architecture-review-001-2026-05-08.md`
+- `organizational_memory/architecture-review-002-2026-05-08.md` (post–Phase 6; Phase 7 boundaries)
+- `organizational_memory/architecture-review-003-2026-05-08-phase7-ui-stack.md` (Phase 7: Tailwind + Headless UI)
 
 ### QMS inbox records (partial list; see `organizational_memory/QMS/inbox/` for full set)
 - `organizational_memory/QMS/inbox/2026-05-08-spec-generator-todo-spec.md`

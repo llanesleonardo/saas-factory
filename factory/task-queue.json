@@ -414,5 +414,98 @@
       "`npm run check` passes",
       "`npm run validate-task-queue` passes (if present)"
     ]
+  },
+  {
+    "id": "TODO_033_phase7_spec_ux_ui",
+    "title": "Phase 7: Spec alignment for UX/UI (Tailwind + Headless UI, local-only)",
+    "description": "Phase 7 requires Tailwind CSS + @headlessui/react per architecture-review-003; see specs/todo-spec.md.",
+    "app": "apps/todo-instance",
+    "priority": 33,
+    "phase": "7",
+    "status": "done",
+    "depends_on": ["TODO_032_phase6_quality_gates"],
+    "acceptance_criteria": [
+      "`specs/todo-spec.md` Phase 7 names **Tailwind CSS** + **`@headlessui/react`**, tooling scope, tokens via `theme.extend`, dark mode via `prefers-color-scheme` minimum, feedback + a11y, non-goals (no heavy UI kits).",
+      "References `organizational_memory/architecture-review-002-2026-05-08.md` and `architecture-review-003-2026-05-08-phase7-ui-stack.md`.",
+      "Stays local-only (no API/auth/sync)."
+    ]
+  },
+  {
+    "id": "TODO_034_phase7_tooling_tailwind_headless",
+    "title": "Phase 7: Tooling — Tailwind CSS + PostCSS + @headlessui/react + Vite wiring",
+    "app": "apps/todo-instance",
+    "priority": 34,
+    "phase": "7",
+    "status": "done",
+    "depends_on": ["TODO_033_phase7_spec_ux_ui"],
+    "acceptance_criteria": [
+      "`apps/todo-instance` lists `tailwindcss`, `postcss`, `autoprefixer` (dev) and `@headlessui/react` (dependency) with working install from repo root.",
+      "`tailwind.config` (or equivalent) scans `./index.html` and `./src/**/*.{ts,tsx}`; `postcss.config` includes tailwind + autoprefixer if using PostCSS pipeline.",
+      "`src/index.css` (or agreed entry) contains Tailwind directives; `main.tsx` imports global styles.",
+      "No unused Headless imports (lint clean).",
+      "`npm run build -w apps/todo-instance` and `npm run lint -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_035_phase7_tailwind_layout_theme_headless",
+    "title": "Phase 7: Tailwind tokens, layout shell, dark mode, Headless primitives on UI",
+    "app": "apps/todo-instance",
+    "priority": 35,
+    "phase": "7",
+    "status": "ready",
+    "depends_on": ["TODO_034_phase7_tooling_tailwind_headless"],
+    "acceptance_criteria": [
+      "`theme.extend` defines shared palette, spacing, radius, typography; components use utilities (not only raw browser defaults).",
+      "Page structure: header / main / optional footer utilities; max-width comfortable on wide screens.",
+      "Light + dark via `prefers-color-scheme` (Tailwind `darkMode: 'media'` or equivalent); optional manual toggle documented if added.",
+      "Headless UI used where it adds accessibility (e.g. `Button`, `Listbox` for filters per spec)—styled with Tailwind.",
+      "`npm run lint -w apps/todo-instance` and `npm run build -w apps/todo-instance` pass."
+    ]
+  },
+  {
+    "id": "TODO_036_phase7_import_export_feedback_landmarks",
+    "title": "Phase 7: Import/export accessible feedback + main landmark + h1",
+    "app": "apps/todo-instance",
+    "priority": 36,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": ["TODO_035_phase7_tailwind_layout_theme_headless"],
+    "acceptance_criteria": [
+      "Import: user-visible success/error for invalid JSON, unusable payload, etc.; `role=\"status\"` / `aria-live=\"polite\"` (or equivalent).",
+      "Export: brief user-visible confirmation.",
+      "`main` landmark + sensible `h1`; keyboard flows unchanged for add, filters, bulk, inline edit, undo.",
+      "`npm run lint -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_037_phase7_ux_ui_tests",
+    "title": "Phase 7: Automated tests (import feedback, landmark/heading, theme signal)",
+    "app": "apps/todo-instance",
+    "priority": 37,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": ["TODO_036_phase7_import_export_feedback_landmarks"],
+    "acceptance_criteria": [
+      "Tests: import failure + success paths expose status/live region text.",
+      "Tests: stable dark/theme signal (e.g. `html` class, `data-theme`) without brittle snapshots.",
+      "Tests: `main` / heading presence per Phase 7.",
+      "`npm run test -w apps/todo-instance` passes."
+    ]
+  },
+  {
+    "id": "TODO_038_phase7_quality_gates",
+    "title": "Phase 7: Quality gates + evidence (lint/build/test/check + validate-task-queue)",
+    "app": "apps/todo-instance",
+    "priority": 38,
+    "phase": "7",
+    "status": "backlog",
+    "depends_on": ["TODO_037_phase7_ux_ui_tests"],
+    "acceptance_criteria": [
+      "`npm run lint -w apps/todo-instance` passes",
+      "`npm run build -w apps/todo-instance` passes",
+      "`npm run test -w apps/todo-instance` passes",
+      "`npm run check` passes",
+      "`npm run validate-task-queue` passes"
+    ]
   }
 ]

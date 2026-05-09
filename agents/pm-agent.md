@@ -35,6 +35,14 @@ Decompose approved SaaS specs into atomic **`factory/task-queue.json`** work —
 
 - Follow **`factory/agent-registry.json`** → **`next_agents`** (e.g. **Architect**, **Builder**, **Dev**).
 
+## Coordination with Git — branch before each new loop
+
+When you hand off **new phase / loop work** (fresh tasks after a milestone merge, e.g. Phase 7):
+
+- Expect **Git** + **Dev** to **create a feature branch first** — e.g. `feature/todo-phase7` or `feature/<TASK_ID>_short-slug` — **before** application code changes target **`main`**. Full rules: **`agents/git-agent.md`** → *Delivery loop — branch per iteration (factory default)*.
+- In **Next best move**, when the next role is **Dev** or **Git**, remind the user to **open that branch** (or invoke **Git**) before implementation unless they explicitly waive branch-first for that turn.
+- **Post-merge closure** is unchanged: **`factory/task-queue.json`** → **`status: "done"`** + QMS evidence per **`QMS-PUB-005`**.
+
 ## Success Criteria
 
 - Acyclic graph; stable **`id`s**; tasks executable without guessing scope.

@@ -363,4 +363,65 @@ Goal: add a couple of “real app” quality-of-life features while staying **st
 
 - Export and import work end-to-end and are resilient to invalid input.
 - Ordering remains deterministic after add/toggle/delete/import and refresh.
+---
 
+## Phase 7 (next loop): UX / UI polish — local-only
+
+**Architecture alignment:** `organizational_memory/architecture-review-002-2026-05-08.md` and **`organizational_memory/architecture-review-003-2026-05-08-phase7-ui-stack.md`**. Stay **standalone / local-only**; no API, auth, or sync. Integration mode remains **standalone**.
+
+### Implementation stack (Phase 7) — required
+
+- **Tailwind CSS** — utility-first styling; use `tailwind.config` **`theme.extend`** for shared **design tokens** (colors, spacing, font sizes, radii, shadows). Prefer Tailwind **`dark:`** variants; default strategy is **`prefers-color-scheme`** (`darkMode: 'media'`). This repo **pins Tailwind v3** with **PostCSS** for a stable Vite pipeline; moving to **v4** requires `@tailwindcss/postcss` or `@tailwindcss/vite` — treat as a **Tooling/ADR** change, not silent drift.
+- **Headless UI** — **`@headlessui/react`** as the **lightweight** component layer for accessible primitives (e.g. **`Button`**, **`Listbox`** for filter control, **`Menu`** or **`Popover`** only if needed). Style primitives with Tailwind classes; do **not** adopt a heavy kit (MUI/Chakra) in this phase.
+
+### Goal
+
+Make `apps/todo-instance` feel like a **cohesive product**: readable typography, consistent spacing, clear interactive states, **system light/dark** support, and **explicit user feedback** for import/export outcomes—without changing domain rules (still the same Todo model and storage contract).
+
+### Scope
+
+#### 1) Tooling + entry (local-only)
+
+- Add **Tailwind** + **PostCSS** (or Vite-native Tailwind integration per repo choice) and import a global **`src/index.css`** from **`main.tsx`** with Tailwind directives.
+- Add **`@headlessui/react`** dependency; tree-shake imports (no unused components).
+
+#### 2) Visual system + layout (local-only)
+
+- **Tokens:** centralize in **Tailwind theme extension** (utilities + optional CSS variables via `theme` if needed).
+- **Layout:** page shell with clear hierarchy (header / main / footer utility row if needed); comfortable **max-width** on large screens; touch-friendly hit targets.
+- **States:** visible **focus** styles (Tailwind `focus-visible:`); hover/active where appropriate.
+- **Theme:** **light and dark** via **`prefers-color-scheme`** at minimum. Optional: **manual theme toggle** persisted in `localStorage` using Tailwind **`class`** dark mode—document behavior so it does not fight system preference confusingly.
+
+#### 3) User feedback for critical actions (local-only)
+
+- **Import:** after import attempt, user sees a **clear message** for success vs rejection (invalid JSON, empty payload, forward-schema refusal, etc.)—not silent failure or console-only. Prefer **`role="status"`** / **`aria-live="polite"`** (can wrap Headless **Transition** for subtle UI if desired).
+- **Export:** brief confirmation is acceptable (status text or live region).
+- Copy stays **English** (full **i18n** is a non-goal).
+
+#### 4) Accessibility scaffolding (local-only)
+
+- **`main` landmark**, sensible **`h1`**, appropriate list markup for todos.
+- No regression to existing keyboard flows (add, filters, bulk actions, inline edit, undo).
+
+### Non-goals (Phase 7)
+
+- Backend/API/database, auth, multi-tenant, sync
+- Heavy UI kits (**MUI**, **Chakra**, **Mantine**); **daisyUI** unless PM opens a later phase
+- **Drag-and-drop reorder** (deferred)
+- Full **internationalization**
+- **Virtualized** long lists (optional future NFR)
+
+### Verification approach (Phase 7)
+
+- **Manual:** spot-check in light and dark; verify Headless + keyboard on filter/add paths.
+- **Automated:** UI tests cover **import feedback** (failure + success paths), **landmark** / heading, and a **stable** Tailwind/dark signal (e.g. `class` on `html`, or `data-*` set by theme helper)—avoid brittle full-page snapshots.
+- Gates: `npm run lint`, `npm run build`, `npm run test`, `npm run check` remain green.
+
+### Acceptance criteria (Phase 7)
+
+- **Tailwind** and **Headless UI** are **wired** (`package.json`, config, global CSS entry); production build succeeds.
+- UI uses **shared Tailwind tokens** and looks **intentionally designed**—not unstyled browser defaults only.
+- **Light and dark** work via **`prefers-color-scheme`** at minimum; optional manual toggle documented if present.
+- Import/export outcomes surface **user-visible, accessible** feedback.
+- **Landmarks / headings** meet the scope; existing keyboard-first flows still work.
+- Tests and quality gates pass per verification approach.
