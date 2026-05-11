@@ -44,7 +44,7 @@ See: [actions/add-to-project — Creating a PAT](https://github.com/actions/add-
 
 ## 4. How issues get onto a board
 
-- **Lean waste** template: pick **App / project bucket** (stores `app:…` text in the issue body). Workflow **`issue-route-lean-app-label`** adds the matching **`app:*`** label on open.
+- **Lean waste** template: pick **App / project bucket** (stores `app:…` text in the issue body). **Manually add** the matching **`app:*`** label on the issue so **`issue-add-to-app-project`** can route it (GitHub forms cannot set dynamic labels from dropdown values).
 - **Core SaaS / Dentist / Plumber / Mission control** issue templates: they apply the **`app:*`** label directly when the issue is created.
 - Workflow **`issue-add-to-app-project`** runs on `opened`, `labeled`, `reopened` and adds the issue to the project whose URL is in the matching variable.
 
