@@ -1,6 +1,6 @@
 # PRODUCTION SAAS FACTORY (PARALLEL + GITHUB + VERCEL)
 
-Use this checklist when you want the **upgrade tier**: parallel CI gates, remote dispatch, per-app deploy.
+Use this checklist when you want the **upgrade tier**: parallel CI gates, per-app deploy.
 
 ## 1. Parallel waves (local)
 
@@ -10,25 +10,16 @@ Use this checklist when you want the **upgrade tier**: parallel CI gates, remote
 
 ## 2. GitHub — parallel CI
 
-- Push a branch / open a PR: workflow **Factory CI (parallel)** runs **four jobs at once** (typecheck, orchestrator, matrix spec generation for dentist + plumber, parallel wave JSON).
+- Push a branch / open a PR: workflow **Factory CI (parallel)** runs jobs in parallel: **typecheck** (`npm run check`), **factory validators** (task queue, registry, fixtures, QMS inbox checks, etc.), **`npm run factory`**, and **parallel wave plan** JSON (uploaded as an artifact).
 
-## 3. GitHub — distributed dispatch
-
-- Actions → **Factory distributed dispatch** → Run workflow → choose vertical `all | dentist | plumber`.
-- Or trigger via API:
-
-  `gh workflow run factory-distributed-dispatch.yml -f vertical=all`
-
-- For `repository_dispatch`, send event type `factory-run` with JSON body `{ "vertical": "dentist" }` (optional; same resolver as manual).
-
-## 4. Vertical spec prompts (already automated locally)
+## 3. Vertical spec prompts (local)
 
 - `npm run generate-spec -- <vertical>` — see main README **Generate a full vertical spec**.
 
-## 5. Vercel — one project per app
+## 4. Vercel — per app
 
-- Create four Vercel projects linked to `apps/core-saas`, `apps/dentist-instance`, `apps/plumber-instance`, `apps/mission-control-instance` (each folder has `index.html` + `vercel.json`).
-- Add repo secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID_CORE_SAAS`, `VERCEL_PROJECT_ID_DENTIST`, `VERCEL_PROJECT_ID_PLUMBER`, `VERCEL_PROJECT_ID_MISSION_CONTROL`.
+- Create a Vercel project per app you deploy (see `apps/*/vercel.json` where present).
+- Add repo secrets (example for `core-saas`): `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID_CORE_SAAS` — see `.github/workflows/vercel-deploy.yml`.
 - Actions → **Vercel (per app)** → Run workflow → production `true` or `false` (preview).
 
-Four deploy jobs run **in parallel** (one per `apps/*` instance folder above).
+Add deploy jobs to the workflow when you add more apps to the matrix.

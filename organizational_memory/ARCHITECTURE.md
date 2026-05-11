@@ -58,7 +58,7 @@ Pick **one primary mode per vertical** (mixing without documentation creates dri
 
 - **`factory-parallel-ci.yml`** — today runs **root** `npm run check` and factory scripts. When an **`apps/<name>/package.json`** exists with its own `test` / `build`, add **matrix jobs** (or a workspace runner) so each app is gated without blocking unrelated apps.
 - **`vercel-deploy.yml`** — one job per **`working-directory: apps/...`**. Set each Vercel project’s **environment variables** for cross-app URLs (HTTP-integrated mode) and preview vs prod values.
-- **New verticals** — extend **`factory-distributed-dispatch.yml`** vertical lists (or drive them from a single config) when `generate-spec` should cover another `configs/<vertical>.json`.
+- **New verticals** — add `configs/<vertical>.json` and run **`npm run generate-spec -- <vertical>`** locally (or add a dedicated CI/workflow later if you want remote regeneration).
 
 ## When to reconsider
 

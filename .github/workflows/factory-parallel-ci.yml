@@ -1,6 +1,6 @@
 # Parallel "agent gates" on GitHub: typecheck, orchestrator, wave plan — no inter-job deps.
-# Spec prompt generation for other verticals is intentionally not run on every PR; run it manually via
-# `.github/workflows/factory-distributed-dispatch.yml` when needed.
+# Spec prompt generation is intentionally not run on every PR; run locally when needed:
+#   npm run generate-spec -- <vertical>
 name: Factory CI (parallel)
 
 on:
