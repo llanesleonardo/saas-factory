@@ -120,7 +120,7 @@ Each role file includes **`## Toolkit — modern stack`** (and PM / Architect / 
 | **Plans, Stripe, metering, unit economics, instance profitability** | `agents/finops-agent.md` | "Act as FinOps Agent. Estimate MRR vs hosting + Stripe COGS for dentist-instance; recommend optimize vs sunset review tasks." |
 | **Time-boxed unknown** (library, integration) | `agents/spike-agent.md` | "Act as Spike Agent, max 1h: can we use X for routing? Decision only." |
 | **Bootstrap a new vertical app** (`apps/<id>-instance/`, configs, wiring) | `agents/builder-agent.md` | "Act as Builder Agent: scaffold `electrician-instance` from plumber pattern; no auto clone pipeline yet." |
-| **Lean / flow / waste / WIP / kaizen** | `organizational_memory/LEAN-MANUFACTURING.md` | "Using LEAN-MANUFACTURING.md, review our process for: …" (normative doc; pair with Tooling/PM for changes.) File **Issues → Lean waste** (`lean issue` + **App / project bucket** → routes to that app's **GitHub Project** when configured — see **`organizational_memory/GITHUB-PROJECTS-SETUP.md`**). |
+| **Lean / flow / waste / WIP / kaizen** | `organizational_memory/LEAN-MANUFACTURING.md` | "Using LEAN-MANUFACTURING.md, review our process for: …" (normative doc; pair with Tooling/PM for changes.) Track waste in **GitHub Issues** (optional `lean issue` label); use **`app:*`** labels + **`GITHUB-PROJECTS-SETUP.md`** for project boards. |
 
 You can **@ more than one file** (e.g. `@specs/plumber-spec.md` + `@agents/pm-agent.md`).
 

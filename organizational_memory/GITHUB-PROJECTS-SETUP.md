@@ -44,13 +44,12 @@ See: [actions/add-to-project — Creating a PAT](https://github.com/actions/add-
 
 ## 4. How issues get onto a board
 
-- **Lean waste** template: pick **App / project bucket** (stores `app:…` text in the issue body). **Manually add** the matching **`app:*`** label on the issue so **`issue-add-to-app-project`** can route it (GitHub forms cannot set dynamic labels from dropdown values).
-- **Core SaaS / Dentist / Plumber / Mission control** issue templates: they apply the **`app:*`** label directly when the issue is created.
+- **Core SaaS** (and other app) issue templates: they apply the **`app:*`** label directly when the issue is created (when those templates exist in the repo).
 - Workflow **`issue-add-to-app-project`** runs on `opened`, `labeled`, `reopened` and adds the issue to the project whose URL is in the matching variable.
 
 ## 5. Filtering in GitHub
 
-- All lean items: `label:"lean issue"`.
+- If you use an optional **`lean issue`** label for kaizen triage: `label:"lean issue"`.
 - Dentist board work: project **Dentist** or search `label:app:dentist-instance`.
 - Mission control board: search `label:app:mission-control-instance`.
 

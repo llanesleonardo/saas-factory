@@ -29,7 +29,7 @@ Every file under **`agents/*-agent.md`** is a **role** you invoke with `@agents/
 | **`devops-agent.md`** | **Deploy, CI, Vercel**, rollback runbooks | **5** (primary) |
 | **`docs-agent.md`** | **Operator / dev docs**, README, onboarding | **1**, **3**, **6** |
 | **`support-agent.md`** | **Customer voice**: triage, FAQ → PM / spec | **6** (primary); feedback can reopen **1–2** |
-| **Lean (normative doc)** | **Lean**: value stream, WIP, waste, kaizen | **Meta (1–6)**; GitHub **Lean waste** issues |
+| **Lean (normative doc)** | **Lean**: value stream, WIP, waste, kaizen | **Meta (1–6)**; GitHub issues for waste / kaizen (see **LEAN-MANUFACTURING.md**) |
 
 ```mermaid
 flowchart TB
@@ -359,7 +359,7 @@ Phases **B** and **C** are optional; **A** already gives you a literal planner b
 | **docs** | Customer-facing **help**, admin runbooks, incident "first 5 minutes". |
 | **finops** | Live **usage vs plan**, dunning, Stripe anomalies. |
 | **pm** + **spec-generator** | When support proves **spec gaps** — update spec then **regenerate or adjust tasks**. |
-| **lean-manufacturing** | Steady-state **kaizen**; file **Lean waste** GitHub issues (`lean issue` + app bucket). |
+| **lean-manufacturing** | Steady-state **kaizen**; file GitHub issues per **LEAN-MANUFACTURING.md** (optional `lean issue` label; use **`app:*`** for project routing). |
 
 ---
 

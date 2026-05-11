@@ -115,14 +115,12 @@ Lean is about **flowing value with less waste**. Here is how to practice it **in
 
 ---
 
-## 11. GitHub Issues (`lean issue` label)
+## 11. GitHub Issues (lean / kaizen)
 
-- In GitHub: **Issues → New issue → Lean waste** (issue form under `.github/ISSUE_TEMPLATE/lean-waste.yml`).
-- New issues get the label **`lean issue`** (with a space) so you can filter `label:"lean issue"` and run lean kaizen / triage in the browser.
-- Workflow **Ensure lean issue label** (`.github/workflows/ensure-lean-label.yml`) creates that label on push to `main` / `master` if it does not exist yet (GitHub does not auto-create labels from templates).
-- The form **App / project bucket** writes `app:core-saas` | `app:dentist-instance` | `app:plumber-instance` | `app:mission-control-instance` into the body for humans and search. **Add the same `app:*` label manually** on the issue (sidebar) so **`issue-add-to-app-project`** can attach it to the right **GitHub Project** (§12).
+- File a **normal GitHub issue** and describe the waste, impact, and (optional) countermeasure. There is no dedicated “Lean waste” form in this repo.
+- **Optional:** create a label like **`lean issue`** in the repo and apply it for triage / filters (e.g. `label:"lean issue"`). For **GitHub Project** routing, add the right **`app:*`** label (see **Core SaaS** and other app issue templates) so **`issue-add-to-app-project`** can attach the issue to a board per **`GITHUB-PROJECTS-SETUP.md`**.
 
-**Practice:** Close a lean issue only with a **countermeasure** linked (PR, doc, rule change, or explicit "won't fix" reason).
+**Practice:** Close a lean item only with a **countermeasure** linked (PR, doc, rule change, or explicit "won't fix" reason).
 
 ---
 
@@ -131,7 +129,7 @@ Lean is about **flowing value with less waste**. Here is how to practice it **in
 - Create **four** GitHub Projects (new Projects), one per app bucket: **Core SaaS**, **Dentist instance**, **Plumber instance**, **Mission control** (`apps/mission-control-instance/`).
 - Per-app **issue templates** (Core SaaS, Dentist, Plumber, **Mission control instance**) apply labels `app:core-saas`, `app:dentist-instance`, `app:plumber-instance`, `app:mission-control-instance` so the same automation can attach work to the correct board.
 - Setup (PAT, repository **Variables** for project URLs, troubleshooting): **`GITHUB-PROJECTS-SETUP.md`** (this folder).
-- Workflow: **`issue-add-to-app-project`** adds the issue to the project URL in the variable that matches its **`app:*`** label (each issue needs that label applied — use the sidebar after filing **Lean waste**, or use an issue template that applies `app:*` directly).
+- Workflow: **`issue-add-to-app-project`** adds the issue to the project URL in the variable that matches its **`app:*`** label (use an issue template that applies `app:*`, or add the label in the sidebar).
 
 ---
 

@@ -12,7 +12,7 @@ The table maps familiar **ISO 9001:2015** themes to where evidence lives in this
 | Support (docs, tools, knowledge) | `organizational_memory/QMS/published/`, `README.md` |
 | Operation (controlled production) | Agent roles `agents/*-agent.md`, CI workflows |
 | Performance evaluation | CI results, GitHub Issues, `parallel-plan` artifacts |
-| Improvement | `QMS/inbox/` records, `LESSONS-LEARNED.md`, Lean waste issues |
+| Improvement | `QMS/inbox/` records, `LESSONS-LEARNED.md`, kaizen / lean-related GitHub issues |
 
 **Systems-engineering style IV&V (informative)** — maps classic V-model planning artifacts to **`published/`** (not independent third-party IV&V unless the org engages it):
 
