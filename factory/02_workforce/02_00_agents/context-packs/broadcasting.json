@@ -1,0 +1,16 @@
+{
+  "agent": "broadcasting",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent-registry.json",
+    "factory/03_assembly_lines/03-registry/registry/tool-registry.json",
+    "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+    "factory/01_production_planning/01_02_phase_registry/*/order-phases.json",
+    "factory/01_production_planning/01_00_work_orders/*/order-manifest.json",
+    "factory/01_production_planning/01_03_task-registry/*/phase-breakdown-*.json",
+    "configs/apps/",
+    "factory/02_workforce/02_02_workstations/workstation-map.json",
+    "factory/02_workforce/02_00_agents/agent_definitions/broadcasting-agent.md"
+  ],
+  "notes": "Use after lifecycle events: epic/task closure, registry or workforce catalog changes, new orders, product IR/stack updates. Output digest + optional JSON summary with paths and suggested next roles."
+}

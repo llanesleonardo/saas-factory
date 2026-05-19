@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "_comment": "Starter catalog — extend with org KPIs. Each metric is prompted in order; probes pre-fill where implemented.",
+  "metrics": [
+    {
+      "id": "tasks_total",
+      "title": "Global task queue — total tasks",
+      "kind": "number",
+      "description": "Count of task objects in factory/03_assembly_lines/03-registry/registry/task-queue.json."
+    },
+    {
+      "id": "tasks_by_status_done",
+      "title": "Tasks marked done",
+      "kind": "number",
+      "description": "Subset with status === \"done\" (if status omitted, not counted)."
+    },
+    {
+      "id": "tasks_by_status_in_progress",
+      "title": "Tasks in progress",
+      "kind": "number",
+      "description": "Subset with status === \"in_progress\"."
+    },
+    {
+      "id": "tasks_by_status_blocked",
+      "title": "Tasks blocked",
+      "kind": "number",
+      "description": "Subset with status === \"blocked\"."
+    },
+    {
+      "id": "tasks_by_status_ready",
+      "title": "Tasks ready",
+      "kind": "number",
+      "description": "Subset with status === \"ready\"."
+    },
+    {
+      "id": "telemetry_dispatch_ends_utc_day",
+      "title": "Assembly-line — dispatch completions (UTC day)",
+      "kind": "number",
+      "description": "Count of cli_dispatch_end events in factory/telemetry/assembly-line for the snapshot day (0 if no log)."
+    },
+    {
+      "id": "telemetry_failure_like_utc_day",
+      "title": "Assembly-line — failure-like events (UTC day)",
+      "kind": "number",
+      "description": "operation_error or outcome fail (approximate signal for kaizen)."
+    },
+    {
+      "id": "run_history_entries_utc_day",
+      "title": "Run history — entries (UTC day)",
+      "kind": "number",
+      "description": "Lines in factory/telemetry/run/run-history-YYYY-MM-DD.jsonl if present."
+    },
+    {
+      "id": "spine_check_last",
+      "title": "Last npm run check — outcome",
+      "kind": "choice",
+      "choices": [
+        { "value": "pass", "label": "pass (green)" },
+        { "value": "fail", "label": "fail (red)" },
+        { "value": "unknown", "label": "unknown / not run today" }
+      ],
+      "description": "Your attestation or result of the last check you care about; optional probe can offer to run (see CLI)."
+    },
+    {
+      "id": "validate_factory_last",
+      "title": "Last npm run mfg -- validate factory — outcome",
+      "kind": "choice",
+      "choices": [
+        { "value": "pass", "label": "pass" },
+        { "value": "fail", "label": "fail" },
+        { "value": "unknown", "label": "unknown / not run" }
+      ],
+      "description": "Factory validators batch; attestation unless you use --probe-cli."
+    },
+    {
+      "id": "delivery_dry_run_last",
+      "title": "Last deploy preview dry-run — outcome",
+      "kind": "choice",
+      "choices": [
+        { "value": "pass", "label": "pass" },
+        { "value": "fail", "label": "fail" },
+        { "value": "unknown", "label": "unknown / not run" }
+      ],
+      "description": "Gates-only deploy tier; attestation unless probed."
+    },
+    {
+      "id": "team_load_subjective",
+      "title": "Team load (1 = light, 5 = heavy)",
+      "kind": "number",
+      "description": "Subjective pulse — no probe."
+    },
+    {
+      "id": "top_friction_one_liner",
+      "title": "Top friction this week (one line)",
+      "kind": "text",
+      "description": "Free text for retro / kaizen themes."
+    }
+  ]
+}

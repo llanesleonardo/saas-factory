@@ -1,0 +1,47 @@
+{
+  "$comment": "Workstations align Agile iteration with systems-engineering verification. Registry agents use factory/02_workforce/02_00_agents/agent-registry.json role ids (pm, dev, …). Human-readable definitions: workstation_definitions/*-workstation.md (one file per stations.<id>).",
+  "version": 2,
+  "model": {
+    "agile": "Backlog/refinement → sprint increment (working software) → Definition of Done / CI → release.",
+    "systems_engineering": "Requirements/scope alignment → implementation → integration & verification (IV&V verification / built-right) → transition to operation (deployment); validation (built-right-thing) often cross-cutting via QMS-PUB-001.",
+    "references_ivv": "factory/02_workforce/02_00_agents/agent-registry.json → references.qms_ivv_procedures"
+  },
+  "stations": {
+    "backlog_plan": {
+      "label": "Backlog & planning",
+      "agile": "Product backlog, refinement, sprint-planning inputs, acceptance language.",
+      "systems_engineering": "Stakeholder needs / requirements baseline and scope boundaries.",
+      "factory_mirror": "factory/01_production_planning/, configs/apps/, factory/03_assembly_lines/06-gates/",
+      "primary_agent_role": "pm",
+      "assist_roles": ["architect", "spec-generator"],
+      "tools": ["tool-search"]
+    },
+    "increment_build": {
+      "label": "Increment build",
+      "agile": "Sprint execution: implement stories, integrate into branch, thin vertical slices.",
+      "systems_engineering": "Design realization / implementation per allocated baseline.",
+      "factory_mirror": "apps/*, packages/*, factory/03_assembly_lines/04-scaffold/ when materializing",
+      "primary_agent_role": "dev",
+      "assist_roles": ["builder", "tooling"],
+      "tools": ["tool-codegen", "tool-docker", "tool-linter"]
+    },
+    "integrate_verify": {
+      "label": "Integrate & verify",
+      "agile": "CI, automated tests, DoD — quality gate before merge/release candidate.",
+      "systems_engineering": "Integration and verification evidence (built-right).",
+      "factory_mirror": "factory/03_assembly_lines/06-gates/validation/",
+      "primary_agent_role": "quality",
+      "assist_roles": ["fix", "git"],
+      "tools": ["tool-test-runner", "tool-linter", "tool-ci"]
+    },
+    "release_transition": {
+      "label": "Release & transition",
+      "agile": "Ship increment to envs; operational handoff; release notes.",
+      "systems_engineering": "Transition to use / deployment; operational readiness.",
+      "factory_mirror": "factory/03_assembly_lines/08-delivery/deploy.ts, .github/workflows/, infra YAML",
+      "primary_agent_role": "devops",
+      "assist_roles": ["docs", "broadcasting"],
+      "tools": ["tool-docker", "tool-ci"]
+    }
+  }
+}

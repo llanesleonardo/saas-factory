@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saas-factory.local/schemas/order-phases.schema.json",
+  "title": "OrderPhasesDoc",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "orderId", "productId", "updatedAt", "source", "phases"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "orderId": { "type": "string", "minLength": 1 },
+    "productId": { "type": "string", "minLength": 1 },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "source": { "type": "string", "enum": ["phase-queue", "phases_md", "manual"] },
+    "notes": { "type": "string" },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "status", "depends_on"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["backlog", "ready", "in_progress", "blocked", "done"]
+          },
+          "depends_on": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "business_needs",
+              "blueprint_stack",
+              "saas_baseline",
+              "delivery_surface",
+              "mixed",
+              "unspecified"
+            ]
+          },
+          "lanes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "frontend",
+                "backend",
+                "api",
+                "data",
+                "auth",
+                "infra",
+                "docs",
+                "qa",
+                "integration"
+              ]
+            }
+          },
+          "businessNeedsComponentRef": { "type": "string" },
+          "pointers": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

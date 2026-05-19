@@ -1,0 +1,14 @@
+{
+  "agent": "pm",
+  "category": "execution",
+  "recommended_paths": [
+    "configs/apps/*/specs/",
+    "configs/apps/*/*.json",
+    "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+    "organizational_memory/AGENTS.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-001-system-validation-strategy.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-002-system-verification-plan.md",
+    "factory/02_workforce/02_00_agents/agent_definitions/pm-agent.md"
+  ],
+  "notes": "Attach the vertical spec slice relevant to the backlog request."
+}

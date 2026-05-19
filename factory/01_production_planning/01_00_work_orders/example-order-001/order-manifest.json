@@ -1,0 +1,8 @@
+{
+  "$schema": "../../../factory/factory_schemas/order-manifest.schema.json",
+  "orderId": "example-order-001",
+  "productId": "todo",
+  "productVersion": "1.0.0",
+  "priority": 2,
+  "notes": "Sample shop order: links configs/apps/todo/ (no planRef until a plan folder exists under plans/)."
+}

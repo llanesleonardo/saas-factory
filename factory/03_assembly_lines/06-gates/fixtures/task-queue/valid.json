@@ -1,0 +1,16 @@
+[
+  {
+    "id": "FQ_VALID_001",
+    "title": "Valid task A",
+    "status": "done",
+    "app": "factory/"
+  },
+  {
+    "id": "FQ_VALID_002",
+    "title": "Valid task B depends on A",
+    "depends_on": ["FQ_VALID_001"],
+    "status": "ready",
+    "assigned_agent": "tooling",
+    "app": "factory/"
+  }
+]

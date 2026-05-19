@@ -1,0 +1,14 @@
+{
+  "agent": "quality",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+    "factory/02_workforce/02_00_agents/agent_definitions/quality-agent.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-002-system-verification-plan.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-003-subsystem-verification-plan.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-004-unit-device-test-plan.md",
+    "factory/factory_schemas/quality-output.schema.json",
+    "package.json",
+    ".github/workflows/"
+  ]
+}

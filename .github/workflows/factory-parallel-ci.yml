@@ -1,6 +1,6 @@
-# Parallel "agent gates" on GitHub: typecheck, orchestrator, wave plan — no inter-job deps.
-# Spec prompt generation for other verticals is intentionally not run on every PR; run it manually via
-# `.github/workflows/factory-distributed-dispatch.yml` when needed.
+# Factory CI: typecheck, validators, orchestrator, line next (JSON) — no inter-job deps.
+# Spec prompt generation is intentionally not run on every PR; run locally when needed:
+#   npm run mfg -- spec generate <vertical>
 name: Factory CI (parallel)
 
 on:
@@ -34,27 +34,11 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      - name: Validate task queue
-        run: npm run validate-task-queue
-      - name: Validate agent registry
-        run: npm run validate-agent-registry
-      - name: Validate workflow machine
-        run: npm run validate-workflow-machine
-      - name: Validate tool registry
-        run: npm run validate-tool-registry
-      - name: Validate task-queue fixtures (evidence)
-        run: npm run validate-task-queue-fixtures
-      - name: Validate agent-output fixtures (evidence)
-        run: npm run validate-agent-output-fixtures
-      - name: Validate QMS inbox records (evidence)
-        run: npm run validate-qms-inbox
-      - name: Validate QMS inbox fixtures (evidence)
-        run: npm run validate-qms-inbox-fixtures
-      - name: Validate self-heal fixtures (evidence)
-        run: npm run validate-self-heal-fixtures
+      - name: Validate factory (queues, registries, fixtures, agent-output, QMS, self-heal)
+        run: npm run mfg -- validate factory
 
-      - name: Emit factory:next (JSON)
-        run: npm run factory:next -- --json | tee factory-next.json
+      - name: Emit line next (JSON)
+        run: npm run mfg -- line next -- --json | tee factory-next.json
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -72,20 +56,4 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      - run: npm run factory
-
-  parallel-waves:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-      - run: npm ci
-      - name: Emit parallel wave plan (JSON for downstream / observability)
-        run: npm run parallel-plan -- --json | tee parallel-plan.json
-      - uses: actions/upload-artifact@v4
-        with:
-          name: parallel-plan
-          path: parallel-plan.json
+      - run: npm run mfg -- line orchestrate

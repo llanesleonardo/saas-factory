@@ -1,0 +1,9 @@
+{
+  "$comment": "WIP caps per phase lane — tune with factory throughput.",
+  "byPhase": {
+    "init": 2,
+    "core": 3,
+    "integrations": 2,
+    "delivery": 1
+  }
+}

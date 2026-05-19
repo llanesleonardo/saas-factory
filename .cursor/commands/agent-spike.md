@@ -1,7 +1,7 @@
 # Spike Agent
 
-Follow **`agents/spike-agent.md`**. Begin with **Resources & dependencies** from **`organizational_memory/AGENTS.md`** unless waived.
+Follow **`factory/02_workforce/02_00_agents/agent_definitions/spike-agent.md`**. Begin with **Resources & dependencies** from **`organizational_memory/AGENTS.md`** unless waived.
 
-Context hints: **`factory/context-packs/spike.json`** · **`factory/agent-registry.json`** (`spike`).
+Context hints: **`factory/02_workforce/02_00_agents/context-packs/spike.json`** · **`factory/02_workforce/02_00_agents/agent-registry.json`** (`spike`).
 
 Continue your instruction in chat after running this command.

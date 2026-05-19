@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "sprint-record",
+  "orderId": "example-order-001",
+  "productId": "todo",
+  "sprintNumber": 1,
+  "title": "First sprint",
+  "createdAt": "2026-05-12T17:39:12.936Z",
+  "updatedAt": "2026-05-12T17:39:27.375Z",
+  "workstations": {
+    "backlog_plan": {
+      "status": "done",
+      "notes": "Scope locked"
+    },
+    "increment_build": {
+      "status": "not_started"
+    },
+    "integrate_verify": {
+      "status": "not_started"
+    },
+    "release_transition": {
+      "status": "not_started"
+    }
+  },
+  "summary": "Sprint #1 (example-order-001 / todo): workstation pass-through — Backlog & planning: done (Scope locked); Increment build: not_started; Integrate & verify: not_started; Release & transition: not_started."
+}

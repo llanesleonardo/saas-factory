@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "componentId": "auth-none",
+  "version": "0.1.0",
+  "capability": "auth",
+  "provider": "none",
+  "description": "Sentinel: no authentication scaffolded. Selected when the blueprint says auth is not in use.",
+  "blueprintKey": "authDetail",
+  "appliesWhen": {
+    "sentinel": true
+  },
+  "files": [],
+  "deps": [],
+  "env": [],
+  "notes": "This adapter exists so the composer always has exactly one match per capability. It writes nothing."
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saas-factory.local/schemas/sprint-record.schema.json",
+  "title": "Sprint record (workstation pass-through)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "orderId",
+    "productId",
+    "sprintNumber",
+    "createdAt",
+    "updatedAt",
+    "workstations",
+    "summary"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "sprint-record" },
+    "orderId": { "type": "string", "minLength": 1 },
+    "productId": { "type": "string", "minLength": 1 },
+    "sprintNumber": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string" },
+    "goal": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "workstations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backlog_plan", "increment_build", "integrate_verify", "release_transition"],
+      "properties": {
+        "backlog_plan": { "$ref": "#/$defs/workstationPass" },
+        "increment_build": { "$ref": "#/$defs/workstationPass" },
+        "integrate_verify": { "$ref": "#/$defs/workstationPass" },
+        "release_transition": { "$ref": "#/$defs/workstationPass" }
+      }
+    },
+    "summary": { "type": "string" }
+  },
+  "$defs": {
+    "workstationPass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "in_progress", "done", "skipped", "blocked"]
+        },
+        "notes": { "type": "string" },
+        "enteredAt": { "type": "string" },
+        "exitedAt": { "type": "string" }
+      }
+    }
+  }
+}

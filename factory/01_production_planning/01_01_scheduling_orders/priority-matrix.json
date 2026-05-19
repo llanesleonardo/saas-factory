@@ -1,0 +1,9 @@
+{
+  "$comment": "Priority × risk × dependency — lightweight scoring inputs.",
+  "weights": {
+    "priority": 1,
+    "risk": 1,
+    "dependencyDepth": 1
+  },
+  "entries": []
+}

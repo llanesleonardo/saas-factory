@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saas-factory.local/schemas/scaffold-run.schema.json",
+  "title": "ScaffoldRunDoc",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "scaffoldAt",
+    "appSlug",
+    "stackContractRelativePath",
+    "outputs",
+    "registryParticipation",
+    "technologies",
+    "toolingSnapshot",
+    "modulesAppliedIds",
+    "materialization"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "scaffold-run" },
+    "scaffoldAt": { "type": "string", "format": "date-time" },
+    "appSlug": { "type": "string", "minLength": 1 },
+    "stackContractRelativePath": { "type": "string", "minLength": 1 },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["instanceRelative", "apiRelative"],
+      "properties": {
+        "instanceRelative": { "type": "string" },
+        "apiRelative": { "type": "string" }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "orderId": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "registryParticipation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assemblyLineRegistryStation", "mirroredRegistryFiles", "canonicalRegistryFiles"],
+      "properties": {
+        "assemblyLineRegistryStation": { "type": "string" },
+        "mirroredRegistryFiles": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "canonicalRegistryFiles": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "technologies": { "type": "object" },
+    "toolingSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packageManager",
+        "monorepo",
+        "cicd",
+        "containers",
+        "testing",
+        "apiStyle"
+      ],
+      "properties": {
+        "packageManager": { "type": "string" },
+        "monorepo": { "type": "string" },
+        "cicd": { "type": "string" },
+        "containers": { "type": "string" },
+        "testing": { "type": "string" },
+        "apiStyle": { "type": "string" }
+      }
+    },
+    "modulesAppliedIds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "materialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["station_note", "code_roots", "what_ran", "stack_contract_summary"],
+      "properties": {
+        "station_note": { "type": "string" },
+        "code_roots": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["apps_instance", "apps_api"],
+          "properties": {
+            "apps_instance": { "type": "string" },
+            "apps_api": { "type": "string" }
+          }
+        },
+        "what_ran": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "frontend_workspace",
+            "api_workspace",
+            "github_ci_workflows",
+            "workspace_merge_root_package"
+          ],
+          "properties": {
+            "frontend_workspace": { "type": "boolean" },
+            "api_workspace": { "type": "boolean" },
+            "github_ci_workflows": { "type": "boolean" },
+            "workspace_merge_root_package": { "type": "boolean" }
+          }
+        },
+        "stack_contract_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "frontend_framework",
+            "backend_runtime",
+            "database",
+            "redis",
+            "object_storage",
+            "ai_integration",
+            "auth_system"
+          ],
+          "properties": {
+            "frontend_framework": { "type": "string" },
+            "frontend_styling": { "type": "string" },
+            "backend_runtime": { "type": "string" },
+            "database": true,
+            "redis": true,
+            "object_storage": true,
+            "ai_integration": true,
+            "auth_system": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

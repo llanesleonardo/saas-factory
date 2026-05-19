@@ -31,4 +31,4 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_CORE_SAAS }}
           PROD_FLAG: ${{ github.event.inputs.production == 'true' && '--prod' || '' }}
         run: npx vercel deploy $PROD_FLAG --yes --token "${{ secrets.VERCEL_TOKEN }}"
-        working-directory: apps/core-saas
+        working-directory: apps/core-saas/core-saas-instance

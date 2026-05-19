@@ -1,5 +1,0 @@
-[
-  { "id": "FQ_CYCLE_A", "title": "A", "depends_on": ["FQ_CYCLE_B"], "app": "factory/" },
-  { "id": "FQ_CYCLE_B", "title": "B", "depends_on": ["FQ_CYCLE_A"], "app": "factory/" }
-]
-

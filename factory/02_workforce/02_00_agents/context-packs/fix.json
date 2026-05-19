@@ -1,0 +1,9 @@
+{
+  "agent": "fix",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/fix-agent.md",
+    "factory/factory_schemas/quality-output.schema.json",
+    "ci_logs_or_quality_json_attachment"
+  ]
+}

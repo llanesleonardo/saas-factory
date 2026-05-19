@@ -1,0 +1,12 @@
+{
+  "agent": "architect",
+  "category": "advisory",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/architect-agent.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "factory/06_knowledge_base/qms_docs/published/QMS-PUB-003-subsystem-verification-plan.md",
+    "configs/apps/<vertical>/specs/<vertical>-spec.md",
+    "apps/",
+    "packages/"
+  ]
+}

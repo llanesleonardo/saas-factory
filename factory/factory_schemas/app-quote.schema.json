@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "app-quote-bundle",
+  "title": "App quote bundle (mfg app quote)",
+  "description": "Structured inputs for quoting — pricing rules come later.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["quoteVersion", "appSlug", "generatedAt", "manufacturing", "artifacts", "pricing"],
+  "properties": {
+    "quoteVersion": { "type": "integer", "const": 1 },
+    "appSlug": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "manufacturing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tier", "onVerifiedRegistry", "firstManufacture", "scaffoldedInstancePresent"],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": ["verified-repeat", "first-manufacture", "unverified-returning"]
+        },
+        "onVerifiedRegistry": { "type": "boolean" },
+        "verifiedAt": { "type": "string" },
+        "firstManufacture": { "type": "boolean" },
+        "scaffoldedInstancePresent": { "type": "boolean" }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verticalBrief", "businessNeeds", "appStack"],
+      "properties": {
+        "verticalBrief": {
+          "type": "object",
+          "required": ["relativePath", "present"],
+          "properties": {
+            "relativePath": { "type": "string" },
+            "present": { "type": "boolean" }
+          }
+        },
+        "businessNeeds": {
+          "type": "object",
+          "required": ["relativePath", "present"],
+          "properties": {
+            "relativePath": { "type": "string" },
+            "present": { "type": "boolean" }
+          }
+        },
+        "appStack": {
+          "type": "object",
+          "required": ["relativePath", "present"],
+          "properties": {
+            "relativePath": { "type": "string" },
+            "present": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "required": ["engine", "message"],
+      "properties": {
+        "engine": { "type": "string", "const": "placeholder" },
+        "message": { "type": "string" }
+      }
+    },
+    "briefSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "displayName": { "type": "string" },
+        "summaryOneLiner": { "type": "string" },
+        "billingModelSnippet": { "type": "string" }
+      }
+    },
+    "businessNeedsSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "displayName": { "type": "string" },
+        "billingModelSnippet": { "type": "string" },
+        "paymentsIntent": { "type": "string" }
+      }
+    },
+    "stackSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "integrationMode": { "type": "string" },
+        "frontendStack": { "type": "string" },
+        "backendRuntime": { "type": "string" },
+        "database": { "type": "string" },
+        "redis": { "type": "string" },
+        "cicd": { "type": "string" },
+        "observability": { "type": "string" }
+      }
+    },
+    "saasAlignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "errorCount", "warnCount"],
+      "properties": {
+        "ok": { "type": "boolean" },
+        "errorCount": { "type": "integer", "minimum": 0 },
+        "warnCount": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

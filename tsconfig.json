@@ -10,5 +10,5 @@
     "resolveJsonModule": true,
     "types": ["node"]
   },
-  "include": ["factory/**/*.ts"]
+  "include": ["factory/**/*.ts", ".factory/**/*.ts"]
 }

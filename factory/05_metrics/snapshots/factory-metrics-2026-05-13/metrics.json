@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "factory_metrics_day": "2026-05-13",
+  "captured_at_utc": "2026-05-13T18:51:40.214Z",
+  "catalog_schema_version": 1,
+  "metrics": {
+    "tasks_total": {
+      "title": "Global task queue — total tasks",
+      "kind": "number",
+      "previous": "79",
+      "suggested": "79",
+      "value": "79",
+      "source": "probe_only"
+    },
+    "tasks_by_status_done": {
+      "title": "Tasks marked done",
+      "kind": "number",
+      "previous": "65",
+      "suggested": "65",
+      "value": "65",
+      "source": "probe_only"
+    },
+    "tasks_by_status_in_progress": {
+      "title": "Tasks in progress",
+      "kind": "number",
+      "previous": "1",
+      "suggested": "1",
+      "value": "1",
+      "source": "probe_only"
+    },
+    "tasks_by_status_blocked": {
+      "title": "Tasks blocked",
+      "kind": "number",
+      "previous": "1",
+      "suggested": "1",
+      "value": "1",
+      "source": "probe_only"
+    },
+    "tasks_by_status_ready": {
+      "title": "Tasks ready",
+      "kind": "number",
+      "previous": "0",
+      "suggested": "0",
+      "value": "0",
+      "source": "probe_only"
+    },
+    "telemetry_dispatch_ends_utc_day": {
+      "title": "Assembly-line — dispatch completions (UTC day)",
+      "kind": "number",
+      "previous": "94",
+      "suggested": "228",
+      "value": "228",
+      "source": "probe_only"
+    },
+    "telemetry_failure_like_utc_day": {
+      "title": "Assembly-line — failure-like events (UTC day)",
+      "kind": "number",
+      "previous": "8",
+      "suggested": "7",
+      "value": "7",
+      "source": "probe_only"
+    },
+    "run_history_entries_utc_day": {
+      "title": "Run history — entries (UTC day)",
+      "kind": "number",
+      "previous": "2",
+      "suggested": "4",
+      "value": "4",
+      "source": "probe_only"
+    },
+    "spine_check_last": {
+      "title": "Last npm run check — outcome",
+      "kind": "choice",
+      "previous": "unknown",
+      "suggested": null,
+      "value": "unknown",
+      "source": "left_previous"
+    },
+    "validate_factory_last": {
+      "title": "Last npm run mfg -- validate factory — outcome",
+      "kind": "choice",
+      "previous": "unknown",
+      "suggested": null,
+      "value": "unknown",
+      "source": "left_previous"
+    },
+    "delivery_dry_run_last": {
+      "title": "Last deploy preview dry-run — outcome",
+      "kind": "choice",
+      "previous": "unknown",
+      "suggested": null,
+      "value": "unknown",
+      "source": "left_previous"
+    },
+    "team_load_subjective": {
+      "title": "Team load (1 = light, 5 = heavy)",
+      "kind": "number",
+      "previous": "0",
+      "suggested": null,
+      "value": "0",
+      "source": "left_previous"
+    },
+    "top_friction_one_liner": {
+      "title": "Top friction this week (one line)",
+      "kind": "text",
+      "previous": "",
+      "suggested": null,
+      "value": "",
+      "source": "left_previous"
+    }
+  },
+  "probes": {
+    "task_queue": {
+      "total": 79,
+      "done": 65,
+      "in_progress": 1,
+      "blocked": 1,
+      "ready": 0,
+      "backlog": 12
+    },
+    "telemetry_day": {
+      "dispatch_ends": 228,
+      "failure_like": 7,
+      "run_history_entries": 4
+    }
+  }
+}

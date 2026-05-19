@@ -1,0 +1,5 @@
+Factory knowledge base (factory/06_knowledge_base/)
+
+By convention, no Markdown files live in this folder root — only subfolders.
+
+Start here: docs/README.md

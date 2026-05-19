@@ -1,0 +1,8 @@
+[
+  {
+    "id": "FQ_BADSTATUS_001",
+    "title": "Bad status value",
+    "status": "doing",
+    "app": "factory/"
+  }
+]

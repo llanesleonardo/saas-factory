@@ -1,0 +1,11 @@
+{
+  "agent": "devops",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/devops-agent.md",
+    ".github/workflows/",
+    "organizational_memory/ARCHITECTURE.md",
+    "vercel.json",
+    "apps/*/vercel.json"
+  ]
+}

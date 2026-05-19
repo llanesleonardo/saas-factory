@@ -1,0 +1,65 @@
+# Deploy apps/core-saas to Azure App Service (Linux / Node-ready stack).
+# Prerequisites: Web App already exists; RG + app name live in GitHub Variables (see .azure/pipeline-setup.md).
+# Auth: Entra app (federated to GitHub) + OIDC — no publish profile in repo.
+# Azure MCP: deploy-only, GitHub Actions, avoid CD on pull_request; CI build has no Azure steps.
+#
+# DISABLED: jobs use `if: false` until Azure + GitHub OIDC are configured. Remove those lines to run.
+name: Azure — core-saas (App Service)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-package:
+    name: Build and package
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install and build (if package.json exists)
+        working-directory: apps/core-saas/core-saas-instance
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build --if-present
+          else
+            echo "No package.json yet — packaging static files only."
+          fi
+      - name: Create deployment zip
+        run: |
+          cd "${GITHUB_WORKSPACE}/apps/core-saas/core-saas-instance"
+          zip -r "${GITHUB_WORKSPACE}/deploy.zip" . -x "*.git*" -x "**/node_modules/**"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core-saas-zip
+          path: deploy.zip
+
+  deploy:
+    name: Deploy to Azure Web App
+    if: false
+    needs: build-and-package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: core-saas-zip
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy ZIP to Web App
+        run: >
+          az webapp deploy
+          --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}"
+          --name "${{ vars.AZURE_WEBAPP_NAME_CORE_SAAS }}"
+          --src-path deploy.zip
+          --type zip

@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "vertical-config",
+  "title": "SaaS Factory vertical brief",
+  "description": "configs/apps/<slug>/<slug>.json — product input for npm run generate-spec. See configs/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional: VS Code / IDE validation (path to this schema file)."
+    },
+    "vertical": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Stable id; must match filename (todo → todo.json)."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "productSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string" },
+        "positioning": { "type": "string" },
+        "primaryUser": { "type": "string" },
+        "secondaryUsers": { "type": "array", "items": { "type": "string" } },
+        "regions": { "type": "array", "items": { "type": "string" } },
+        "nonGoals": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "businessModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "billingModel": { "type": "string" },
+        "slaAndSupport": { "type": "string" }
+      }
+    },
+    "systemConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "compliance": { "type": "array", "items": { "type": "string" } },
+        "complianceEnforcement": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "requiresDataDeletionAPI": { "type": "boolean" },
+            "requiresDataExport": { "type": "boolean" },
+            "requiresAuditTrail": { "type": "boolean" },
+            "requiresPIIRedaction": { "type": "boolean" }
+          }
+        },
+        "dataClassification": { "type": "string" },
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "current": {
+              "type": "string",
+              "enum": ["none", "email-password", "oauth-only", "hybrid-email-oauth", "enterprise-sso"]
+            },
+            "required": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "identityRoadmap": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mfa": { "type": "string", "enum": ["future", "not-planned"] },
+            "sso": { "type": "string", "enum": ["enterprise-only", "future", "not-planned"] },
+            "magicLink": { "type": "string", "enum": ["future", "not-planned"] }
+          }
+        },
+        "tenancy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tenantModel": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": { "type": "string", "enum": ["none", "workspace-based", "org-based"] },
+                "isolation": { "type": "string", "enum": ["row-level", "db-per-tenant", "schema-per-tenant"] }
+              }
+            },
+            "membershipModel": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "userToWorkspace": { "type": "string", "enum": ["one-to-one", "one-to-many", "many-to-many"] }
+              }
+            },
+            "billingUnit": { "type": "string" },
+            "notes": { "type": "string" }
+          }
+        },
+        "mvpScope": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "auth": { "type": "string", "enum": ["none", "email-password", "oauth-only", "hybrid-email-oauth"] },
+            "projectLimit": { "type": "number" },
+            "userLimit": { "type": "number" },
+            "billing": { "type": "string" },
+            "roles": { "type": "array", "items": { "type": "string" } },
+            "features": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "integrationPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "integrations": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "payments": { "type": "string", "enum": ["stripe", "none"] },
+            "communication": { "type": "string", "enum": ["email", "none"] },
+            "exports": { "type": "array", "items": { "type": "string" } },
+            "sync": { "type": "array", "items": { "type": "string" } },
+            "notes": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "summary": { "type": "string" },
+    "positioning": { "type": "string" },
+    "primaryUser": { "type": "string" },
+    "secondaryUsers": { "type": "array", "items": { "type": "string" } },
+    "regions": { "type": "array", "items": { "type": "string" } },
+    "compliance": { "type": "array", "items": { "type": "string" } },
+    "billingModel": { "type": "string" },
+    "integrationsWishlist": { "type": "array", "items": { "type": "string" } },
+    "mvpScopeHint": { "type": "string" },
+    "tenancy": { "type": "string" },
+    "identity": { "type": "string" },
+    "dataClassification": { "type": "string" },
+    "slaAndSupport": { "type": "string" },
+    "nonGoals": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["vertical", "displayName"]
+}

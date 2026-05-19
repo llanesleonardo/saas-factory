@@ -1,0 +1,11 @@
+{
+  "agent": "builder",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/builder-agent.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "configs/apps/<app>/app.stack.json",
+    "apps/*-instance/",
+    "configs/"
+  ]
+}

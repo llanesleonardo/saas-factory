@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "business-needs",
+  "title": "SaaS Factory — business needs bundle",
+  "description": "configs/apps/<slug>/business-needs.json — product/business intent in one place (PM intake).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "appSlug", "generatedAt", "displayName", "productSpec", "businessModel"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "appSlug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "displayName": { "type": "string", "minLength": 1 },
+    "productSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string" },
+        "positioning": { "type": "string" },
+        "primaryUser": { "type": "string" },
+        "secondaryUsers": { "type": "array", "items": { "type": "string" } },
+        "regions": { "type": "array", "items": { "type": "string" } },
+        "nonGoals": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "businessModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "billingModel": { "type": "string" },
+        "slaAndSupport": { "type": "string" }
+      }
+    },
+    "integrationPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "integrations": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "payments": { "type": "string", "enum": ["stripe", "none"] },
+            "communication": { "type": "string", "enum": ["email", "none"] },
+            "exports": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["csv", "pdf", "none"] }
+            },
+            "sync": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["calendar", "crm", "none"] }
+            },
+            "notes": { "type": "string" }
+          }
+        }
+      }
+    },
+    "narrative": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "problemStatement": { "type": "string" },
+        "goals": { "type": "array", "items": { "type": "string" } },
+        "successCriteria": { "type": "array", "items": { "type": "string" } },
+        "assumptions": { "type": "array", "items": { "type": "string" } },
+        "risks": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
