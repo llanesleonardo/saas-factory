@@ -1,0 +1,15 @@
+{
+  "name": "@saas-factory/components-auth-jwt-builtin",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Built-in HS256 JWT auth adapter. Implements the @saas-factory/auth contract and ships a backend template (routes + middleware + env).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@saas-factory/auth": "*",
+    "jose": "^5.9.6"
+  },
+  "keywords": ["saas-factory", "component", "auth", "jwt"]
+}

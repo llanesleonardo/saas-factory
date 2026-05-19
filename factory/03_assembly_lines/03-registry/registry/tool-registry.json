@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "tool_id": "TOOL_FACTORY_NEXT",
+      "title": "Suggest next task (role-aware)",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- line next [--queue=...] [--wip=...]" },
+      "artifacts": [
+        { "type": "stdout", "description": "Human output (next task + agent invocation lines)" },
+        { "type": "json", "description": "Planner JSON when called with --json" }
+      ],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_VALIDATE_TASK_QUEUE",
+      "title": "Validate task queue integrity",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- validate task-queue" },
+      "artifacts": [{ "type": "stdout", "description": "Pass/fail message; non-zero exit on failure" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_VALIDATE_TOOL_REGISTRY",
+      "title": "Validate tool registry references",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- validate tool-registry" },
+      "artifacts": [{ "type": "stdout", "description": "Pass/fail message; non-zero exit on failure" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_DEPLOY",
+      "title": "Deploy orchestrator (guarded)",
+      "owner_role": "devops",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- deploy preview [--target <path>] [--dry-run]" },
+      "artifacts": [{ "type": "stdout", "description": "Plan + gate output; refuses staging/prod when main is dirty" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_SELF_HEAL",
+      "title": "Generate gated self-healing report from failures",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- line self-heal [--quality <path-to-quality-output.json>] [--json]" },
+      "artifacts": [{ "type": "artifact", "description": "Markdown self-healing report (written under factory/telemetry/self-heal by default)" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_KAIZEN_SUMMARY",
+      "title": "Digest assembly-line + run-history for Kaizen (failures, slow dispatch)",
+      "owner_role": "pm",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- kaizen summary [--day YYYY-MM-DD] [--top N] [--json]" },
+      "artifacts": [{ "type": "stdout", "description": "Human summary or JSON (--json); reads factory/telemetry/" }],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_METRICS_COLLECT",
+      "title": "Interactive factory metrics snapshot (probes + previous vs current)",
+      "owner_role": "tooling",
+      "kind": "npm_script",
+      "how_to_run": { "command": "npm run mfg -- metrics collect [--day YYYY-MM-DD] [--probe-cli] [--from-probes-only|--yes]" },
+      "artifacts": [
+        { "type": "artifact", "description": "Dated JSON snapshot under factory/05_metrics/snapshots/factory-metrics-YYYY-MM-DD/metrics.json" }
+      ],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_FACTORY_CI_PARALLEL",
+      "title": "Factory CI (parallel)",
+      "owner_role": "quality",
+      "kind": "workflow",
+      "how_to_run": {
+        "workflow_file": ".github/workflows/factory-parallel-ci.yml",
+        "trigger": "pull_request"
+      },
+      "artifacts": [
+        { "type": "artifact", "path": "factory-next.json", "description": "mfg line next JSON output (uploaded)" }
+      ],
+      "scope": "factory/"
+    },
+    {
+      "tool_id": "TOOL_QMS_PUB_007_FACTORY_DELIVERY_LOOP",
+      "title": "Factory delivery loop procedure (controlled)",
+      "owner_role": "docs",
+      "kind": "doc_procedure",
+      "how_to_run": { "doc_path": "factory/06_knowledge_base/qms_docs/published/QMS-PUB-007-factory-delivery-loop-procedure.md" },
+      "artifacts": [{ "type": "md", "path": "factory/06_knowledge_base/qms_docs/published/QMS-PUB-007-factory-delivery-loop-procedure.md", "description": "Controlled procedure" }],
+      "scope": "organizational_memory/"
+    }
+  ]
+}

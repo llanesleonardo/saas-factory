@@ -1,0 +1,10 @@
+{
+  "agent": "finops",
+  "category": "advisory",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/finops-agent.md",
+    "configs/apps/<vertical>/specs/<vertical>-spec.md",
+    "packages/billing/",
+    "apps/<vertical>-instance/"
+  ]
+}

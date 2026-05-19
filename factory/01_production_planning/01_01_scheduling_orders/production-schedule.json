@@ -1,0 +1,5 @@
+{
+  "$comment": "Ordered queue of active plan refs — Heijunka leveling surface.",
+  "orderedPlanRefs": ["example-product-1.0.0"],
+  "updatedAt": "2026-05-11T00:00:00.000Z"
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "appSlug": "todo",
+  "updatedAt": "2026-05-12T07:42:49.188Z",
+  "modules": {
+    "base-frontend": 1,
+    "base-api": 1,
+    "github-ci": 2,
+    "workspace-merge": 1
+  }
+}

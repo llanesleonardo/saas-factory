@@ -1,0 +1,8 @@
+{
+  "name": "@saas-factory/components-auth-none",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Sentinel auth adapter — selected when the blueprint says authDetail is absent or requirements.needsAuth=false. Materializes nothing.",
+  "keywords": ["saas-factory", "component", "auth", "sentinel"]
+}

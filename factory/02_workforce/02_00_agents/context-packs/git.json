@@ -1,0 +1,9 @@
+{
+  "agent": "git",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/git-agent.md",
+    ".github/",
+    "factory/03_assembly_lines/03-registry/registry/task-queue.json"
+  ]
+}

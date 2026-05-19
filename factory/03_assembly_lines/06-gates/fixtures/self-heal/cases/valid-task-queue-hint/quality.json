@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "task_id": "QUALFIX_003",
+  "status": "fail",
+  "errors": [
+    {
+      "layer": "harness",
+      "issue": "validate-task-queue failed: unknown depends_on id FACTORY_XYZ",
+      "evidence": "stdout: ... unknown depends_on ...",
+      "how_to_repro": "npm run mfg -- validate task-queue"
+    }
+  ],
+  "commands_run": ["npm run mfg -- validate task-queue"],
+  "handoff_to": "tooling"
+}

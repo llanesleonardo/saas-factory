@@ -1,0 +1,68 @@
+{
+  "$schema": "../../../factory/factory_schemas/vertical-config.schema.json",
+  "vertical": "todo",
+  "displayName": "Todo app",
+  "productSpec": {
+    "summary": "Team todo lists with roles, billing, and exports — a deliberately small vertical to prove the SaaS Factory pipeline end-to-end.",
+    "positioning": "Self-serve productivity SaaS for small teams who outgrow personal task apps but do not need full project-management suites.",
+    "primaryUser": "Team lead / small-business owner",
+    "secondaryUsers": ["Project admin", "Member", "Guest (read-only lists)"],
+    "regions": ["US", "EU (English v1)"],
+    "nonGoals": [
+      "Native iOS/Android apps",
+      "Offline-first / local-only sync",
+      "Built-in chat or video",
+      "Full Gantt or resource management",
+      "Self-hosted / on-prem edition"
+    ]
+  },
+  "businessModel": {
+    "billingModel": "Freemium: 1 workspace, max 2 users (no charge). Pro: Stripe subscription billed per active user per workspace per month; unlimited workspaces. Customer Portal for upgrade/cancel; optional 14-day Pro trial.",
+    "slaAndSupport": "Target 99.5% monthly API availability for paid tiers; status page TBD. Support: in-app email link + docs; no phone SLA in MVP."
+  },
+  "systemConstraints": {
+    "compliance": [
+      "GDPR-style export/delete on request (EU users)",
+      "No HIPAA/PCI in todo content — card data only via Stripe hosted surfaces",
+      "SOC 2 not required for MVP; document roadmap if selling enterprise"
+    ],
+    "complianceEnforcement": {
+      "requiresDataDeletionAPI": true,
+      "requiresDataExport": true,
+      "requiresAuditTrail": true
+    },
+    "identity": {
+      "current": "email-password",
+      "required": ["email-verification"]
+    },
+    "identityRoadmap": {
+      "mfa": "future",
+      "magicLink": "future",
+      "sso": "enterprise-only"
+    },
+    "tenancy": {
+      "tenantModel": { "type": "workspace-based", "isolation": "row-level" },
+      "membershipModel": { "userToWorkspace": "many-to-many" },
+      "billingUnit": "per-user-per-workspace",
+      "notes": "Guest role is workspace-bound read-only. Row-level isolation by workspace_id. Free tier hard limit 1 workspace and 2 users; Pro removes workspace cap."
+    },
+    "dataClassification": "Todo text is user-provided content (personal/business sensitive); treat as customer data under DPA. Store encrypted at rest per cloud provider; application-level secrets in env/Key Vault. Retention: soft-delete + purge window configurable per workspace admin (default 30 days).",
+    "mvpScope": {
+      "auth": "email-password",
+      "projectLimit": 1,
+      "userLimit": 2,
+      "billing": "stripe-per-user-per-workspace",
+      "roles": ["admin", "member", "guest"],
+      "features": ["todos", "lists", "workspace-invites", "billing", "csv-export", "audit-log-membership"]
+    }
+  },
+  "integrationPlan": {
+    "integrations": {
+      "payments": "stripe",
+      "communication": "email",
+      "exports": ["csv"],
+      "sync": ["calendar"],
+      "notes": "Stripe Customer Portal + webhooks; transactional email (invites, receipts)."
+    }
+  }
+}

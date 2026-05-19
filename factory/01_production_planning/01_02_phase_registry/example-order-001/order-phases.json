@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "orderId": "example-order-001",
+  "productId": "todo",
+  "updatedAt": "2026-05-12T06:13:57.225Z",
+  "source": "phase-queue",
+  "phases": [
+    {
+      "id": "TODO_P0_INTAKE",
+      "title": "Phase 0 — Intake + constraints (customer needs)",
+      "status": "ready",
+      "depends_on": [],
+      "pointers": {
+        "product_ir": "configs/apps/todo/todo.json",
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P1_STACK_CONTRACT",
+      "title": "Phase 1 — Stack contract (System IR)",
+      "status": "ready",
+      "depends_on": [
+        "TODO_P0_INTAKE"
+      ],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P2_SCAFFOLD",
+      "title": "Phase 2 — Scaffold (make the contract real)",
+      "status": "ready",
+      "depends_on": [
+        "TODO_P1_STACK_CONTRACT"
+      ],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "scaffold_command": "npm run mfg -- app scaffold -- todo",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P3_SPEC",
+      "title": "Phase 3 — Spec (acceptance + boundaries)",
+      "status": "in_progress",
+      "depends_on": [
+        "TODO_P2_SCAFFOLD"
+      ],
+      "pointers": {
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md",
+        "spec_prompt": "configs/apps/todo/specs/_generated/todo-SPEC-PROMPT.md"
+      }
+    },
+    {
+      "id": "TODO_P4_PHASE_PLANNING",
+      "title": "Phase 4 — Phase planning (PM decomposes one phase into tasks)",
+      "status": "backlog",
+      "depends_on": [
+        "TODO_P3_SPEC"
+      ],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P5_BUILD_VERIFY",
+      "title": "Phase 5 — Build + verify loop (Dev → Quality → Fix → Git)",
+      "status": "backlog",
+      "depends_on": [
+        "TODO_P4_PHASE_PLANNING"
+      ],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P6_SHIP",
+      "title": "Phase 6 — Ship (deploy + smoke)",
+      "status": "backlog",
+      "depends_on": [
+        "TODO_P5_BUILD_VERIFY"
+      ],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P7_OPERATE_LEARN",
+      "title": "Phase 7 — Operate + feedback (learn)",
+      "status": "backlog",
+      "depends_on": [
+        "TODO_P6_SHIP"
+      ],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    }
+  ]
+}

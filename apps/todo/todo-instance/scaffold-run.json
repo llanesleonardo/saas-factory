@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "scaffold-run",
+  "scaffoldAt": "2026-05-12T07:42:49.189Z",
+  "appSlug": "todo",
+  "stackContractRelativePath": "configs/apps/todo/app.stack.json",
+  "outputs": {
+    "instanceRelative": "apps/todo-instance",
+    "apiRelative": "apps/todo-api"
+  },
+  "registryParticipation": {
+    "assemblyLineRegistryStation": "factory/03_assembly_lines/03-registry",
+    "mirroredRegistryFiles": {
+      "agent_registry": "factory/03_assembly_lines/03-registry/registry/agent-registry.json",
+      "tool_registry": "factory/03_assembly_lines/03-registry/registry/tool-registry.json",
+      "workflow_state_machine": "factory/03_assembly_lines/03-registry/registry/workflow-state-machine.json",
+      "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+      "phase_queue": "factory/03_assembly_lines/03-registry/registry/phase-queue.json",
+      "verified_apps": "factory/03_assembly_lines/03-registry/registry/verified-apps.json"
+    },
+    "canonicalRegistryFiles": {
+      "agent_registry": "factory/02_workforce/02_00_agents/agent-registry.json",
+      "tool_registry": "factory/03_assembly_lines/03-registry/registry/tool-registry.json",
+      "workflow_state_machine": "factory/03_assembly_lines/03-registry/registry/workflow-state-machine.json",
+      "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+      "phase_queue": "factory/03_assembly_lines/03-registry/registry/phase-queue.json",
+      "verified_apps": "factory/03_assembly_lines/03-registry/registry/verified-apps.json"
+    }
+  },
+  "technologies": {
+    "integrationMode": "standalone",
+    "frontendStack": "vite-react-ts",
+    "backendRuntime": "nodejs-express",
+    "database": "sqlite-file",
+    "redis": "cache-sessions",
+    "objectStorage": "local-filesystem",
+    "observability": "otel-hooks"
+  },
+  "toolingSnapshot": {
+    "packageManager": "npm",
+    "monorepo": "none",
+    "cicd": "github-actions",
+    "containers": "none",
+    "testing": "jest",
+    "apiStyle": "rest-json"
+  },
+  "modulesAppliedIds": [
+    "base-frontend",
+    "base-api",
+    "github-ci",
+    "workspace-merge"
+  ],
+  "materialization": {
+    "station_note": "Orchestrator lives under factory/03_assembly_lines/04-scaffold/. This file is an audit record under the scaffold station (`04-scaffold/records/<order-id>/<slug>/`, or `records/_unscoped/<slug>/` when no `--order-id`). Generated application code exists only under `apps/` (see code_roots).",
+    "code_roots": {
+      "apps_instance": "apps/todo-instance",
+      "apps_api": "apps/todo-api"
+    },
+    "what_ran": {
+      "frontend_workspace": true,
+      "api_workspace": true,
+      "github_ci_workflows": true,
+      "workspace_merge_root_package": true
+    },
+    "stack_contract_summary": {
+      "frontend_framework": "vite-react-ts",
+      "backend_runtime": "nodejs-express",
+      "database": "sqlite-file",
+      "redis": "cache-sessions",
+      "object_storage": "local-filesystem",
+      "auth_system": "none"
+    }
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "agent": "spike",
-  "category": "advisory",
-  "recommended_paths": [
-    "agents/spike-agent.md",
-    "specs/<vertical>-spec.md",
-    "organizational_memory/ARCHITECTURE.md"
-  ]
-}

@@ -16,7 +16,7 @@ disable-model-invocation: true
 2. Extract recommendations from each memo, dedupe overlaps, and identify which items are not yet implemented; translate those gaps into the next phase scope.
 3. Update specs first:
    - Edit `specs/<vertical>-spec.md` to add a new Phase section for the planned work (local-only vs integrated must remain consistent with the architecture doc).
-4. Produce PM task JSON (use `factory/schemas/pm-output.schema.json` format) and add tasks to `factory/task-queue.json`:
+4. Produce PM task JSON (use `factory/factory_schemas/pm-output.schema.json` format) and add tasks to `factory/task-queue.json`:
    - Use stable ids like `TODO_###_phaseX_<slug>`.
    - Set `phase` to a numeric string (e.g. `"5"`).
    - Set the first task to `"ready"` when it is executable; others can be `"backlog"`.
@@ -51,7 +51,7 @@ npm run check
 If phase metadata validation exists, run it (example):
 
 ```bash
-npm run validate-task-queue
+npm run mfg -- validate task-queue
 ```
 
 ## Output expectations

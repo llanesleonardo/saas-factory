@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saas-factory.local/schemas/sales-order.schema.json",
+  "title": "Sales order",
+  "description": "Written by `npm run mfg -- so`. Commercial record before manufacturing. Process: `SALES-AND-ASSEMBLY-LINE-GUIDE.md` — sales block **1** (checklist: sales order).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "salesOrderId",
+    "appSlug",
+    "status",
+    "createdAt",
+    "quoteSnapshot",
+    "clientScope",
+    "productVersion",
+    "priority"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional editor hint to this schema."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "salesOrderId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "appSlug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "confirmed", "cancelled"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "quoteSnapshot": {
+      "type": "object",
+      "description": "Full `AppQuoteBundle` from `mfg app quote`; should satisfy `app-quote.schema.json` (draft-07). Editors may validate that file separately."
+    },
+    "clientScope": {
+      "$ref": "#/$defs/clientScope"
+    },
+    "productVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "priority": {
+      "type": "number",
+      "minimum": 0
+    },
+    "planRef": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "confirmedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "clientScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deliverVerticalBrief",
+        "deliverBusinessNeeds",
+        "deliverStackBlueprint",
+        "deliverInstanceManufacturing",
+        "requireSaasAlignmentClean"
+      ],
+      "properties": {
+        "deliverVerticalBrief": { "type": "boolean" },
+        "deliverBusinessNeeds": { "type": "boolean" },
+        "deliverStackBlueprint": { "type": "boolean" },
+        "deliverInstanceManufacturing": { "type": "boolean" },
+        "requireSaasAlignmentClean": { "type": "boolean" }
+      }
+    }
+  }
+}

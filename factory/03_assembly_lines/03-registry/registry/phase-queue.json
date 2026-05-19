@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Phase queue = roadmap at phase granularity (no atomic tasks here).",
+    "Each phase can later be decomposed into tasks in factory/03_assembly_lines/03-registry/registry/task-queue.json.",
+    "Statuses are intentionally lightweight: backlog | ready | in_progress | blocked | done.",
+    "Optional basis: business_needs | blueprint_stack | saas_baseline | delivery_surface | mixed | unspecified — anchors the epic to business needs, stack IR, SaaS baseline specs, or implementation surfaces.",
+    "Optional lanes: frontend | backend | api | data | auth | infra | docs | qa | integration — tags for the same epic (e.g. install UI + define API)."
+  ],
+  "phases": [
+    {
+      "id": "TODO_P0_INTAKE",
+      "title": "Phase 0 — Intake + constraints (customer needs)",
+      "app": "todo",
+      "basis": "business_needs",
+      "status": "ready",
+      "depends_on": [],
+      "pointers": {
+        "product_ir": "configs/apps/todo/todo.json",
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P1_STACK_CONTRACT",
+      "title": "Phase 1 — Stack contract (System IR)",
+      "app": "todo",
+      "basis": "blueprint_stack",
+      "status": "ready",
+      "depends_on": ["TODO_P0_INTAKE"],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P2_SCAFFOLD",
+      "title": "Phase 2 — Scaffold (make the contract real)",
+      "app": "todo",
+      "basis": "blueprint_stack",
+      "lanes": ["frontend", "backend"],
+      "status": "ready",
+      "depends_on": ["TODO_P1_STACK_CONTRACT"],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "scaffold_command": "npm run mfg -- app scaffold -- todo",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P3_SPEC",
+      "title": "Phase 3 — Spec (acceptance + boundaries)",
+      "app": "todo",
+      "basis": "mixed",
+      "lanes": ["docs"],
+      "status": "in_progress",
+      "depends_on": ["TODO_P2_SCAFFOLD"],
+      "pointers": {
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md",
+        "spec_prompt": "configs/apps/todo/specs/_generated/todo-SPEC-PROMPT.md"
+      }
+    },
+    {
+      "id": "TODO_P4_PHASE_PLANNING",
+      "title": "Phase 4 — Phase planning (PM decomposes one phase into tasks)",
+      "app": "todo",
+      "basis": "saas_baseline",
+      "status": "backlog",
+      "depends_on": ["TODO_P3_SPEC"],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P5_BUILD_VERIFY",
+      "title": "Phase 5 — Build + verify loop (Dev → Quality → Fix → Git)",
+      "app": "todo",
+      "basis": "delivery_surface",
+      "lanes": ["frontend", "backend", "api", "qa"],
+      "status": "backlog",
+      "depends_on": ["TODO_P4_PHASE_PLANNING"],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P6_SHIP",
+      "title": "Phase 6 — Ship (deploy + smoke)",
+      "app": "todo",
+      "status": "backlog",
+      "depends_on": ["TODO_P5_BUILD_VERIFY"],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P7_OPERATE_LEARN",
+      "title": "Phase 7 — Operate + feedback (learn)",
+      "app": "todo",
+      "status": "backlog",
+      "depends_on": ["TODO_P6_SHIP"],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    }
+  ]
+}
+

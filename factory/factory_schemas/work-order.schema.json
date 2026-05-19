@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saas-factory.local/schemas/work-order.schema.json",
+  "title": "Work order",
+  "description": "Written by `npm run mfg -- wo` after the customer commits. Opens manufacturing. Process: `SALES-AND-ASSEMBLY-LINE-GUIDE.md` — sales block **1** (checklist: work order).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "workOrderId",
+    "salesOrderId",
+    "appSlug",
+    "status",
+    "openedAt",
+    "salesOrderConfirmedAt",
+    "clientScope",
+    "quoteGeneratedAt",
+    "manufacturingTier",
+    "taskBoardHint"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional editor hint to this schema."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "workOrderId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "salesOrderId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "appSlug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "closed"]
+    },
+    "openedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "salesOrderConfirmedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "clientScope": {
+      "$ref": "sales-order.schema.json#/$defs/clientScope"
+    },
+    "quoteGeneratedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "manufacturingTier": {
+      "type": "string",
+      "enum": ["verified-repeat", "first-manufacture", "unverified-returning"],
+      "description": "Mirrors `quoteSnapshot.manufacturing.tier` at confirmation time."
+    },
+    "taskBoardHint": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

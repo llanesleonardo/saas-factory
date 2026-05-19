@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "componentId": "auth-jwt-builtin",
+  "version": "0.1.0",
+  "capability": "auth",
+  "provider": "jwt-builtin",
+  "description": "Built-in HS256 JWT auth. Adds a /auth/login + /auth/me + /auth/refresh route to the API workspace and a requireAuth middleware that decodes the bearer token into an @saas-factory/auth AuthContext.",
+  "blueprintKey": "authDetail",
+  "appliesWhen": {
+    "requirements": { "needsAuth": true },
+    "fields": { "sessionModel": "stateless-jwt" }
+  },
+  "files": [
+    {
+      "from": "template/api/src/middleware/require-auth.ts",
+      "to": "src/middleware/require-auth.ts",
+      "target": "api",
+      "strategy": "replace"
+    },
+    {
+      "from": "template/api/src/routes/auth.ts",
+      "to": "src/routes/auth.ts",
+      "target": "api",
+      "strategy": "replace"
+    },
+    {
+      "from": "template/api/src/auth/jwt.ts",
+      "to": "src/auth/jwt.ts",
+      "target": "api",
+      "strategy": "replace"
+    }
+  ],
+  "deps": [
+    { "name": "@saas-factory/auth", "version": "*", "target": "api" },
+    { "name": "jose", "version": "^5.9.6", "target": "api" }
+  ],
+  "env": [
+    {
+      "key": "JWT_SECRET",
+      "required": true,
+      "scope": "api",
+      "example": "change-me-32-bytes-min",
+      "description": "HMAC secret used to sign access tokens. 32+ bytes recommended."
+    },
+    {
+      "key": "JWT_ISSUER",
+      "required": false,
+      "scope": "api",
+      "example": "saas-factory",
+      "description": "Issuer claim (iss) put on every token."
+    },
+    {
+      "key": "JWT_AUDIENCE",
+      "required": false,
+      "scope": "api",
+      "example": "saas-factory-api",
+      "description": "Audience claim (aud) put on every token and verified on validate."
+    },
+    {
+      "key": "JWT_ACCESS_TTL_SECONDS",
+      "required": false,
+      "scope": "api",
+      "example": "900",
+      "description": "Access-token lifetime in seconds (default 900 = 15 min)."
+    }
+  ],
+  "notes": "Backend-only in this PR. Frontend login UI lives in @saas-factory/ui in a later iteration."
+}

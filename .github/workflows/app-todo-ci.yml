@@ -1,0 +1,30 @@
+name: App todo CI
+
+on:
+  push:
+    paths:
+      - "apps/todo/**"
+      - "package-lock.json"
+  pull_request:
+    paths:
+      - "apps/todo/**"
+      - "package-lock.json"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: API lint
+        run: npm run lint -w todo-api
+      - name: API test
+        run: npm run test -w todo-api
+      - name: Web lint
+        run: npm run lint -w todo-instance
+      - name: Web build
+        run: npm run build -w todo-instance

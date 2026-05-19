@@ -1,0 +1,9 @@
+{
+  "agent": "spike",
+  "category": "advisory",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/spike-agent.md",
+    "configs/apps/<vertical>/specs/<vertical>-spec.md",
+    "organizational_memory/ARCHITECTURE.md"
+  ]
+}

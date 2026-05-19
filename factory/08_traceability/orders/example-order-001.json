@@ -1,0 +1,704 @@
+{
+  "schemaVersion": 1,
+  "kind": "trace-order",
+  "orderId": "example-order-001",
+  "productId": "todo",
+  "builtAt": "2026-05-14T17:52:19.588Z",
+  "source": {
+    "orderFolder": "factory/01_production_planning/01_00_work_orders/example-order-001",
+    "phaseRegistry": "factory/01_production_planning/01_02_phase_registry/example-order-001",
+    "taskRegistry": "factory/01_production_planning/01_03_task-registry/example-order-001",
+    "sprintsFolder": "factory/03_assembly_lines/05-sprints/example-order-001/todo",
+    "productConfigs": "configs/apps/todo"
+  },
+  "phases": [
+    {
+      "id": "TODO_P0_INTAKE",
+      "title": "Phase 0 — Intake + constraints (customer needs)",
+      "status": "ready",
+      "taskIds": [],
+      "pointers": {
+        "product_ir": "configs/apps/todo/todo.json",
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      }
+    },
+    {
+      "id": "TODO_P1_STACK_CONTRACT",
+      "title": "Phase 1 — Stack contract (System IR)",
+      "status": "ready",
+      "taskIds": [],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P0_INTAKE"
+      ]
+    },
+    {
+      "id": "TODO_P2_SCAFFOLD",
+      "title": "Phase 2 — Scaffold (make the contract real)",
+      "status": "ready",
+      "taskIds": [],
+      "pointers": {
+        "system_ir": "configs/apps/todo/app.stack.json",
+        "scaffold_command": "npm run mfg -- app scaffold -- todo",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P1_STACK_CONTRACT"
+      ]
+    },
+    {
+      "id": "TODO_P3_SPEC",
+      "title": "Phase 3 — Spec (acceptance + boundaries)",
+      "status": "in_progress",
+      "taskIds": [],
+      "pointers": {
+        "spec": "configs/apps/todo/specs/todo-spec.md",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md",
+        "spec_prompt": "configs/apps/todo/specs/_generated/todo-SPEC-PROMPT.md"
+      },
+      "dependsOn": [
+        "TODO_P2_SCAFFOLD"
+      ]
+    },
+    {
+      "id": "TODO_P4_PHASE_PLANNING",
+      "title": "Phase 4 — Phase planning (PM decomposes one phase into tasks)",
+      "status": "backlog",
+      "taskIds": [],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P3_SPEC"
+      ]
+    },
+    {
+      "id": "TODO_P5_BUILD_VERIFY",
+      "title": "Phase 5 — Build + verify loop (Dev → Quality → Fix → Git)",
+      "status": "backlog",
+      "taskIds": [],
+      "pointers": {
+        "task_queue": "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P4_PHASE_PLANNING"
+      ]
+    },
+    {
+      "id": "TODO_P6_SHIP",
+      "title": "Phase 6 — Ship (deploy + smoke)",
+      "status": "backlog",
+      "taskIds": [],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P5_BUILD_VERIFY"
+      ]
+    },
+    {
+      "id": "TODO_P7_OPERATE_LEARN",
+      "title": "Phase 7 — Operate + feedback (learn)",
+      "status": "backlog",
+      "taskIds": [],
+      "pointers": {
+        "phase_roadmap": "configs/apps/todo/specs/PHASES.md"
+      },
+      "dependsOn": [
+        "TODO_P6_SHIP"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TODO_001_storage_model",
+      "title": "Define Todo model + storage adapter (localStorage v1)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "priority": 1
+    },
+    {
+      "id": "TODO_002_ui_crud_wiring",
+      "title": "Wire UI to local storage: add/list/toggle/delete",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_001_storage_model"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "TODO_003_basic_accessibility",
+      "title": "Basic accessibility + keyboard flows for MVP",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_002_ui_crud_wiring"
+      ],
+      "priority": 3
+    },
+    {
+      "id": "TODO_004_quality_gates",
+      "title": "Quality gates for todo-instance (build + lint) and evidence",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_003_basic_accessibility"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "TODO_005_test_harness_setup",
+      "title": "Add unit test harness for todo-instance (Vitest + RTL)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_004_quality_gates"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "TODO_006_storage_adapter_tests",
+      "title": "Add automated tests for todos.storage.ts (missing/corrupt + save format)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_005_test_harness_setup"
+      ],
+      "priority": 6
+    },
+    {
+      "id": "TODO_007_ui_add_rejects_empty_test",
+      "title": "Add automated UI test: Add rejects empty/whitespace title",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_005_test_harness_setup"
+      ],
+      "priority": 7
+    },
+    {
+      "id": "TODO_008_quality_phase2_gates",
+      "title": "Quality gates for Phase 2: tests + build + lint evidence",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_006_storage_adapter_tests",
+        "TODO_007_ui_add_rejects_empty_test"
+      ],
+      "priority": 8
+    },
+    {
+      "id": "TODO_009_phase3_storage_schema_and_migration_plan",
+      "title": "Phase 3: Define storage schema versioning + migration strategy",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_008_quality_phase2_gates"
+      ],
+      "priority": 9
+    },
+    {
+      "id": "TODO_010_phase3_filter_state_ui",
+      "title": "Phase 3: Add filter state + UI (All / Active / Completed)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_009_phase3_storage_schema_and_migration_plan"
+      ],
+      "priority": 10
+    },
+    {
+      "id": "TODO_011_phase3_counts_summary",
+      "title": "Phase 3: Add items-left count (and optional total count)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_010_phase3_filter_state_ui"
+      ],
+      "priority": 11
+    },
+    {
+      "id": "TODO_012_phase3_bulk_clear_completed",
+      "title": "Phase 3: Implement 'Clear completed' bulk action (persisted)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_010_phase3_filter_state_ui"
+      ],
+      "priority": 12
+    },
+    {
+      "id": "TODO_013_phase3_bulk_toggle_all",
+      "title": "Phase 3: Implement 'Toggle all' bulk action (persisted)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_010_phase3_filter_state_ui"
+      ],
+      "priority": 13
+    },
+    {
+      "id": "TODO_014_phase3_storage_migration_tests",
+      "title": "Phase 3: Add automated tests for storage migration + corrupt/missing behavior",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_009_phase3_storage_schema_and_migration_plan"
+      ],
+      "priority": 14
+    },
+    {
+      "id": "TODO_015_phase3_ui_filters_and_bulk_actions_tests",
+      "title": "Phase 3: Add automated UI tests for filters + bulk actions",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_012_phase3_bulk_clear_completed",
+        "TODO_013_phase3_bulk_toggle_all",
+        "TODO_011_phase3_counts_summary"
+      ],
+      "priority": 15
+    },
+    {
+      "id": "TODO_016_phase3_quality_gates",
+      "title": "Phase 3: Quality gates + evidence (lint/build/test all green)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_014_phase3_storage_migration_tests",
+        "TODO_015_phase3_ui_filters_and_bulk_actions_tests"
+      ],
+      "priority": 16
+    },
+    {
+      "id": "TODO_017_phase4_refactor_split_app",
+      "title": "Phase 4: Refactor App.tsx into small components + todos.model helpers (no behavior change)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_016_phase3_quality_gates"
+      ],
+      "priority": 17
+    },
+    {
+      "id": "TODO_018_phase4_empty_state",
+      "title": "Phase 4: Add accessible empty state when list is empty",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_017_phase4_refactor_split_app"
+      ],
+      "priority": 18
+    },
+    {
+      "id": "TODO_019_phase4_inline_edit_title",
+      "title": "Phase 4: Inline edit todo title (Enter save / Escape cancel, trim, reject empty)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_017_phase4_refactor_split_app"
+      ],
+      "priority": 19
+    },
+    {
+      "id": "TODO_020_phase4_edit_and_empty_state_tests",
+      "title": "Phase 4: Add UI tests for empty state and inline edit keyboard flows",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_018_phase4_empty_state",
+        "TODO_019_phase4_inline_edit_title"
+      ],
+      "priority": 20
+    },
+    {
+      "id": "TODO_021_phase4_optional_undo_delete",
+      "title": "Phase 4 (optional): Undo delete (local-only, in-memory buffer acceptable)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_017_phase4_refactor_split_app"
+      ],
+      "priority": 30
+    },
+    {
+      "id": "TODO_022_phase4_quality_gates",
+      "title": "Phase 4: Quality gates + evidence (lint/build/test all green)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_020_phase4_edit_and_empty_state_tests"
+      ],
+      "priority": 22
+    },
+    {
+      "id": "TODO_023_phase5_spec_update_storage_and_phase5",
+      "title": "Phase 5: Update todo spec to match current storage payload + add Phase 5 hardening section",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "priority": 23
+    },
+    {
+      "id": "TODO_024_phase5_storage_forward_version_guardrail",
+      "title": "Phase 5: Add explicit guardrail for future storage schemaVersion (forward compat)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_023_phase5_spec_update_storage_and_phase5"
+      ],
+      "priority": 24
+    },
+    {
+      "id": "TODO_025_phase5_storage_forward_version_tests",
+      "title": "Phase 5: Add automated tests for forward-schema guardrail (schemaVersion > current)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_024_phase5_storage_forward_version_guardrail"
+      ],
+      "priority": 25
+    },
+    {
+      "id": "TODO_027_phase5_quality_gates",
+      "title": "Phase 5: Quality gates + evidence (lint/build/test all green)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_025_phase5_storage_forward_version_tests",
+        "TODO_026_phase5_tooling_enforce_phase_convention"
+      ],
+      "priority": 27
+    },
+    {
+      "id": "TODO_028_phase6_export_import_spec",
+      "title": "Phase 6: Spec alignment for local-only export/import + ordering",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "priority": 28
+    },
+    {
+      "id": "TODO_029_phase6_export_import_ui",
+      "title": "Phase 6: Add export/import UI for todos (local-only)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_028_phase6_export_import_spec"
+      ],
+      "priority": 29
+    },
+    {
+      "id": "TODO_030_phase6_deterministic_ordering",
+      "title": "Phase 6: Ensure deterministic ordering (newest-first by createdAt)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_029_phase6_export_import_ui"
+      ],
+      "priority": 30
+    },
+    {
+      "id": "TODO_031_phase6_export_import_tests",
+      "title": "Phase 6: Add automated tests for export/import + ordering",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_030_phase6_deterministic_ordering"
+      ],
+      "priority": 31
+    },
+    {
+      "id": "TODO_032_phase6_quality_gates",
+      "title": "Phase 6: Quality gates + evidence (lint/build/test/check all green)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_031_phase6_export_import_tests"
+      ],
+      "priority": 32
+    },
+    {
+      "id": "TODO_033_phase7_spec_ux_ui",
+      "title": "Phase 7: Spec alignment for UX/UI (Tailwind + Headless UI, local-only)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_032_phase6_quality_gates"
+      ],
+      "priority": 33
+    },
+    {
+      "id": "TODO_034_phase7_tooling_tailwind_headless",
+      "title": "Phase 7: Tooling — Tailwind CSS + PostCSS + @headlessui/react + Vite wiring",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_033_phase7_spec_ux_ui"
+      ],
+      "priority": 34
+    },
+    {
+      "id": "TODO_035_phase7_tailwind_layout_theme_headless",
+      "title": "Phase 7: Tailwind tokens, layout shell, dark mode, Headless primitives on UI",
+      "status": "blocked",
+      "blockedReason": "Deferred while executing Phase 9 (auth + tenancy) on phase/todo-saas-phase9. Resume Phase 7 polish after Phase 9 merge.",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_034_phase7_tooling_tailwind_headless"
+      ],
+      "priority": 35
+    },
+    {
+      "id": "TODO_036_phase7_import_export_feedback_landmarks",
+      "title": "Phase 7: Import/export accessible feedback + main landmark + h1",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_035_phase7_tailwind_layout_theme_headless"
+      ],
+      "priority": 36
+    },
+    {
+      "id": "TODO_037_phase7_ux_ui_tests",
+      "title": "Phase 7: Automated tests (import feedback, landmark/heading, theme signal)",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_036_phase7_import_export_feedback_landmarks"
+      ],
+      "priority": 37
+    },
+    {
+      "id": "TODO_038_phase7_quality_gates",
+      "title": "Phase 7: Quality gates + evidence (lint/build/test/check + validate-task-queue)",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_037_phase7_ux_ui_tests"
+      ],
+      "priority": 38
+    },
+    {
+      "id": "TODO_SAAS_P9_010_tenancy_auth_contract",
+      "title": "Phase 9: Lock auth+tenancy contract (Tenant/User/Membership, roles, isolation rules)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "priority": 140
+    },
+    {
+      "id": "TODO_SAAS_P9_020_packages_auth_skeleton",
+      "title": "Phase 9: Add packages/auth skeleton (session cookie + guards)",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_010_tenancy_auth_contract"
+      ],
+      "priority": 135
+    },
+    {
+      "id": "TODO_SAAS_P9_025_server_runtime_baseline",
+      "title": "Phase 9: Add server runtime baseline (cookie session capable) for /api/*",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_010_tenancy_auth_contract"
+      ],
+      "priority": 132
+    },
+    {
+      "id": "TODO_SAAS_P9_030_csrf_mitigation",
+      "title": "Phase 9: Implement CSRF mitigation for cookie sessions",
+      "status": "done",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_025_server_runtime_baseline"
+      ],
+      "priority": 130
+    },
+    {
+      "id": "TODO_SAAS_P9_040_auth_ui_login_logout",
+      "title": "Phase 9: Add login/logout flow and protected app shell",
+      "status": "in_progress",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_030_csrf_mitigation"
+      ],
+      "priority": 125
+    },
+    {
+      "id": "TODO_SAAS_P9_050_tenant_context_selection",
+      "title": "Phase 9: Add tenant context selection (minimal)",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_040_auth_ui_login_logout"
+      ],
+      "priority": 120
+    },
+    {
+      "id": "TODO_SAAS_P9_060_api_todos_tenant_scoped",
+      "title": "Phase 9: Implement tenant-scoped todo API endpoints",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_050_tenant_context_selection"
+      ],
+      "priority": 115
+    },
+    {
+      "id": "TODO_SAAS_P9_070_quality_gates_auth_tenancy",
+      "title": "Phase 9: Quality gates for auth + tenant isolation",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_060_api_todos_tenant_scoped"
+      ],
+      "priority": 110
+    },
+    {
+      "id": "TODO_SAAS_P9_080_security_review_auth_tenancy",
+      "title": "Phase 9: Security review for auth + tenant isolation",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_070_quality_gates_auth_tenancy"
+      ],
+      "priority": 105
+    },
+    {
+      "id": "TODO_SAAS_P10_010_postgres_migrations_tooling",
+      "title": "Phase 10: Add packages/db + Postgres migrations toolchain",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P9_080_security_review_auth_tenancy"
+      ],
+      "priority": 100
+    },
+    {
+      "id": "TODO_SAAS_P10_020_db_schema_tenants_users_memberships_todos",
+      "title": "Phase 10: Create DB schema + migrations for tenants/users/memberships/todos",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P10_010_postgres_migrations_tooling"
+      ],
+      "priority": 95
+    },
+    {
+      "id": "TODO_SAAS_P10_030_persist_todos_in_db",
+      "title": "Phase 10: Persist todo CRUD to Postgres (tenant-scoped)",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P10_020_db_schema_tenants_users_memberships_todos"
+      ],
+      "priority": 90
+    },
+    {
+      "id": "TODO_SAAS_P10_040_ci_db_test_harness",
+      "title": "Phase 10: CI DB harness (migrations from scratch + tests)",
+      "status": "backlog",
+      "app": "apps/todo-instance",
+      "dependsOn": [
+        "TODO_SAAS_P10_030_persist_todos_in_db"
+      ],
+      "priority": 85
+    }
+  ],
+  "sprints": [
+    {
+      "number": 1,
+      "title": "First sprint",
+      "folder": "factory/03_assembly_lines/05-sprints/example-order-001/todo/sprint-001",
+      "recordPath": "factory/03_assembly_lines/05-sprints/example-order-001/todo/sprint-001/sprint.json",
+      "createdAt": "2026-05-12T17:39:12.936Z",
+      "updatedAt": "2026-05-12T17:39:27.375Z",
+      "workstations": {
+        "backlog_plan": {
+          "status": "done",
+          "notes": "Scope locked"
+        },
+        "increment_build": {
+          "status": "not_started"
+        },
+        "integrate_verify": {
+          "status": "not_started"
+        },
+        "release_transition": {
+          "status": "not_started"
+        }
+      },
+      "promptPaths": []
+    }
+  ],
+  "events": [
+    {
+      "ts": "2026-05-13T02:09:37.257Z",
+      "kind": "cli_dispatch_start",
+      "workstation": "01-work-orders",
+      "command": "npx tsx factory/01_production_planning/01_00_work_orders/order-validate.ts example-order-001",
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-13.jsonl:9"
+    },
+    {
+      "ts": "2026-05-13T02:09:37.612Z",
+      "kind": "cli_dispatch_end",
+      "workstation": "01-work-orders",
+      "command": "npx tsx factory/01_production_planning/01_00_work_orders/order-validate.ts example-order-001",
+      "outcome": "pass",
+      "durationMs": 354,
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-13.jsonl:10"
+    },
+    {
+      "ts": "2026-05-13T19:00:33.564Z",
+      "kind": "cli_dispatch_start",
+      "workstation": "07-verified-product",
+      "command": "npx tsx factory/03_assembly_lines/06-gates/gates/app-verified.ts -- add todo",
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-13.jsonl:495"
+    },
+    {
+      "ts": "2026-05-13T19:00:34.332Z",
+      "kind": "cli_dispatch_end",
+      "workstation": "07-verified-product",
+      "command": "npx tsx factory/03_assembly_lines/06-gates/gates/app-verified.ts -- add todo",
+      "outcome": "pass",
+      "durationMs": 767,
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-13.jsonl:496"
+    },
+    {
+      "ts": "2026-05-14T17:50:16.825Z",
+      "kind": "cli_dispatch_start",
+      "workstation": "factory-cli",
+      "command": "npx tsx factory/factory_cli/app-purge.ts -- todo --dry-run",
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-14.jsonl:83"
+    },
+    {
+      "ts": "2026-05-14T17:50:17.184Z",
+      "kind": "cli_dispatch_end",
+      "workstation": "factory-cli",
+      "command": "npx tsx factory/factory_cli/app-purge.ts -- todo --dry-run",
+      "outcome": "pass",
+      "durationMs": 358,
+      "sourceLine": "factory/telemetry/assembly-line/assembly-line-2026-05-14.jsonl:84"
+    }
+  ],
+  "counts": {
+    "phases": 8,
+    "tasks": {
+      "total": 50,
+      "done": 37,
+      "in_progress": 1,
+      "backlog": 11,
+      "blocked": 1
+    },
+    "sprints": 1,
+    "events": 6
+  }
+}

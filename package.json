@@ -6,44 +6,13 @@
     "node": ">=20.19.0"
   },
   "scripts": {
-    "check": "tsc --noEmit",
-    "factory": "npx tsx factory/orchestrator.ts",
-    "factory:run": "npx tsx factory/run-task.ts",
-    "factory:time": "npx tsx factory/time-tracker.ts",
-    "factory:telemetry": "npx tsx factory/telemetry-cli.ts",
-    "factory:cost": "npx tsx factory/cost-cli.ts",
-    "factory:self-heal": "npx tsx factory/self-heal.ts",
-    "validate-self-heal-fixtures": "npx tsx factory/validate-self-heal-fixtures.ts",
-    "generate-spec": "npx tsx factory/generate-spec.ts",
-    "parallel-plan": "npx tsx factory/parallel-plan.ts",
-    "factory:next": "npx tsx factory/plan-next.ts",
-    "factory:next:sync": "npx tsx factory/plan-next-sync.ts",
-    "factory:status": "npx tsx factory/status.ts",
-    "factory:deploy": "npx tsx factory/deploy.ts",
-    "factory:hosting-cost": "npx tsx factory/hosting-cost.ts",
-    "validate-agent-output": "npx tsx factory/validate-agent-output.ts",
-    "validate-agent-output-fixtures": "npx tsx factory/validate-agent-output-fixtures.ts",
-    "validate-agent-registry": "npx tsx factory/validate-agent-registry.ts",
-    "validate-qms-inbox": "npx tsx factory/validate-qms-inbox.ts",
-    "validate-qms-inbox-fixtures": "npx tsx factory/validate-qms-inbox-fixtures.ts",
-    "validate-tool-registry": "npx tsx factory/validate-tool-registry.ts",
-    "validate-task-queue": "npx tsx factory/validate-task-queue.ts",
-    "validate-task-queue-fixtures": "npx tsx factory/validate-task-queue-fixtures.ts",
-    "validate-workflow-machine": "npx tsx factory/validate-workflow-machine.ts",
-    "task-queues:sync": "npx tsx factory/task-queues-sync.ts",
-    "app:configure": "npx tsx factory/host-or-docker.ts app-blueprint-config.ts",
-    "app:configure:local": "npx tsx factory/app-blueprint-config.ts",
-    "app:scaffold": "npx tsx factory/host-or-docker.ts app-scaffold.ts",
-    "app:scaffold:local": "npx tsx factory/app-scaffold.ts",
-    "saas:configure": "npx tsx factory/host-or-docker.ts app-blueprint-config.ts",
-    "docker:build": "docker compose -f docker/compose.yaml build node",
-    "docker:sh": "docker compose -f docker/compose.yaml run --rm node bash",
-    "docker:node": "docker compose -f docker/compose.yaml run --rm --service-ports node",
-    "docker:infra": "docker compose -f docker/compose.yaml --profile infra up -d",
-    "docker:infra:down": "docker compose -f docker/compose.yaml --profile infra down",
-    "docker:go": "docker compose -f docker/compose.yaml --profile toolchains run --rm go",
-    "docker:dotnet": "docker compose -f docker/compose.yaml --profile toolchains run --rm dotnet",
-    "docker:python": "docker compose -f docker/compose.yaml --profile toolchains run --rm python"
+    "check": "tsc --noEmit && npm run mfg -- validate apps",
+    "mfg": "npx tsx factory/factory_cli/mfg.ts",
+    "pipeline": "npx tsx factory/factory_cli/mfg.ts pipeline run --",
+    "pipeline:plan": "npx tsx factory/factory_cli/mfg.ts pipeline plan --",
+    "purge": "npx tsx factory/factory_cli/mfg.ts app purge --",
+    "purge:dry": "npx tsx factory/factory_cli/mfg.ts app purge -- --dry-run",
+    "test:components": "node --import tsx --test factory/factory_libs/components/__tests__/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -56,10 +25,8 @@
     "picocolors": "^1.1.1"
   },
   "workspaces": [
-    "apps/core-saas",
-    "apps/todo-instance",
-    "apps/todo-instance/frontend",
-    "apps/todo-instance/backend",
-    "packages/*"
+    "apps/*/*",
+    "packages/*",
+    "packages/components/*"
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "description": "Apps that completed manufacturing verification (brief + stack + SaaS alignment + scaffolded instance) and were promoted via `mfg app verified add`.",
+  "apps": [
+    {
+      "slug": "todo",
+      "verifiedAt": "2026-05-13T19:00:34.320Z"
+    }
+  ]
+}

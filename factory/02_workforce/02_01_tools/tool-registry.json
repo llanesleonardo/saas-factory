@@ -1,0 +1,30 @@
+{
+  "$comment": "Workforce tool roster. Canonical tool registry: factory/03_assembly_lines/03-registry/registry/tool-registry.json",
+  "workforce_version": 1,
+  "tools": {
+    "tool-codegen": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-codegen.ts",
+      "description": "Code generation tooling"
+    },
+    "tool-linter": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-linter.ts",
+      "description": "Linting and formatting"
+    },
+    "tool-test-runner": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-test-runner.ts",
+      "description": "Automated test execution"
+    },
+    "tool-docker": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-docker.ts",
+      "description": "Container build and wiring"
+    },
+    "tool-ci": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-ci.ts",
+      "description": "CI/CD pipeline integration"
+    },
+    "tool-search": {
+      "definition": ".factory/workforce/tools/tool-definitions/tool-search.ts",
+      "description": "Knowledge and context retrieval"
+    }
+  }
+}

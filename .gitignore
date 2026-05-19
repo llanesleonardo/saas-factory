@@ -29,8 +29,13 @@ Thumbs.db
 # Test / coverage
 coverage/
 
-# Factory local time tracking
-factory/.local/
+# Factory local telemetry (run history, cost logs, self-heal reports)
+factory/telemetry/
+
+# Deprecated planning paths (canonical work orders: factory/01_production_planning/01_00_work_orders/)
+# Empty shells are sometimes created by tooling/IDE; keep them out of version control.
+factory/01_production_planning/orders/
+factory/01_production_planning/plans/todo-1.0.0/
 
 # Local diagram exports (regenerate from Mermaid in markdown)
 organizational_memory/mermaid-diagram.png

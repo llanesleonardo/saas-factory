@@ -1,0 +1,12 @@
+{
+  "agent": "dev",
+  "category": "execution",
+  "recommended_paths": [
+    "factory/03_assembly_lines/03-registry/registry/task-queue.json",
+    "configs/apps/<vertical>/specs/<vertical>-spec.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "factory/02_workforce/02_00_agents/agent_definitions/dev-agent.md",
+    "apps/<vertical>-instance/",
+    "packages/"
+  ]
+}

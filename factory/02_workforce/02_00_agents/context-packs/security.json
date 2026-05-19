@@ -1,0 +1,10 @@
+{
+  "agent": "security",
+  "category": "advisory",
+  "recommended_paths": [
+    "factory/02_workforce/02_00_agents/agent_definitions/security-agent.md",
+    "configs/apps/<vertical>/specs/<vertical>-spec.md",
+    "organizational_memory/ARCHITECTURE.md",
+    "factory/06_knowledge_base/qms_docs/"
+  ]
+}

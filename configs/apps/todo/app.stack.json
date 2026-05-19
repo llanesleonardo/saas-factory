@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-11T06:17:09.048Z",
+  "appSlug": "todo",
+  "integrationMode": "standalone",
+  "frontend": {
+    "stack": "vite-react-ts"
+  },
+  "backend": {
+    "runtime": "nodejs-express"
+  },
+  "database": "sqlite-file",
+  "redis": "cache-sessions",
+  "objectStorage": "local-filesystem",
+  "versionControl": {
+    "platform": "github",
+    "branching": "github-flow",
+    "hooks": "none",
+    "commitConvention": "none"
+  },
+  "tooling": {
+    "packageManager": "npm",
+    "monorepo": "none",
+    "containers": "none",
+    "lintFormat": "eslint-prettier",
+    "apiStyle": "rest-json",
+    "testing": "jest"
+  },
+  "cicd": "github-actions",
+  "observability": "otel-hooks"
+}

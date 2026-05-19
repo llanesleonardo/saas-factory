@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "order_id": "example-order-001",
+  "product_id": "todo",
+  "product_version": "1.0.0",
+  "priority": 2,
+  "paths": {
+    "product_ir": "configs/apps/todo/todo.json",
+    "system_ir": "configs/apps/todo/app.stack.json",
+    "specs_dir": "configs/apps/todo/specs/",
+    "business_needs": "configs/apps/todo/business-needs.json"
+  },
+  "generated_at_utc": "2026-05-13T02:09:37.599Z"
+}
